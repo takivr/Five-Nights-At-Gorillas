@@ -13,7 +13,5 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
         public static DoorManager Data;
 
         void Awake() { Data = this; }
-
-        //Use custom props for doors instead of raise events
     }
 }
