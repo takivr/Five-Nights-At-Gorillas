@@ -19,7 +19,7 @@ The speed the power drains is not dependent on how much power you are using. Eve
 
 ## CAMERAS AND ENEMYS:
 with gorilla (freddy) being on Cam3 (right hall in the far back) if you keep your camera on there, gorilla (freddy) will only then have a 4 out of 10 chance to attack
-same with dingus (foxy) he will only have a 4 out of 10 chance to move if your camera is on Cam8 (cove)
+same with dingus (foxy) he will only have a 4 out of 10 chance to move if your camera is on Cam8 (pirate cove)
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 
