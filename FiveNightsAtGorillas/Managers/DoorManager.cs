@@ -24,32 +24,25 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
 
         public void UseLocalDoor(bool isRight)
         {
-            Debug.Log("[METHOD]UseLocalDoor");
             if(isRight)
             {
-                Debug.Log("Is right");
                 if (RightDoorOpen)
                 {
-                    Debug.Log("right door was open, now closing it");
                     CloseOpenDoor(true, true);
                 }
                 else
                 {
-                    Debug.Log("Right door was closed, now opening it");
                     CloseOpenDoor(true, false);
                 }
             }
             else
             {
-                Debug.Log("Is Left");
                 if (LeftDoorOpen)
                 {
-                    Debug.Log("Left door was open, now closing it");
                     CloseOpenDoor(false, true);
                 }
                 else
                 {
-                    Debug.Log("Left door was closed, now opening it");
                     CloseOpenDoor(false, false);
                 }
             }
@@ -63,11 +56,13 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                 {
                     RefrenceManager.Data.RightDoorVoid.SetActive(true);
                     RefrenceManager.Data.RightLightSound.Stop();
+                    RightLightOn = false;
                 }
                 else
                 {
                     RefrenceManager.Data.RightDoorVoid.SetActive(false);
                     RefrenceManager.Data.RightLightSound.Play();
+                    RightLightOn = true;
                 }
             }
             else
@@ -76,11 +71,13 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                 {
                     RefrenceManager.Data.LeftDoorVoid.SetActive(true);
                     RefrenceManager.Data.LeftLightSound.Stop();
+                    LeftLightOn = false;
                 }
                 else
                 {
                     RefrenceManager.Data.LeftDoorVoid.SetActive(false);
                     RefrenceManager.Data.LeftLightSound.Play();
+                    LeftLightOn = true;
                 }
             }
         }
@@ -91,42 +88,46 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
             {
                 if (RightDoorOpen)
                 {
-                    if (CanUseRightButton)
-                    {
                     object[] value = new object[] { PhotonData.Key.RightDoor, PhotonData.Key.Close };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.Others };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.RightDoor, value, options, SendOptions.SendReliable);
-                    }
+                    RightDoorOpen = false;
+                    RefrenceManager.Data.RightDoorAnimation.Play("Right Door Close");
+                    RefrenceManager.Data.RightDoorSound.Play();
+                    StartCoroutine(ButtonDelay(true));
                 }
                 else
                 {
-                    if (CanUseRightButton)
-                    {
                     object[] value = new object[] { PhotonData.Key.RightDoor, PhotonData.Key.Open };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.Others };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.RightDoor, value, options, SendOptions.SendReliable);
-                    }
+                    RightDoorOpen = true;
+                    RefrenceManager.Data.RightDoorAnimation.Play("Right Door Open");
+                    RefrenceManager.Data.RightDoorSound.Play();
+                    StartCoroutine(ButtonDelay(true));
                 }
             }
             else
             {
                 if (LeftDoorOpen)
                 {
-                    if (CanUseLeftButton)
-                    {
                     object[] value = new object[] { PhotonData.Key.LeftDoor, PhotonData.Key.Close };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.Others };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.LeftDoor, value, options, SendOptions.SendReliable);
-                    }
+                    LeftDoorOpen = false;
+                    RefrenceManager.Data.LeftDoorAnimation.Play("Left Door Close");
+                    RefrenceManager.Data.LeftDoorSound.Play();
+                    StartCoroutine(ButtonDelay(false));
                 }
                 else
                 {
-                    if(CanUseLeftButton) 
-                    { 
                     object[] value = new object[] { PhotonData.Key.LeftDoor, PhotonData.Key.Open };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.Others };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.LeftDoor, value, options, SendOptions.SendReliable);
-                    }
+                    LeftDoorOpen = true;
+                    RefrenceManager.Data.LeftDoorAnimation.Play("Left Door Open");
+                    RefrenceManager.Data.LeftDoorSound.Play();
+                    StartCoroutine(ButtonDelay(false));
                 }
             }
         }
@@ -150,40 +151,37 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
 
         void CloseOpenDoor(bool isRight, bool isClose)
         {
-            Debug.Log("[METHOD]CloseOpenDoor");
             if (isRight)
             {
-                Debug.Log("Is right");
                 if (isClose)
                 {
-                    Debug.Log("is close");
-                    RefrenceManager.Data.RightDoorAnimation.Play("Right Door Close");
                     RightDoorOpen = false;
+                    RefrenceManager.Data.RightDoorAnimation.Play("Right Door Close");
+                    RefrenceManager.Data.RightDoorSound.Play();
                     StartCoroutine(ButtonDelay(true));
                 }
                 else
                 {
-                    Debug.Log("is open");
-                    RefrenceManager.Data.RightDoorAnimation.Play("Right Door OPen");
                     RightDoorOpen = true;
+                    RefrenceManager.Data.RightDoorAnimation.Play("Right Door Open");
+                    RefrenceManager.Data.RightDoorSound.Play();
                     StartCoroutine(ButtonDelay(true));
                 }
             }
             else
             {
-                Debug.Log("is left");
                 if (isClose)
                 {
-                    Debug.Log("is close");
-                    RefrenceManager.Data.LeftDoorAnimation.Play("Left Door Close");
                     LeftDoorOpen = false;
+                    RefrenceManager.Data.LeftDoorAnimation.Play("Left Door Close");
+                    RefrenceManager.Data.LeftDoorSound.Play();
                     StartCoroutine(ButtonDelay(false));
                 }
                 else
                 {
-                    Debug.Log("is open");
-                    RefrenceManager.Data.LeftDoorAnimation.Play("Left Door Open");
                     LeftDoorOpen = true;
+                    RefrenceManager.Data.LeftDoorAnimation.Play("Left Door Open");
+                    RefrenceManager.Data.LeftDoorSound.Play();
                     StartCoroutine(ButtonDelay(false));
                 }
             }

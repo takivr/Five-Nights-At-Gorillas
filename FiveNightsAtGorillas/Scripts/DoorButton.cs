@@ -18,10 +18,40 @@ namespace FiveNightsAtGorillas.Other.Door
             if(other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider")
             {
                 int amountOfPlayersInRoom = PhotonNetwork.PlayerList.Length;
-                if (isLeft && amountOfPlayersInRoom <= 1 || !PhotonNetwork.InRoom) { DoorManager.Data.UseLocalDoor(false); }
-                else if (isLeft && amountOfPlayersInRoom > 1 && PhotonNetwork.InRoom) { DoorManager.Data.UseOnlineDoor(false); }
-                else if (!isLeft && amountOfPlayersInRoom <= 1 || !PhotonNetwork.InRoom) { DoorManager.Data.UseLocalDoor(true); }
-                else if (!isLeft && amountOfPlayersInRoom > 1 && PhotonNetwork.InRoom) { DoorManager.Data.UseOnlineDoor(true); }
+                if (isLeft)
+                {
+                    if (amountOfPlayersInRoom > 1)
+                    {
+                        if (DoorManager.Data.CanUseLeftButton)
+                        {
+                            DoorManager.Data.UseOnlineDoor(false);
+                        }
+                    }
+                    else
+                    {
+                        if (DoorManager.Data.CanUseLeftButton)
+                        {
+                            DoorManager.Data.UseLocalDoor(false);
+                        }
+                    }
+                }
+                else
+                {
+                    if (amountOfPlayersInRoom > 1)
+                    {
+                        if (DoorManager.Data.CanUseRightButton)
+                        {
+                            DoorManager.Data.UseOnlineDoor(true);
+                        }
+                    }
+                    else
+                    {
+                        if (DoorManager.Data.CanUseRightButton)
+                        {
+                            DoorManager.Data.UseLocalDoor(true);
+                        }
+                    }
+                }
             }
         }
     }
