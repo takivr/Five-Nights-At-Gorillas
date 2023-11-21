@@ -32,7 +32,7 @@ bonnie = mingus (M)
 
 chica = bob (B)
 
-dingus = foxy (D)
+foxy = dingus (D)
 
 do keep in mind that the jumpscare will be gorilla (freddy) all the time because I am too lazy to add different jumpscares 
 
