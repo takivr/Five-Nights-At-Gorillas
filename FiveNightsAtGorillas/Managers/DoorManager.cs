@@ -12,10 +12,13 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
     {
         public static DoorManager Data;
         public int ButtonTimerDelay { get; private set; } = 3;
+        public float LightTimerDelay { get; private set; } = 0.5f;
         public bool CanUseLeftButton { get; private set; } = true;
         public bool CanUseRightButton { get; private set; } = true;
         public bool RightDoorOpen { get; private set; } = true;
         public bool LeftDoorOpen { get; private set; } = true;
+        public bool RightLightOn { get; private set; }
+        public bool LeftLightOn { get; private set; }
 
         void Awake() { Data = this; }
 
@@ -45,36 +48,78 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
             }
         }
 
+        public void UseLight(bool isRight)
+        {
+            if(isRight)
+            {
+                if(RightLightOn)
+                {
+                    RefrenceManager.Data.RightDoorVoid.SetActive(true);
+                    RefrenceManager.Data.RightLightSound.Stop();
+                }
+                else
+                {
+                    RefrenceManager.Data.RightDoorVoid.SetActive(false);
+                    RefrenceManager.Data.RightLightSound.Play();
+                }
+            }
+            else
+            {
+                if (LeftLightOn)
+                {
+                    RefrenceManager.Data.LeftDoorVoid.SetActive(true);
+                    RefrenceManager.Data.LeftLightSound.Stop();
+                }
+                else
+                {
+                    RefrenceManager.Data.LeftDoorVoid.SetActive(false);
+                    RefrenceManager.Data.LeftLightSound.Play();
+                }
+            }
+        }
+
         public void UseOnlineDoor(bool isRight)
         {
             if (isRight)
             {
                 if (RightDoorOpen)
                 {
+                    if (CanUseRightButton)
+                    {
                     object[] value = new object[] { PhotonData.Key.RightDoor, PhotonData.Key.Close };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.Others };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.RightDoor, value, options, SendOptions.SendReliable);
+                    }
                 }
                 else
                 {
+                    if (CanUseRightButton)
+                    {
                     object[] value = new object[] { PhotonData.Key.RightDoor, PhotonData.Key.Open };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.Others };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.RightDoor, value, options, SendOptions.SendReliable);
+                    }
                 }
             }
             else
             {
                 if (LeftDoorOpen)
                 {
+                    if (CanUseLeftButton)
+                    {
                     object[] value = new object[] { PhotonData.Key.LeftDoor, PhotonData.Key.Close };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.Others };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.LeftDoor, value, options, SendOptions.SendReliable);
+                    }
                 }
                 else
                 {
+                    if(CanUseLeftButton) 
+                    { 
                     object[] value = new object[] { PhotonData.Key.LeftDoor, PhotonData.Key.Open };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.Others };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.LeftDoor, value, options, SendOptions.SendReliable);
+                    }
                 }
             }
         }
@@ -131,6 +176,13 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
         }
 
         IEnumerator ButtonDelay(bool isRight)
+        {
+            if (isRight) { CanUseRightButton = false; } else { CanUseLeftButton = false; }
+            yield return new WaitForSeconds(ButtonTimerDelay);
+            if (isRight) { CanUseRightButton = true; } else { CanUseLeftButton = true; }
+        }
+        
+        IEnumerator LightDelay(bool isRight)
         {
             if (isRight) { CanUseRightButton = false; } else { CanUseLeftButton = false; }
             yield return new WaitForSeconds(ButtonTimerDelay);
