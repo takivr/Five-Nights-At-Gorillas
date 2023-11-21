@@ -24,25 +24,32 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
 
         public void UseLocalDoor(bool isRight)
         {
+            Debug.Log("[METHOD]UseLocalDoor");
             if(isRight)
             {
+                Debug.Log("Is right");
                 if (RightDoorOpen)
                 {
+                    Debug.Log("right door was open, now closing it");
                     CloseOpenDoor(true, true);
                 }
                 else
                 {
+                    Debug.Log("Right door was closed, now opening it");
                     CloseOpenDoor(true, false);
                 }
             }
             else
             {
-                if(LeftDoorOpen)
+                Debug.Log("Is Left");
+                if (LeftDoorOpen)
                 {
+                    Debug.Log("Left door was open, now closing it");
                     CloseOpenDoor(false, true);
                 }
                 else
                 {
+                    Debug.Log("Left door was closed, now opening it");
                     CloseOpenDoor(false, false);
                 }
             }
@@ -50,7 +57,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
 
         public void UseLight(bool isRight)
         {
-            if(isRight)
+            if (isRight)
             {
                 if(RightLightOn)
                 {
@@ -143,16 +150,20 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
 
         void CloseOpenDoor(bool isRight, bool isClose)
         {
-            if(isRight)
+            Debug.Log("[METHOD]CloseOpenDoor");
+            if (isRight)
             {
+                Debug.Log("Is right");
                 if (isClose)
                 {
+                    Debug.Log("is close");
                     RefrenceManager.Data.RightDoorAnimation.Play("Right Door Close");
                     RightDoorOpen = false;
                     StartCoroutine(ButtonDelay(true));
                 }
                 else
                 {
+                    Debug.Log("is open");
                     RefrenceManager.Data.RightDoorAnimation.Play("Right Door OPen");
                     RightDoorOpen = true;
                     StartCoroutine(ButtonDelay(true));
@@ -160,14 +171,17 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
             }
             else
             {
+                Debug.Log("is left");
                 if (isClose)
                 {
+                    Debug.Log("is close");
                     RefrenceManager.Data.LeftDoorAnimation.Play("Left Door Close");
                     LeftDoorOpen = false;
                     StartCoroutine(ButtonDelay(false));
                 }
                 else
                 {
+                    Debug.Log("is open");
                     RefrenceManager.Data.LeftDoorAnimation.Play("Left Door Open");
                     LeftDoorOpen = true;
                     StartCoroutine(ButtonDelay(false));

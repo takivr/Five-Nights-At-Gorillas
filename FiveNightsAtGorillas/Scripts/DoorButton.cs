@@ -19,9 +19,9 @@ namespace FiveNightsAtGorillas.Other.Door
             {
                 int amountOfPlayersInRoom = PhotonNetwork.PlayerList.Length;
                 if (isLeft && amountOfPlayersInRoom <= 1 || !PhotonNetwork.InRoom) { DoorManager.Data.UseLocalDoor(false); }
-                if (isLeft && amountOfPlayersInRoom > 1 && PhotonNetwork.InRoom) { DoorManager.Data.UseOnlineDoor(false); }
-                if (!isLeft && amountOfPlayersInRoom <= 1 || !PhotonNetwork.InRoom) { DoorManager.Data.UseLocalDoor(true); }
-                if (!isLeft && amountOfPlayersInRoom > 1 && PhotonNetwork.InRoom) { DoorManager.Data.UseOnlineDoor(true); }
+                else if (isLeft && amountOfPlayersInRoom > 1 && PhotonNetwork.InRoom) { DoorManager.Data.UseOnlineDoor(false); }
+                else if (!isLeft && amountOfPlayersInRoom <= 1 || !PhotonNetwork.InRoom) { DoorManager.Data.UseLocalDoor(true); }
+                else if (!isLeft && amountOfPlayersInRoom > 1 && PhotonNetwork.InRoom) { DoorManager.Data.UseOnlineDoor(true); }
             }
         }
     }

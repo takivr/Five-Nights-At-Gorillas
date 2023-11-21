@@ -17,7 +17,7 @@ namespace FiveNightsAtGorillas.Other.Light
             if (other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider")
             {
                 if (isLeft) { DoorManager.Data.UseLight(false); }
-                if (!isLeft) { DoorManager.Data.UseLight(true); }
+                else if (!isLeft) { DoorManager.Data.UseLight(true); }
             }
         }
     }
