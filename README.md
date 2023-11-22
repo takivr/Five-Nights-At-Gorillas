@@ -7,12 +7,14 @@ A gorilla tag mod that recreates the whole five nights at Freddy's game in goril
 
 To use the mod, you need [Utilla](https://github.com/legoandmars/Utilla) and [TMPLoader](https://github.com/AHauntedArmy/TMPLoader), once you load the mod successfully, go to the custom gamemode called "FNAG" and once you join look at the back of stump and you will see the menu.
 
+## WARNING! The light and cameras are NOT synced because it's meant to be a thing you can quickly use with no cooldown. Only doors and enemy pos are synced and the doors have a cooldown of 4 seconds per use
+
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 This version is a little bit different from the orignal fnaf 1.
 
 ## POWER:
-The speed the power drains is not dependent on how much power you are using. Every 15 seconds the mod will check if the right door, left door, right light, or left light is being used, and for each one being used it will remove 2% of power, you if you are using all doors and lights it will remove 8% every 25 seconds, after it checks that it will have a 4 out of 10 chance to remove an extra 3%
+Power is the same as in the game. The more stuff you use the fastwr the power drains
 > One thing to note is that when the power goes out, the face does not appear because imo it looked very weird and stupid
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
