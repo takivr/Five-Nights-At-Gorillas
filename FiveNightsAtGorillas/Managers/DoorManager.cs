@@ -168,7 +168,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                 {
                     LeftDoorOpen = false;
                     float x = RefrenceManager.Data.LeftDoorObject.transform.localPosition.x;
-                    float z = RefrenceManager.Data.LeftDoorObject.transform.position.z;
+                    float z = RefrenceManager.Data.LeftDoorObject.transform.localPosition.z;
                     RefrenceManager.Data.LeftDoorObject.transform.localPosition = new Vector3(x, yLevel, z);
                     PlayDoorSound(false);
                 }
