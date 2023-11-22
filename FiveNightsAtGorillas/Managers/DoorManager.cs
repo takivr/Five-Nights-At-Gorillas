@@ -34,22 +34,22 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
             {
                 if (RightDoorOpen)
                 {
-                    CloseOpenDoor(true, true);
+                    CloseOpenDoor(true, true, 0.772f);
                 }
                 else
                 {
-                    CloseOpenDoor(true, false);
+                    CloseOpenDoor(true, false, 2.272f);
                 }
             }
             else
             {
                 if (LeftDoorOpen)
                 {
-                    CloseOpenDoor(false, true);
+                    CloseOpenDoor(false, true, 0.75f);
                 }
                 else
                 {
-                    CloseOpenDoor(false, false);
+                    CloseOpenDoor(false, false, 2.35f);
                 }
             }
         }
@@ -150,7 +150,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     RightDoorOpen = false;
                     float x = RefrenceManager.Data.RightDoorObject.transform.position.x;
                     float z = RefrenceManager.Data.RightDoorObject.transform.position.z;
-                    RefrenceManager.Data.RightDoorObject.transform.position = new Vector3(x, yLevel, z);
+                    RefrenceManager.Data.RightDoorObject.transform.localPosition = new Vector3(x, yLevel, z);
                     PlayDoorSound(true);
                 }
                 else
@@ -158,7 +158,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     RightDoorOpen = true;
                     float x = RefrenceManager.Data.RightDoorObject.transform.position.x;
                     float z = RefrenceManager.Data.RightDoorObject.transform.position.z;
-                    RefrenceManager.Data.RightDoorObject.transform.position = new Vector3(x, yLevel, z);
+                    RefrenceManager.Data.RightDoorObject.transform.localPosition = new Vector3(x, yLevel, z);
                     PlayDoorSound(true);
                 }
             }
@@ -169,7 +169,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     LeftDoorOpen = false;
                     float x = RefrenceManager.Data.LeftDoorObject.position.x;
                     float z = RefrenceManager.Data.LeftDoorObject.transform.position.z;
-                    RefrenceManager.Data.LeftDoorObject.transform.position = new Vector3(x, yLevel, z);
+                    RefrenceManager.Data.LeftDoorObject.transform.localPosition = new Vector3(x, yLevel, z);
                     PlayDoorSound(false);
                 }
                 else
@@ -177,7 +177,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     LeftDoorOpen = true;
                     float x = RefrenceManager.Data.LeftDoorObject.position.x;
                     float z = RefrenceManager.Data.LeftDoorObject.transform.position.z;
-                    RefrenceManager.Data.LeftDoorObject.transform.position = new Vector3(x, yLevel, z);
+                    RefrenceManager.Data.LeftDoorObject.transform.localPosition = new Vector3(x, yLevel, z);
                     PlayDoorSound(false);
                 }
             }
