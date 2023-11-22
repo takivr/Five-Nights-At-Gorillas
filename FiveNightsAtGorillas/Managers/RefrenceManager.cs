@@ -93,8 +93,6 @@ namespace FiveNightsAtGorillas.Managers.Refrences
         public GameObject LeftDoorObject { get; private set; }
         public GameObject LeftDoorVoid { get; private set; }
         public GameObject RightDoorVoid { get; private set; }
-        public Animator LeftDoorAnimation { get; private set; }
-        public Animator RightDoorAnimation { get; private set; }
 
         public GameObject CameraScreen { get; private set; }
         public TextMeshPro CurrentTime { get; private set; }
@@ -177,8 +175,6 @@ namespace FiveNightsAtGorillas.Managers.Refrences
                 CameraButtons.Add(Cam9);
                 CameraButtons.Add(Cam10);
                 CameraButtons.Add(Cam11);
-            RightDoorAnimation = RightDoorObject.GetComponent<Animator>();
-            LeftDoorAnimation = LeftDoorObject.GetComponent<Animator>();
             CameraScreen = GameObject.Find($"{FNAGMAP.name}/Office/Cameras/Monitor/Screen/CameraScreen");
             CurrentTime = GameObject.Find("CurrentTime").GetComponent<TextMeshPro>();
             CurrentPower = GameObject.Find("CurrentPower").GetComponent<TextMeshPro>();

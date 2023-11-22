@@ -22,6 +22,12 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
 
         void Awake() { Data = this; }
 
+        //R door opened: 2.272
+        //R door closed: 0.772
+
+        //L door opened: 2.35
+        //L door closed: 0.75
+
         public void UseLocalDoor(bool isRight)
         {
             if(isRight)
@@ -88,46 +94,30 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
             {
                 if (RightDoorOpen)
                 {
-                    object[] value = new object[] { PhotonData.Key.RightDoor, PhotonData.Key.Close };
-                    RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.Others };
+                    object[] value = new object[] { PhotonData.Key.RightDoor, PhotonData.Key.Close, "0.772" };
+                    RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.RightDoor, value, options, SendOptions.SendReliable);
-                    RightDoorOpen = false;
-                    RefrenceManager.Data.RightDoorAnimation.Play("Right Door Close");
-                    RefrenceManager.Data.RightDoorSound.Play();
-                    StartCoroutine(ButtonDelay(true));
                 }
                 else
                 {
-                    object[] value = new object[] { PhotonData.Key.RightDoor, PhotonData.Key.Open };
-                    RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.Others };
+                    object[] value = new object[] { PhotonData.Key.RightDoor, PhotonData.Key.Open, "2.272" };
+                    RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.RightDoor, value, options, SendOptions.SendReliable);
-                    RightDoorOpen = true;
-                    RefrenceManager.Data.RightDoorAnimation.Play("Right Door Open");
-                    RefrenceManager.Data.RightDoorSound.Play();
-                    StartCoroutine(ButtonDelay(true));
                 }
             }
             else
             {
                 if (LeftDoorOpen)
                 {
-                    object[] value = new object[] { PhotonData.Key.LeftDoor, PhotonData.Key.Close };
-                    RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.Others };
+                    object[] value = new object[] { PhotonData.Key.LeftDoor, PhotonData.Key.Close, "0.75" };
+                    RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.LeftDoor, value, options, SendOptions.SendReliable);
-                    LeftDoorOpen = false;
-                    RefrenceManager.Data.LeftDoorAnimation.Play("Left Door Close");
-                    RefrenceManager.Data.LeftDoorSound.Play();
-                    StartCoroutine(ButtonDelay(false));
                 }
                 else
                 {
-                    object[] value = new object[] { PhotonData.Key.LeftDoor, PhotonData.Key.Open };
-                    RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.Others };
+                    object[] value = new object[] { PhotonData.Key.LeftDoor, PhotonData.Key.Open, "2.35" };
+                    RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.LeftDoor, value, options, SendOptions.SendReliable);
-                    LeftDoorOpen = true;
-                    RefrenceManager.Data.LeftDoorAnimation.Play("Left Door Open");
-                    RefrenceManager.Data.LeftDoorSound.Play();
-                    StartCoroutine(ButtonDelay(false));
                 }
             }
         }
@@ -136,36 +126,40 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
         {
             object[] receivedData = (object[])photonEvent.CustomData;
             string Action = (string)receivedData[1];
+            string v = (string)receivedData[3];
+            float y = float.Parse(v);
             switch (photonEvent.Code)
             {
                 case (byte)PhotonData.Key.RightDoor:
-                    if (Action == PhotonData.Key.Close.ToString()) { CloseOpenDoor(true, true); }
-                    if (Action == PhotonData.Key.Open.ToString()) { CloseOpenDoor(true, true); }
+                    if (Action == PhotonData.Key.Close.ToString()) { CloseOpenDoor(true, true, y); }
+                    if (Action == PhotonData.Key.Open.ToString()) { CloseOpenDoor(true, true, y); }
                     break;
                 case (byte)PhotonData.Key.LeftDoor:
-                    if (Action == PhotonData.Key.Close.ToString()) { CloseOpenDoor(false, true); }
-                    if (Action == PhotonData.Key.Open.ToString()) { CloseOpenDoor(false, true); }
+                    if (Action == PhotonData.Key.Close.ToString()) { CloseOpenDoor(false, true, y); }
+                    if (Action == PhotonData.Key.Open.ToString()) { CloseOpenDoor(false, true, y); }
                     break;
             }
         }
 
-        void CloseOpenDoor(bool isRight, bool isClose)
+        void CloseOpenDoor(bool isRight, bool isClose, float yLevel)
         {
             if (isRight)
             {
                 if (isClose)
                 {
                     RightDoorOpen = false;
-                    RefrenceManager.Data.RightDoorAnimation.Play("Right Door Close");
-                    RefrenceManager.Data.RightDoorSound.Play();
-                    StartCoroutine(ButtonDelay(true));
+                    float x = RefrenceManager.Data.RightDoorObject.transform.position.x;
+                    float z = RefrenceManager.Data.RightDoorObject.transform.position.z;
+                    RefrenceManager.Data.RightDoorObject.transform.position = new Vector3(x, yLevel, z);
+                    PlayDoorSound(true);
                 }
                 else
                 {
                     RightDoorOpen = true;
-                    RefrenceManager.Data.RightDoorAnimation.Play("Right Door Open");
-                    RefrenceManager.Data.RightDoorSound.Play();
-                    StartCoroutine(ButtonDelay(true));
+                    float x = RefrenceManager.Data.RightDoorObject.transform.position.x;
+                    float z = RefrenceManager.Data.RightDoorObject.transform.position.z;
+                    RefrenceManager.Data.RightDoorObject.transform.position = new Vector3(x, yLevel, z);
+                    PlayDoorSound(true);
                 }
             }
             else
@@ -173,16 +167,18 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                 if (isClose)
                 {
                     LeftDoorOpen = false;
-                    RefrenceManager.Data.LeftDoorAnimation.Play("Left Door Close");
-                    RefrenceManager.Data.LeftDoorSound.Play();
-                    StartCoroutine(ButtonDelay(false));
+                    float x = RefrenceManager.Data.LeftDoorObject.position.x;
+                    float z = RefrenceManager.Data.LeftDoorObject.transform.position.z;
+                    RefrenceManager.Data.LeftDoorObject.transform.position = new Vector3(x, yLevel, z);
+                    PlayDoorSound(false);
                 }
                 else
                 {
                     LeftDoorOpen = true;
-                    RefrenceManager.Data.LeftDoorAnimation.Play("Left Door Open");
-                    RefrenceManager.Data.LeftDoorSound.Play();
-                    StartCoroutine(ButtonDelay(false));
+                    float x = RefrenceManager.Data.LeftDoorObject.position.x;
+                    float z = RefrenceManager.Data.LeftDoorObject.transform.position.z;
+                    RefrenceManager.Data.LeftDoorObject.transform.position = new Vector3(x, yLevel, z);
+                    PlayDoorSound(false);
                 }
             }
         }
@@ -199,6 +195,14 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
             if (isRight) { CanUseRightButton = false; } else { CanUseLeftButton = false; }
             yield return new WaitForSeconds(ButtonTimerDelay);
             if (isRight) { CanUseRightButton = true; } else { CanUseLeftButton = true; }
+        }
+
+        //I hope this works lmao
+        object PlayDoorSound(bool isRight)
+        {
+            if (isRight) { RefrenceManager.Data.RightDoorSound.Play(); StartCoroutine(ButtonDelay(true)); }
+            else { RefrenceManager.Data.LeftDoorSound.Play(); StartCoroutine(ButtonDelay(false)); }
+            return this;
         }
     }
 }
