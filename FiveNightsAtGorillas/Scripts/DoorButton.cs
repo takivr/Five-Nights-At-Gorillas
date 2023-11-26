@@ -1,4 +1,5 @@
 ﻿using FiveNightsAtGorillas.Managers.DoorAndLight;
+using FiveNightsAtGorillas.Scripts;
 using Photon.Pun;
 using UnityEngine;
 
@@ -17,17 +18,16 @@ namespace FiveNightsAtGorillas.Other.Door
         {
             if(other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider")
             {
-                int amountOfPlayersInRoom = PhotonNetwork.PlayerList.Length;
                 if (isLeft)
                 {
-                    if (amountOfPlayersInRoom > 1)
+                    if (PlayersInRound.Data.PlayersPlaying > 1)
                     {
                         if (DoorManager.Data.CanUseLeftButton)
                         {
                             DoorManager.Data.UseOnlineDoor(false);
                         }
                     }
-                    else
+                    else if(PlayersInRound.Data.PlayersPlaying <= 1)
                     {
                         if (DoorManager.Data.CanUseLeftButton)
                         {
@@ -37,14 +37,14 @@ namespace FiveNightsAtGorillas.Other.Door
                 }
                 else
                 {
-                    if (amountOfPlayersInRoom > 1)
+                    if (PlayersInRound.Data.PlayersPlaying > 1)
                     {
                         if (DoorManager.Data.CanUseRightButton)
                         {
                             DoorManager.Data.UseOnlineDoor(true);
                         }
                     }
-                    else
+                    else if(PlayersInRound.Data.PlayersPlaying <= 1)
                     {
                         if (DoorManager.Data.CanUseRightButton)
                         {

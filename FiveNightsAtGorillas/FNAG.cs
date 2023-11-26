@@ -13,6 +13,7 @@ using FiveNightsAtGorillas.Managers.DoorAndLight;
 using FiveNightsAtGorillas.Managers.NetworkedData;
 using FiveNightsAtGorillas.Other.Light;
 using Photon.Pun;
+using FiveNightsAtGorillas.Scripts;
 
 namespace FiveNightsAtGorillas
 {
@@ -43,6 +44,17 @@ namespace FiveNightsAtGorillas
 
         void OnGameInitialized(object sender, EventArgs e)
         {
+            GameObject[] allObjs = Resources.FindObjectsOfTypeAll<GameObject>();
+            foreach (GameObject obj in allObjs)
+            {
+                if(obj.name == "head_end")
+                {
+                    obj.AddComponent<BoxCollider>().isTrigger = true;
+                    obj.layer = 10;
+                    obj.GetComponent<BoxCollider>().center = new Vector3(0, 0, 0);
+                }
+            }
+
             var bundle = LoadAssetBundle("FiveNightsAtGorillas.Assets.fnag");
             var map = bundle.LoadAsset<GameObject>("FNAG MAP");
             var jumpscare = bundle.LoadAsset<GameObject>("Jumpscares");
@@ -129,7 +141,12 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.LeftLight.AddComponent<LightButton>().isLeft = true;
             RefrenceManager.Data.ChainLoader.AddComponent<PhotonData>();
             RefrenceManager.Data.ChainLoader.AddComponent<DoorManager>();
-            RefrenceManager.Data.ChainLoader.AddComponent<AIManager>();
+            RefrenceManager.Data.gorillaParent.AddComponent<AIManager>().AIName = "gorilla";
+            RefrenceManager.Data.mingusParent.AddComponent<AIManager>().AIName = "mingus";
+            RefrenceManager.Data.bobParent.AddComponent<AIManager>().AIName = "bob";
+            RefrenceManager.Data.dingusParent.AddComponent<AIManager>().AIName = "dingus";
+            RefrenceManager.Data.NearGameTrigger.AddComponent<PlayersInRound>();
+            RefrenceManager.Data.NearGameTrigger.layer = 18;
         }
         #endregion
 
@@ -161,7 +178,21 @@ namespace FiveNightsAtGorillas
 
         public void Reset()
         {
-
+            #region ResetAI
+            foreach (GameObject ai in RefrenceManager.Data.gorilla) { ai.gameObject.SetActive(false); }
+            foreach (GameObject ai in RefrenceManager.Data.mingus) { ai.gameObject.SetActive(false); }
+            foreach (GameObject ai in RefrenceManager.Data.bob) { ai.gameObject.SetActive(false); }
+            foreach (GameObject ai in RefrenceManager.Data.dingus) { ai.gameObject.SetActive(false); }
+            RefrenceManager.Data.gorilla[0].SetActive(true);
+            RefrenceManager.Data.mingus[0].SetActive(true);
+            RefrenceManager.Data.bob[0].SetActive(true);
+            RefrenceManager.Data.dingus[0].SetActive(true);
+            AIManager[] AI = Resources.FindObjectsOfTypeAll<AIManager>();
+            foreach(AIManager ai in AI) { ai.Difficulty = 0; ai.StopAI(); }
+            #endregion
+            #region ResetDoors
+            DoorManager.Data.ResetDoors();
+            #endregion
         }
 
         public void TeleportPlayerBack() 
@@ -183,10 +214,34 @@ namespace FiveNightsAtGorillas
             Reset();
         }
 
+        public void DingusRun()
+        {
+            RefrenceManager.Data.DingusRunning.Play();
+            foreach (GameObject D in RefrenceManager.Data.dingus)
+            {
+                D.SetActive(false);
+            }
+            StartCoroutine(DingusRunDelay());
+        }
+
+        IEnumerator DingusRunDelay()
+        {
+            yield return new WaitForSeconds(5);
+            if (DoorManager.Data.LeftDoorOpen)
+            {
+                Jumpscare();
+            }
+            else
+            {
+                AIManager.Data.ResetDingus();
+            }
+        }
+
         IEnumerator JumpscareDelay()
         {
             yield return new WaitForSeconds(3);
             TeleportPlayerBack();
+            SkyColorWhite();
             RefrenceManager.Data.Jumpscare.SetActive(false);
             RefrenceManager.Data.JumpscareAnimation.StopPlayback();
             RefrenceManager.Data.JumpscareSound.Stop();

@@ -8,7 +8,7 @@ using FiveNightsAtGorillas.Managers.NetworkedData;
 
 namespace FiveNightsAtGorillas.Managers.DoorAndLight
 {
-    public class DoorManager : MonoBehaviourPunCallbacks, IInRoomCallbacks
+    public class DoorManager : MonoBehaviourPunCallbacks
     {
         public static DoorManager Data;
         public int ButtonTimerDelay { get; private set; } = 3;
@@ -20,13 +20,27 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
         public bool RightLightOn { get; private set; }
         public bool LeftLightOn { get; private set; }
 
-        void Awake() { Data = this; }
+        void Awake() { Data = this; PhotonNetwork.AddCallbackTarget(this); PhotonNetwork.NetworkingClient.EventReceived += OnEvent; }
 
         //R door opened: 2.272
         //R door closed: 0.772
 
         //L door opened: 2.35
         //L door closed: 0.75
+
+        public void ResetDoors()
+        {
+            RightDoorOpen = true;
+            LeftDoorOpen = true;
+            CloseOpenDoor(true, false, 2.272f);
+            CloseOpenDoor(false, false, 2.35f);
+            RightLightOn = false;
+            LeftLightOn = false;
+            RefrenceManager.Data.LeftDoorVoid.SetActive(true);
+            RefrenceManager.Data.LeftLightSound.Stop();
+            RefrenceManager.Data.RightDoorVoid.SetActive(true);
+            RefrenceManager.Data.RightLightSound.Stop();
+        }
 
         public void UseLocalDoor(bool isRight)
         {
@@ -94,13 +108,13 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
             {
                 if (RightDoorOpen)
                 {
-                    object[] value = new object[] { PhotonData.Key.RightDoor, PhotonData.Key.Close, "0.772" };
+                    object[] value = new object[] { PhotonData.Key.Close, "0.772" };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.RightDoor, value, options, SendOptions.SendReliable);
                 }
                 else
                 {
-                    object[] value = new object[] { PhotonData.Key.RightDoor, PhotonData.Key.Open, "2.272" };
+                    object[] value = new object[] { PhotonData.Key.Open, "2.272" };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.RightDoor, value, options, SendOptions.SendReliable);
                 }
@@ -109,13 +123,13 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
             {
                 if (LeftDoorOpen)
                 {
-                    object[] value = new object[] { PhotonData.Key.LeftDoor, PhotonData.Key.Close, "0.75" };
+                    object[] value = new object[] { PhotonData.Key.Close, "0.75" };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.LeftDoor, value, options, SendOptions.SendReliable);
                 }
                 else
                 {
-                    object[] value = new object[] { PhotonData.Key.LeftDoor, PhotonData.Key.Open, "2.35" };
+                    object[] value = new object[] { PhotonData.Key.Open, "2.35" };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.LeftDoor, value, options, SendOptions.SendReliable);
                 }
@@ -125,18 +139,18 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
         public void OnEvent(EventData photonEvent)
         {
             object[] receivedData = (object[])photonEvent.CustomData;
-            string Action = (string)receivedData[1];
-            string v = (string)receivedData[3];
+            string Action = (string)receivedData[0];
+            string v = (string)receivedData[1];
             float y = float.Parse(v);
             switch (photonEvent.Code)
             {
                 case (byte)PhotonData.Key.RightDoor:
                     if (Action == PhotonData.Key.Close.ToString()) { CloseOpenDoor(true, true, y); }
-                    if (Action == PhotonData.Key.Open.ToString()) { CloseOpenDoor(true, true, y); }
+                    else if (Action == PhotonData.Key.Open.ToString()) { CloseOpenDoor(true, true, y); }
                     break;
                 case (byte)PhotonData.Key.LeftDoor:
                     if (Action == PhotonData.Key.Close.ToString()) { CloseOpenDoor(false, true, y); }
-                    if (Action == PhotonData.Key.Open.ToString()) { CloseOpenDoor(false, true, y); }
+                    else if (Action == PhotonData.Key.Open.ToString()) { CloseOpenDoor(false, true, y); }
                     break;
             }
         }

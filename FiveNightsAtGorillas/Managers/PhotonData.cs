@@ -1,7 +1,4 @@
-﻿using ExitGames.Client.Photon;
-using FiveNightsAtGorillas.Managers.DoorAndLight;
-using Photon.Pun;
-using Photon.Realtime;
+﻿using Photon.Pun;
 
 namespace FiveNightsAtGorillas.Managers.NetworkedData
 {
@@ -9,10 +6,10 @@ namespace FiveNightsAtGorillas.Managers.NetworkedData
     {
         public enum Key
         {
-            RightDoor = 0,
-            LeftDoor = 1,
-            GorillaCam = 3,
-            BobCam = 4,
+            RightDoor = 1,
+            LeftDoor = 2,
+            Gorilla = 3,
+            Bob = 4,
             Mingus = 5,
             Dingus = 6,
             Close = 7,
