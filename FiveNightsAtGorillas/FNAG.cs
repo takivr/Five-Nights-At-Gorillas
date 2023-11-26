@@ -14,6 +14,7 @@ using FiveNightsAtGorillas.Managers.NetworkedData;
 using FiveNightsAtGorillas.Other.Light;
 using Photon.Pun;
 using FiveNightsAtGorillas.Scripts;
+using FiveNightsAtGorillas.Managers.Cameras;
 
 namespace FiveNightsAtGorillas
 {
@@ -141,12 +142,25 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.LeftLight.AddComponent<LightButton>().isLeft = true;
             RefrenceManager.Data.ChainLoader.AddComponent<PhotonData>();
             RefrenceManager.Data.ChainLoader.AddComponent<DoorManager>();
+            RefrenceManager.Data.ChainLoader.AddComponent<CameraManager>();
             RefrenceManager.Data.gorillaParent.AddComponent<AIManager>().AIName = "gorilla";
             RefrenceManager.Data.mingusParent.AddComponent<AIManager>().AIName = "mingus";
             RefrenceManager.Data.bobParent.AddComponent<AIManager>().AIName = "bob";
             RefrenceManager.Data.dingusParent.AddComponent<AIManager>().AIName = "dingus";
             RefrenceManager.Data.NearGameTrigger.AddComponent<PlayersInRound>();
             RefrenceManager.Data.NearGameTrigger.layer = 18;
+
+            RefrenceManager.Data.Cam1.AddComponent<CameraButton>().CameraButtonTrigger = "Cam1";
+            RefrenceManager.Data.Cam2.AddComponent<CameraButton>().CameraButtonTrigger = "Cam2";
+            RefrenceManager.Data.Cam3.AddComponent<CameraButton>().CameraButtonTrigger = "Cam3";
+            RefrenceManager.Data.Cam4.AddComponent<CameraButton>().CameraButtonTrigger = "Cam4";
+            RefrenceManager.Data.Cam5.AddComponent<CameraButton>().CameraButtonTrigger = "Cam5";
+            RefrenceManager.Data.Cam6.AddComponent<CameraButton>().CameraButtonTrigger = "Cam6";
+            RefrenceManager.Data.Cam7.AddComponent<CameraButton>().CameraButtonTrigger = "Cam7";
+            RefrenceManager.Data.Cam8.AddComponent<CameraButton>().CameraButtonTrigger = "Cam8";
+            RefrenceManager.Data.Cam9.AddComponent<CameraButton>().CameraButtonTrigger = "Cam9";
+            RefrenceManager.Data.Cam10.AddComponent<CameraButton>().CameraButtonTrigger = "Cam10";
+            RefrenceManager.Data.Cam11.AddComponent<CameraButton>().CameraButtonTrigger = "Cam11";
         }
         #endregion
 
