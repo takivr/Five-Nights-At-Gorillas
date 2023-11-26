@@ -14,7 +14,7 @@ To use the mod, you need [Utilla](https://github.com/legoandmars/Utilla) and [TM
 This version is a little bit different from the orignal fnaf 1.
 
 ## POWER:
-Power is the same as in the game. The more stuff you use the fastwr the power drains
+Power is the same as in the game. The more stuff you use the faster the power drains
 > One thing to note is that when the power goes out, the face does not appear because imo it looked very weird and stupid
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
