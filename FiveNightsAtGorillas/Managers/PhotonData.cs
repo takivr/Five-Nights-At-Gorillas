@@ -13,7 +13,8 @@ namespace FiveNightsAtGorillas.Managers.NetworkedData
             Mingus = 5,
             Dingus = 6,
             Close = 7,
-            Open = 8
+            Open = 8,
+            StartNight = 9
         }
 
         public static PhotonData instance;

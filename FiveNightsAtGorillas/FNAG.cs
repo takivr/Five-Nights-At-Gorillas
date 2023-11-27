@@ -74,10 +74,6 @@ namespace FiveNightsAtGorillas
 
             RefrenceManager.Data.SetRefrences();
 
-            GameObject.Find("FNAG MAP(Clone)/Office/Buttons").transform.localPosition = new Vector3(37.8108f, -12.4782f, -16.2527f);
-            GameObject.Find("FNAG MAP(Clone)/Office/Doors").transform.localPosition = new Vector3(36.6835f, -12.4727f, -16.2383f);
-            RefrenceManager.Data.NearGameTrigger.transform.localScale = new Vector3(999, 999, 999);
-
             SetupComps();
             SetupEnemys();
             SetupMenu();
@@ -247,7 +243,7 @@ namespace FiveNightsAtGorillas
             #endregion
         }
 
-        public void StartGame(int Night)
+        public void StartGame(int Night, int GD, int MD, int BD, int DD)
         {
             #region StartGame
             if (Night == 1)
@@ -294,11 +290,17 @@ namespace FiveNightsAtGorillas
             }
             if (Night == 7)
             {
-                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = int.Parse(RefrenceManager.Data.GD.text);
-                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = int.Parse(RefrenceManager.Data.MD.text);
-                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = int.Parse(RefrenceManager.Data.BD.text);
-                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = int.Parse(RefrenceManager.Data.DD.text);
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = GD;
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = MD;
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = BD;
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = DD;
             }
+            RefrenceManager.Data.MenuRoundRunning.SetActive(true);
+            RefrenceManager.Data.MenuWarning.SetActive(false);
+            RefrenceManager.Data.MenuIgnoreButton.SetActive(false);
+            RefrenceManager.Data.MenuSelects.SetActive(false);
+            RefrenceManager.Data.MenuScrollLeft.SetActive(false);
+            RefrenceManager.Data.MenuScrollRight.SetActive(false);
             TimePowerManager.Data.StartEverything();
             AIManager.Data.StartAI();
             TeleportPlayerToGame();

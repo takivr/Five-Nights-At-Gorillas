@@ -1,4 +1,4 @@
-﻿using System.EnterpriseServices.Internal;
+﻿using FiveNightsAtGorillas.Managers.Refrences;
 using UnityEngine;
 
 namespace FiveNightsAtGorillas.Other.PlayerDetecter
@@ -15,6 +15,15 @@ namespace FiveNightsAtGorillas.Other.PlayerDetecter
             if(other.name == "head_end")
             {
                 PlayersPlaying++;
+                if(PlayersPlaying > 0)
+                {
+                    RefrenceManager.Data.MenuRoundRunning.SetActive(true);
+                    RefrenceManager.Data.MenuWarning.SetActive(false);
+                    RefrenceManager.Data.MenuIgnoreButton.SetActive(false);
+                    RefrenceManager.Data.MenuSelects.SetActive(false);
+                    RefrenceManager.Data.MenuScrollLeft.SetActive(false);
+                    RefrenceManager.Data.MenuScrollRight.SetActive(false);
+                }
             }
         }
 
