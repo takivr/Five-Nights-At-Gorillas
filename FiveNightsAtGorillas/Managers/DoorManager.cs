@@ -5,6 +5,7 @@ using FiveNightsAtGorillas.Managers.Refrences;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
 using FiveNightsAtGorillas.Managers.NetworkedData;
+using FiveNightsAtGorillas.Managers.TimePower;
 
 namespace FiveNightsAtGorillas.Managers.DoorAndLight
 {
@@ -134,23 +135,30 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.LeftDoor, value, options, SendOptions.SendReliable);
                 }
             }
+            TimePowerManager.Data.RefreshDrainTime();
         }
 
         public void OnEvent(EventData photonEvent)
         {
+            Debug.Log("1");
             object[] receivedData = (object[])photonEvent.CustomData;
-            string Action = (string)receivedData[0];
-            string v = (string)receivedData[1];
+            Debug.Log("2");
+            string Action = receivedData[0].ToString();
+            Debug.Log("3");
+            string v = receivedData[1].ToString();
+            Debug.Log("4");
             float y = float.Parse(v);
+            Debug.Log("5");
             switch (photonEvent.Code)
             {
                 case (byte)PhotonData.Key.RightDoor:
-                    if (Action == PhotonData.Key.Close.ToString()) { CloseOpenDoor(true, true, y); }
-                    else if (Action == PhotonData.Key.Open.ToString()) { CloseOpenDoor(true, true, y); }
+                    Debug.Log("1.1");
+                    if (Action == PhotonData.Key.Close.ToString()) { Debug.Log("1.2"); CloseOpenDoor(true, true, y); }
+                    else if (Action == PhotonData.Key.Open.ToString()) { Debug.Log("1.3"); CloseOpenDoor(true, true, y); }
                     break;
                 case (byte)PhotonData.Key.LeftDoor:
-                    if (Action == PhotonData.Key.Close.ToString()) { CloseOpenDoor(false, true, y); }
-                    else if (Action == PhotonData.Key.Open.ToString()) { CloseOpenDoor(false, true, y); }
+                    if (Action == PhotonData.Key.Close.ToString()) { Debug.Log("1.4"); CloseOpenDoor(false, true, y); }
+                    else if (Action == PhotonData.Key.Open.ToString()) { Debug.Log("1.5"); CloseOpenDoor(false, true, y); }
                     break;
             }
         }

@@ -4,10 +4,10 @@ using FiveNightsAtGorillas.Managers.Refrences;
 using Photon.Pun;
 using UnityEngine;
 using System.Collections;
-using FiveNightsAtGorillas.Scripts;
 using Random = UnityEngine.Random;
 using FiveNightsAtGorillas.Managers.DoorAndLight;
 using Photon.Realtime;
+using FiveNightsAtGorillas.Other.PlayerDetecter;
 
 namespace FiveNightsAtGorillas.Managers.AI
 {
@@ -32,19 +32,43 @@ namespace FiveNightsAtGorillas.Managers.AI
         public void StartAI() 
         { 
             AllowedToRun = true;
-            if (PlayersInRound.Data.PlayersPlaying <= 1)
+            if (PlayersInRound.Data.PlayersPlaying <= 1 && AllowedToRun)
             {
                 StartCoroutine(GorillaLocalDelay());
                 StartCoroutine(MingusLocalDelay());
                 StartCoroutine(BobLocalDelay());
                 StartCoroutine(DingusLocalDelay());
             }
-            else if(PlayersInRound.Data.PlayersPlaying > 1)
+            else if(PlayersInRound.Data.PlayersPlaying > 1 && AllowedToRun)
             {
-                StartCoroutine(GorillaOnlineDelay());
-                StartCoroutine(MingusOnlineDelay());
-                StartCoroutine(BobOnlineDelay());
-                StartCoroutine(DingusOnlineDelay());
+                if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                {
+                    StartCoroutine(GorillaOnlineDelay());
+                    StartCoroutine(MingusOnlineDelay());
+                    StartCoroutine(BobOnlineDelay());
+                    StartCoroutine(DingusOnlineDelay());
+                }
+            }
+        }
+
+        void RestartAI()
+        {
+            if (PlayersInRound.Data.PlayersPlaying <= 1 && AllowedToRun)
+            {
+                StartCoroutine(GorillaLocalDelay());
+                StartCoroutine(MingusLocalDelay());
+                StartCoroutine(BobLocalDelay());
+                StartCoroutine(DingusLocalDelay());
+            }
+            else if (PlayersInRound.Data.PlayersPlaying > 1 && AllowedToRun)
+            {
+                if (PhotonNetwork.LocalPlayer.IsMasterClient)
+                {
+                    StartCoroutine(GorillaOnlineDelay());
+                    StartCoroutine(MingusOnlineDelay());
+                    StartCoroutine(BobOnlineDelay());
+                    StartCoroutine(DingusOnlineDelay());
+                }
             }
         }
         
@@ -350,6 +374,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                         }
                     }
                 }
+                RestartAI();
             }
         }
 
@@ -378,6 +403,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                         }
                     }
                 }
+                RestartAI();
             }
         }
 
@@ -405,6 +431,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                         }
                     }
                 }
+                RestartAI();
             }
         }
 
@@ -430,6 +457,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                         if (NewCamPos == "Stage6") { RefrenceManager.Data.dingus[5].SetActive(true); }
                     }
                 }
+                RestartAI();
             }
         }
     }

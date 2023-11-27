@@ -1,6 +1,5 @@
 ﻿using FiveNightsAtGorillas.Managers.DoorAndLight;
-using FiveNightsAtGorillas.Scripts;
-using Photon.Pun;
+using FiveNightsAtGorillas.Other.PlayerDetecter;
 using UnityEngine;
 
 namespace FiveNightsAtGorillas.Other.Door

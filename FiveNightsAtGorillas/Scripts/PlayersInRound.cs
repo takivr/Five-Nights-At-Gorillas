@@ -1,7 +1,7 @@
 ﻿using System.EnterpriseServices.Internal;
 using UnityEngine;
 
-namespace FiveNightsAtGorillas.Scripts
+namespace FiveNightsAtGorillas.Other.PlayerDetecter
 {
     public class PlayersInRound : MonoBehaviour
     {
@@ -23,7 +23,7 @@ namespace FiveNightsAtGorillas.Scripts
             if (other.name == "head_end")
             {
                 PlayersPlaying--;
-                if(PlayersPlaying == 0) { FNAG.Data.Reset(); }
+                if(PlayersPlaying == 0) { FNAG.Data.StopGame(); }
             }
         }
     }

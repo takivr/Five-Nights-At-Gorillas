@@ -1,7 +1,7 @@
 ﻿using FiveNightsAtGorillas.Managers.Cameras;
 using UnityEngine;
 
-namespace FiveNightsAtGorillas.Scripts
+namespace FiveNightsAtGorillas.Other.Camera
 {
     public class CameraButton : MonoBehaviour
     {

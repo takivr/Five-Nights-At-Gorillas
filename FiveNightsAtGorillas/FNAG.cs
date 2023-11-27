@@ -12,9 +12,15 @@ using FiveNightsAtGorillas.Managers.AI;
 using FiveNightsAtGorillas.Managers.DoorAndLight;
 using FiveNightsAtGorillas.Managers.NetworkedData;
 using FiveNightsAtGorillas.Other.Light;
-using Photon.Pun;
-using FiveNightsAtGorillas.Scripts;
+using FiveNightsAtGorillas.Other.Camera;
 using FiveNightsAtGorillas.Managers.Cameras;
+using FiveNightsAtGorillas.Managers.TimePower;
+using FiveNightsAtGorillas.Other.PlayerDetecter;
+using FiveNightsAtGorillas.Other.Ignore;
+using FiveNightsAtGorillas.Other.NightStart;
+using FiveNightsAtGorillas.Other.Scroll;
+using FiveNightsAtGorillas.Other.CustomNightAdd;
+using FiveNightsAtGorillas.Other.CustomNightSub;
 
 namespace FiveNightsAtGorillas
 {
@@ -29,7 +35,6 @@ namespace FiveNightsAtGorillas
         public static FNAG Data;
         public bool RoundCurrentlyRunning;
         public bool LocalPlayingRound;
-        public bool IsPowerCurrentlyOut;
         public bool InCustomRoom { get; private set; }
 
         void Start() { Events.GameInitialized += OnGameInitialized; Data = this; }
@@ -71,6 +76,7 @@ namespace FiveNightsAtGorillas
 
             GameObject.Find("FNAG MAP(Clone)/Office/Buttons").transform.localPosition = new Vector3(37.8108f, -12.4782f, -16.2527f);
             GameObject.Find("FNAG MAP(Clone)/Office/Doors").transform.localPosition = new Vector3(36.6835f, -12.4727f, -16.2383f);
+            RefrenceManager.Data.NearGameTrigger.transform.localScale = new Vector3(999, 999, 999);
 
             SetupComps();
             SetupEnemys();
@@ -143,6 +149,7 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.ChainLoader.AddComponent<PhotonData>();
             RefrenceManager.Data.ChainLoader.AddComponent<DoorManager>();
             RefrenceManager.Data.ChainLoader.AddComponent<CameraManager>();
+            RefrenceManager.Data.ChainLoader.AddComponent<TimePowerManager>();
             RefrenceManager.Data.gorillaParent.AddComponent<AIManager>().AIName = "gorilla";
             RefrenceManager.Data.mingusParent.AddComponent<AIManager>().AIName = "mingus";
             RefrenceManager.Data.bobParent.AddComponent<AIManager>().AIName = "bob";
@@ -161,6 +168,27 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.Cam9.AddComponent<CameraButton>().CameraButtonTrigger = "Cam9";
             RefrenceManager.Data.Cam10.AddComponent<CameraButton>().CameraButtonTrigger = "Cam10";
             RefrenceManager.Data.Cam11.AddComponent<CameraButton>().CameraButtonTrigger = "Cam11";
+
+            RefrenceManager.Data.MenuIgnoreButton.AddComponent<IgnoreWarning>();
+            RefrenceManager.Data.MenuStartButton[0].AddComponent<StartNight>().Night = 1;
+            RefrenceManager.Data.MenuStartButton[1].AddComponent<StartNight>().Night = 2;
+            RefrenceManager.Data.MenuStartButton[2].AddComponent<StartNight>().Night = 3;
+            RefrenceManager.Data.MenuStartButton[3].AddComponent<StartNight>().Night = 4;
+            RefrenceManager.Data.MenuStartButton[4].AddComponent<StartNight>().Night = 5;
+            RefrenceManager.Data.MenuStartButton[5].AddComponent<StartNight>().Night = 6;
+            RefrenceManager.Data.MenuStartButton[6].AddComponent<StartNight>().Night = 7;
+            RefrenceManager.Data.MenuScrollLeft.AddComponent<MenuScroll>().isRight = false;
+            RefrenceManager.Data.MenuScrollRight.AddComponent<MenuScroll>().isRight = true;
+
+            RefrenceManager.Data.MenuCNAddGorilla.AddComponent<CNAdd>().IsGorilla = true;
+            RefrenceManager.Data.MenuCNAddMingus.AddComponent<CNAdd>().IsMingus = true;
+            RefrenceManager.Data.MenuCNAddBob.AddComponent<CNAdd>().IsBob = true;
+            RefrenceManager.Data.MenuCNAddDingus.AddComponent<CNAdd>().IsDingus = true;
+
+            RefrenceManager.Data.MenuCNSubGorilla.AddComponent<CNSub>().IsGorilla = true;
+            RefrenceManager.Data.MenuCNSubMingus.AddComponent<CNSub>().IsMingus = true;
+            RefrenceManager.Data.MenuCNSubBob.AddComponent<CNSub>().IsBob = true;
+            RefrenceManager.Data.MenuCNSubDingus.AddComponent<CNSub>().IsDingus = true;
         }
         #endregion
 
@@ -183,14 +211,14 @@ namespace FiveNightsAtGorillas
         void OnLeave(string gamemode) 
         {
             InCustomRoom = false;
-            Reset();
+            StopGame();
             RefrenceManager.Data.Menu.SetActive(false); RefrenceManager.Data.MenuScrollLeft.SetActive(false);
             RefrenceManager.Data.MenuScrollRight.SetActive(false);
             RefrenceManager.Data.MenuWarning.SetActive(true);
             GameObject.Find("Selects").SetActive(false);
         }
 
-        public void Reset()
+        public void StopGame()
         {
             #region ResetAI
             foreach (GameObject ai in RefrenceManager.Data.gorilla) { ai.gameObject.SetActive(false); }
@@ -206,6 +234,74 @@ namespace FiveNightsAtGorillas
             #endregion
             #region ResetDoors
             DoorManager.Data.ResetDoors();
+            #endregion
+            #region ResetTimeAndPower
+            TimePowerManager.Data.StopEverything();
+            #endregion
+            #region ResetMenu
+            RefrenceManager.Data.MenuWarning.SetActive(true);
+            RefrenceManager.Data.MenuIgnoreButton.SetActive(true);
+            RefrenceManager.Data.MenuSelects.SetActive(false);
+            RefrenceManager.Data.MenuScrollLeft.SetActive(false);
+            RefrenceManager.Data.MenuScrollRight.SetActive(false);
+            #endregion
+        }
+
+        public void StartGame(int Night)
+        {
+            #region StartGame
+            if (Night == 1)
+            {
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 0;
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 2;
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 2;
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 0;
+            }
+            if (Night == 2)
+            {
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 0;
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 2;
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 3;
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 1;
+            }
+            if (Night == 3)
+            {
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 1;
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 5;
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 4;
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 2;
+            }
+            if (Night == 4)
+            {
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 2;
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 7;
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 3;
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 6;
+            }
+            if (Night == 5)
+            {
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 5;
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 7;
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 6;
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 6;
+            }
+            if (Night == 6)
+            {
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 8;
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 12;
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 10;
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 16;
+            }
+            if (Night == 7)
+            {
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = int.Parse(RefrenceManager.Data.GD.text);
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = int.Parse(RefrenceManager.Data.MD.text);
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = int.Parse(RefrenceManager.Data.BD.text);
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = int.Parse(RefrenceManager.Data.DD.text);
+            }
+            TimePowerManager.Data.StartEverything();
+            AIManager.Data.StartAI();
+            TeleportPlayerToGame();
             #endregion
         }
 
@@ -225,7 +321,37 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.JumpscareAnimation.Play("Jumpscare");
             RefrenceManager.Data.JumpscareSound.Play();
             StartCoroutine(JumpscareDelay());
-            Reset();
+            StopGame();
+        }
+
+        public void Poweroutage()
+        {
+            if (!DoorManager.Data.RightDoorOpen)
+            {
+                DoorManager.Data.UseLocalDoor(true);
+            }
+            if (!DoorManager.Data.LeftDoorOpen)
+            {
+                DoorManager.Data.UseLocalDoor(false);
+            }
+            if (DoorManager.Data.LeftLightOn)
+            {
+                DoorManager.Data.UseLight(false);
+            }
+            if (DoorManager.Data.RightLightOn)
+            {
+                DoorManager.Data.UseLight(true);
+            }
+            StopGame();
+            RefrenceManager.Data.Poweroutage.Play();
+            StartCoroutine(PoweroutageDelay());
+        }
+
+        public void SixAM()
+        {
+            StopGame();
+            RefrenceManager.Data.SixAM.SetActive(true);
+            RefrenceManager.Data.SixAMSound.Play();
         }
 
         public void DingusRun()
@@ -236,6 +362,19 @@ namespace FiveNightsAtGorillas
                 D.SetActive(false);
             }
             StartCoroutine(DingusRunDelay());
+        }
+
+        IEnumerator SixAMDelay()
+        {
+            yield return new WaitForSeconds(10);
+            RefrenceManager.Data.SixAM.SetActive(false);
+            TeleportPlayerBack();
+        }
+
+        IEnumerator PoweroutageDelay()
+        {
+            yield return new WaitForSeconds(67.8f);
+            Jumpscare();
         }
 
         IEnumerator DingusRunDelay()
