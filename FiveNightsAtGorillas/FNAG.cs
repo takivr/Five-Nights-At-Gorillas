@@ -21,6 +21,7 @@ using FiveNightsAtGorillas.Other.NightStart;
 using FiveNightsAtGorillas.Other.Scroll;
 using FiveNightsAtGorillas.Other.CustomNightAdd;
 using FiveNightsAtGorillas.Other.CustomNightSub;
+using System.ComponentModel;
 
 namespace FiveNightsAtGorillas
 {
@@ -150,6 +151,10 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.mingusParent.AddComponent<AIManager>().AIName = "mingus";
             RefrenceManager.Data.bobParent.AddComponent<AIManager>().AIName = "bob";
             RefrenceManager.Data.dingusParent.AddComponent<AIManager>().AIName = "dingus";
+            RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos = "Cam11";
+            RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos = "Cam11";
+            RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos = "Cam11";
+            RefrenceManager.Data.dingusParent.GetComponent<AIManager>().CamPos = "Stage1";
             RefrenceManager.Data.NearGameTrigger.AddComponent<PlayersInRound>();
             RefrenceManager.Data.NearGameTrigger.layer = 18;
 
@@ -302,7 +307,11 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.MenuScrollLeft.SetActive(false);
             RefrenceManager.Data.MenuScrollRight.SetActive(false);
             TimePowerManager.Data.StartEverything();
-            AIManager.Data.StartAI();
+            RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().StartAI();
+            RefrenceManager.Data.mingusParent.GetComponent<AIManager>().StartAI();
+            RefrenceManager.Data.bobParent.GetComponent<AIManager>().StartAI();
+            RefrenceManager.Data.dingusParent.GetComponent<AIManager>().StartAI();
+            SkyColorGameBlack();
             TeleportPlayerToGame();
             #endregion
         }
@@ -346,6 +355,7 @@ namespace FiveNightsAtGorillas
             }
             StopGame();
             RefrenceManager.Data.Poweroutage.Play();
+            SkyColorFullBlack();
             StartCoroutine(PoweroutageDelay());
         }
 
@@ -354,6 +364,7 @@ namespace FiveNightsAtGorillas
             StopGame();
             RefrenceManager.Data.SixAM.SetActive(true);
             RefrenceManager.Data.SixAMSound.Play();
+            StartCoroutine(SixAMDelay());
         }
 
         public void DingusRun()
@@ -371,6 +382,7 @@ namespace FiveNightsAtGorillas
             yield return new WaitForSeconds(10);
             RefrenceManager.Data.SixAM.SetActive(false);
             TeleportPlayerBack();
+            SkyColorWhite();
         }
 
         IEnumerator PoweroutageDelay()
@@ -388,7 +400,7 @@ namespace FiveNightsAtGorillas
             }
             else
             {
-                AIManager.Data.ResetDingus();
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().ResetDingus();
             }
         }
 

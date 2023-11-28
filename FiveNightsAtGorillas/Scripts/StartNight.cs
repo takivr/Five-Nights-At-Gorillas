@@ -17,13 +17,13 @@ namespace FiveNightsAtGorillas.Other.NightStart
         {
             if (other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider")
             {
-                if(PhotonNetwork.CurrentRoom.PlayerCount > 1)
+                if(PhotonNetwork.InRoom)
                 {
                     object[] value = new object[] { Night, int.Parse(RefrenceManager.Data.GD.text), int.Parse(RefrenceManager.Data.MD.text), int.Parse(RefrenceManager.Data.BD.text), int.Parse(RefrenceManager.Data.DD.text) };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.Key.RightDoor, value, options, SendOptions.SendReliable);
                 }
-                else if(PhotonNetwork.CurrentRoom.PlayerCount <= 1)
+                else if(!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom.PlayerCount <= 1)
                 {
                     FNAG.Data.StartGame(Night, int.Parse(RefrenceManager.Data.GD.text), int.Parse(RefrenceManager.Data.MD.text), int.Parse(RefrenceManager.Data.BD.text), int.Parse(RefrenceManager.Data.DD.text));
                 }

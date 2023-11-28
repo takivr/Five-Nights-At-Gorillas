@@ -140,25 +140,19 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
 
         public void OnEvent(EventData photonEvent)
         {
-            Debug.Log("1");
             object[] receivedData = (object[])photonEvent.CustomData;
-            Debug.Log("2");
             string Action = receivedData[0].ToString();
-            Debug.Log("3");
             string v = receivedData[1].ToString();
-            Debug.Log("4");
             float y = float.Parse(v);
-            Debug.Log("5");
             switch (photonEvent.Code)
             {
                 case (byte)PhotonData.Key.RightDoor:
-                    Debug.Log("1.1");
-                    if (Action == PhotonData.Key.Close.ToString()) { Debug.Log("1.2"); CloseOpenDoor(true, true, y); }
-                    else if (Action == PhotonData.Key.Open.ToString()) { Debug.Log("1.3"); CloseOpenDoor(true, true, y); }
+                    if (Action == PhotonData.Key.Close.ToString()) { CloseOpenDoor(true, true, y); }
+                    else if (Action == PhotonData.Key.Open.ToString()) { CloseOpenDoor(true, true, y); }
                     break;
                 case (byte)PhotonData.Key.LeftDoor:
-                    if (Action == PhotonData.Key.Close.ToString()) { Debug.Log("1.4"); CloseOpenDoor(false, true, y); }
-                    else if (Action == PhotonData.Key.Open.ToString()) { Debug.Log("1.5"); CloseOpenDoor(false, true, y); }
+                    if (Action == PhotonData.Key.Close.ToString()) { CloseOpenDoor(false, true, y); }
+                    else if (Action == PhotonData.Key.Open.ToString()) { CloseOpenDoor(false, true, y); }
                     break;
             }
         }
@@ -203,6 +197,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     PlayDoorSound(false);
                 }
             }
+            TimePowerManager.Data.RefreshDrainTime();
         }
 
         IEnumerator ButtonDelay(bool isRight)
@@ -219,7 +214,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
             if (isRight) { CanUseRightButton = true; } else { CanUseLeftButton = true; }
         }
 
-        //I hope this works lmao
+        //I hope this works lol
         object PlayDoorSound(bool isRight)
         {
             if (isRight) { RefrenceManager.Data.RightDoorSound.Play(); StartCoroutine(ButtonDelay(true)); }

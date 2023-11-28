@@ -8,86 +8,96 @@ namespace FiveNightsAtGorillas.Managers.Cameras
     public class CameraManager : MonoBehaviourPunCallbacks
     {
         public static CameraManager Data;
+        public string CurrentCameraPos;
 
         void Awake() { Data = this; }
 
+        public void RefreshCamera()
+        {
+            if (CurrentCameraPos == "Cam1") { ChangeCamera("Cam1"); }
+            if (CurrentCameraPos == "Cam2") { ChangeCamera("Cam2"); }
+            if (CurrentCameraPos == "Cam3") { ChangeCamera("Cam3"); }
+            if (CurrentCameraPos == "Cam4") { ChangeCamera("Cam4"); }
+            if (CurrentCameraPos == "Cam5") { ChangeCamera("Cam5"); }
+            if (CurrentCameraPos == "Cam6") { ChangeCamera("Cam6"); }
+            if (CurrentCameraPos == "Cam7") { ChangeCamera("Cam7"); }
+            if (CurrentCameraPos == "Cam8") { ChangeCamera("Cam8"); }
+            if (CurrentCameraPos == "Cam9") { ChangeCamera("Cam9"); }
+            if (CurrentCameraPos == "Cam10") { ChangeCamera("Cam10"); }
+            if (CurrentCameraPos == "Cam11") { ChangeCamera("Cam11"); }
+        }
+
         public void ChangeCamera(string NewCameraName)
         {
-            AIManager[] AllAI = Resources.FindObjectsOfTypeAll<AIManager>();
+            foreach (GameObject allCam in RefrenceManager.Data.CameraButtons)
+            {
+                allCam.GetComponent<Renderer>().material = RefrenceManager.Data.WhiteRefrence;
+            }
+            if (NewCameraName == "Cam1") { CurrentCameraPos = "Cam1"; RefrenceManager.Data.Cam1.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            if (NewCameraName == "Cam2") { CurrentCameraPos = "Cam2"; RefrenceManager.Data.Cam2.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            if (NewCameraName == "Cam3") { CurrentCameraPos = "Cam3"; RefrenceManager.Data.Cam3.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            if (NewCameraName == "Cam4") { CurrentCameraPos = "Cam4"; RefrenceManager.Data.Cam4.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            if (NewCameraName == "Cam5") { CurrentCameraPos = "Cam5"; RefrenceManager.Data.Cam5.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            if (NewCameraName == "Cam6") { CurrentCameraPos = "Cam6"; RefrenceManager.Data.Cam7.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            if (NewCameraName == "Cam7") { CurrentCameraPos = "Cam7"; RefrenceManager.Data.Cam6.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            if (NewCameraName == "Cam8") { CurrentCameraPos = "Cam8"; RefrenceManager.Data.Cam8.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            if (NewCameraName == "Cam9") { CurrentCameraPos = "Cam9"; RefrenceManager.Data.Cam9.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            if (NewCameraName == "Cam10") { CurrentCameraPos = "Cam10"; RefrenceManager.Data.Cam10.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            if (NewCameraName == "Cam11") { CurrentCameraPos = "Cam11"; RefrenceManager.Data.Cam11.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            AIManager aiM = RefrenceManager.Data.mingusParent.GetComponent<AIManager>();
+            AIManager aiG = RefrenceManager.Data.gorillaParent.GetComponent<AIManager>();
+            AIManager aiD = RefrenceManager.Data.dingusParent.GetComponent<AIManager>();
+            AIManager aiB = RefrenceManager.Data.bobParent.GetComponent<AIManager>();
             if (NewCameraName == "Cam1")
             {
-                foreach(AIManager ai in AllAI)
+                if (aiM.CamPos == "Cam1")
                 {
-                    if(ai.CamPos == "Cam1")
-                    {
-                        if(ai.AIName == "mingus")
-                        {
-                            RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam1Mingus;
-                        }
-                    }
-                    else
-                    {
-                        RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam1Nothing;
-                    }
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam1Mingus;
+                }
+                else
+                {
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam1Nothing;
                 }
             }
             if (NewCameraName == "Cam2")
             {
-                foreach (AIManager ai in AllAI)
+                if (aiM.CamPos == "Cam2")
                 {
-                    if (ai.CamPos == "Cam2")
-                    {
-                        if (ai.AIName == "mingus")
-                        {
-                            RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam2Mingus;
-                        }
-                    }
-                    else
-                    {
-                        RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam2Nothing;
-                    }
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam2Mingus;
+                }
+                else
+                {
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam2Nothing;
                 }
             }
             if (NewCameraName == "Cam3")
             {
-                foreach (AIManager ai in AllAI)
+                if (aiB.CamPos == "Cam3")
                 {
-                    if (ai.CamPos == "Cam3")
-                    {
-                        if (ai.AIName == "bob")
-                        {
-                            RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam3Bob;
-                        }
-                        else if(ai.AIName == "gorilla")
-                        {
-                            RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam3Gorilla;
-                        }
-                    }
-                    else
-                    {
-                        RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam3Nothing;
-                    }
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam3Bob;
+                }
+                else if (aiG.CamPos == "Cam3")
+                {
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam3Gorilla;
+                }
+                else
+                {
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam3Nothing;
                 }
             }
             if (NewCameraName == "Cam4")
             {
-                foreach (AIManager ai in AllAI)
+                if (aiB.CamPos == "Cam4")
                 {
-                    if (ai.CamPos == "Cam4")
-                    {
-                        if (ai.AIName == "bob")
-                        {
-                            RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam4Bob;
-                        }
-                        else if (ai.AIName == "gorilla")
-                        {
-                            RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam4Gorilla;
-                        }
-                    }
-                    else
-                    {
-                        RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam4Nothing;
-                    }
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam4Bob;
+                }
+                else if (aiG.CamPos == "Cam4")
+                {
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam4Gorilla;
+                }
+                else
+                {
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam4Nothing;
                 }
             }
             if (NewCameraName == "Cam5")
@@ -96,83 +106,62 @@ namespace FiveNightsAtGorillas.Managers.Cameras
             }
             if (NewCameraName == "Cam6")
             {
-                foreach (AIManager ai in AllAI)
+                if (aiB.CamPos == "Cam6")
                 {
-                    if (ai.CamPos == "Cam6")
-                    {
-                        if (ai.AIName == "bob")
-                        {
-                            RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam6Bob;
-                        }
-                    }
-                    else
-                    {
-                        RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam6Nothing;
-                    }
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam6Bob;
+                }
+                else
+                {
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam6Nothing;
                 }
             }
             if (NewCameraName == "Cam7")
             {
-                foreach (AIManager ai in AllAI)
+                if (aiM.CamPos == "Cam7")
                 {
-                    if (ai.CamPos == "Cam7")
-                    {
-                        if (ai.AIName == "mingus")
-                        {
-                            RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam7Mingus;
-                        }
-                    }
-                    else
-                    {
-                        RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam7Nothing;
-                    }
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam7Mingus;
+                }
+                else
+                {
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam7Nothing;
                 }
             }
             if (NewCameraName == "Cam8")
             {
-                foreach (AIManager ai in AllAI)
+                if (aiD.CamPos == "Stage1" && aiD.AIName == "dingus")
                 {
-                    if (ai.CamPos == "Stage1" && ai.AIName == "dingus")
-                    {
-                        RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam8Dingus1;
-                    }
-                    else if (ai.CamPos == "Stage2" && ai.AIName == "dingus")
-                    {
-                        RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam8Dingus2;
-                    }
-                    else if (ai.CamPos == "Stage3" && ai.AIName == "dingus")
-                    {
-                        RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam8Dingus3;
-                    }
-                    else if (ai.CamPos == "Stage4" && ai.AIName == "dingus")
-                    {
-                        RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam8Dingus4;
-                    }
-                    else if (ai.CamPos == "Stage5" && ai.AIName == "dingus")
-                    {
-                        RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam8Dingus5;
-                    }
-                    else if (ai.CamPos == "Stage6" && ai.AIName == "dingus")
-                    {
-                        RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam8Dingus6;
-                    }
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam8Dingus1;
+                }
+                else if (aiD.CamPos == "Stage2" && aiD.AIName == "dingus")
+                {
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam8Dingus2;
+                }
+                else if (aiD.CamPos == "Stage3" && aiD.AIName == "dingus")
+                {
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam8Dingus3;
+                }
+                else if (aiD.CamPos == "Stage4" && aiD.AIName == "dingus")
+                {
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam8Dingus4;
+                }
+                else if (aiD.CamPos == "Stage5" && aiD.AIName == "dingus")
+                {
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam8Dingus5;
+                }
+                else if (aiD.CamPos == "Stage6" && aiD.AIName == "dingus")
+                {
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam8Dingus6;
                 }
             }
             if (NewCameraName == "Cam9")
             {
-                foreach (AIManager ai in AllAI)
+                if (aiM.CamPos == "Cam9")
                 {
-                    if (ai.CamPos == "Cam9")
-                    {
-                        if (ai.AIName == "mingus")
-                        {
-                            RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam9Mingus;
-                        }
-                    }
-                    else
-                    {
-                        RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam9Nothing;
-                    }
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam9Mingus;
+                }
+                else
+                {
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam9Nothing;
                 }
             }
             if (NewCameraName == "Cam10")

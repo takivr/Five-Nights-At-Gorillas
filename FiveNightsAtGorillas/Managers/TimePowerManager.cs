@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using FiveNightsAtGorillas.Managers.DoorAndLight;
+using FiveNightsAtGorillas.Managers.Refrences;
 
 namespace FiveNightsAtGorillas.Managers.TimePower
 {
@@ -8,7 +9,7 @@ namespace FiveNightsAtGorillas.Managers.TimePower
     {
         public static TimePowerManager Data;
         public int CurrentPower { get; private set; } = 100;
-        public int CurrentPowerDrainTime { get; private set; } = 15;
+        public int CurrentPowerDrainTime { get; private set; } = 10;
         public string CurrentTime { get; private set; } = "12AM";
         public bool AllowedToRun { get; private set; } = false;
 
@@ -23,6 +24,7 @@ namespace FiveNightsAtGorillas.Managers.TimePower
 
         public void StartEverything()
         {
+            Debug.Log("Start Everything");
             AllowedToRun = true;
             CurrentTime = "12AM";
             CurrentPower = 100;
@@ -32,8 +34,14 @@ namespace FiveNightsAtGorillas.Managers.TimePower
 
         public void RefreshDrainTime()
         {
-            if (DoorManager.Data.RightDoorOpen) { CurrentPowerDrainTime -= 5; } else { CurrentPowerDrainTime += 5; }
-            if (DoorManager.Data.LeftDoorOpen) { CurrentPowerDrainTime -= 5; } else { CurrentPowerDrainTime += 5; }
+            if (DoorManager.Data.RightDoorOpen) { CurrentPowerDrainTime += 4; } else { CurrentPowerDrainTime -= 4; }
+            if (DoorManager.Data.LeftDoorOpen) { CurrentPowerDrainTime += 4; } else { CurrentPowerDrainTime -= 4; }
+        }
+
+        void RefreshText()
+        {
+            RefrenceManager.Data.CurrentPower.text = CurrentPower.ToString();
+            RefrenceManager.Data.CurrentTime.text = CurrentTime;
         }
 
         IEnumerator PowerDelay()
@@ -41,12 +49,13 @@ namespace FiveNightsAtGorillas.Managers.TimePower
             yield return new WaitForSeconds(CurrentPowerDrainTime);
             if (AllowedToRun)
             {
-                CurrentPower = -1;
+                CurrentPower--;
                 if(CurrentPower < 0)
                 {
                     FNAG.Data.Poweroutage();
                 }
                 StartCoroutine(PowerDelay());
+                RefreshText();
             }
         }
 
@@ -62,6 +71,7 @@ namespace FiveNightsAtGorillas.Managers.TimePower
                 else if (CurrentTime == "4AM") { CurrentTime = "5AM"; }
                 else if (CurrentTime == "5AM") { CurrentTime = "6AM"; FNAG.Data.SixAM(); }
                 StartCoroutine(TimeDelay());
+                RefreshText();
             }
         }
     }
