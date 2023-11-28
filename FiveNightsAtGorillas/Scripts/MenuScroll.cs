@@ -7,6 +7,8 @@ namespace FiveNightsAtGorillas.Other.Scroll
     {
         public bool isRight;
 
+        void Awake() { gameObject.layer = 18; }
+
         void OnTriggerEnter(Collider other)
         {
             if (other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider")

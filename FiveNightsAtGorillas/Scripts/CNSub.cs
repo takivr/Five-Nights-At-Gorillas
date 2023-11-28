@@ -10,6 +10,8 @@ namespace FiveNightsAtGorillas.Other.CustomNightSub
         public bool IsBob;
         public bool IsDingus;
 
+        void Awake() { gameObject.layer = 18; }
+
         void OnTriggerEnter(Collider other)
         {
             if (other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider")

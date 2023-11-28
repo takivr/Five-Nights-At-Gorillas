@@ -8,7 +8,7 @@ namespace FiveNightsAtGorillas.Other.PlayerDetecter
         public static PlayersInRound Data;
         public int PlayersPlaying { get; private set; }
 
-        void Awake() { Data = this; }
+        void Awake() { Data = this; gameObject.layer = 18; }
 
         void OnTriggerEnter(Collider other)
         {

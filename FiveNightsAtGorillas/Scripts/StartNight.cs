@@ -11,7 +11,7 @@ namespace FiveNightsAtGorillas.Other.NightStart
     {
         public int Night;
 
-        void Awake() { PhotonNetwork.AddCallbackTarget(this); PhotonNetwork.NetworkingClient.EventReceived += OnEvent; }
+        void Awake() { PhotonNetwork.AddCallbackTarget(this); PhotonNetwork.NetworkingClient.EventReceived += OnEvent; gameObject.layer = 18; }
 
         void OnTriggerEnter(Collider other)
         {

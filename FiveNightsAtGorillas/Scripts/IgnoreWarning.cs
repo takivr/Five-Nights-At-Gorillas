@@ -5,6 +5,8 @@ namespace FiveNightsAtGorillas.Other.Ignore
 {
     public class IgnoreWarning : MonoBehaviour
     {
+        void Awake() { gameObject.layer = 18; }
+
         void OnTriggerEnter(Collider other)
         {
             if (other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider")
