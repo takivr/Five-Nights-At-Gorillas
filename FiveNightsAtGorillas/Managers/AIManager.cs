@@ -99,7 +99,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                 else if (CamPos == "Cam10") { int random = Random.Range(1, 3); if (random == 1) { MoveGorilla("Cam5"); } else { MoveGorilla("Cam4"); } yield return this; }
                 else if (CamPos == "Cam4") { int random = Random.Range(1, 3); if (random == 1) { MoveGorilla("Cam3"); } else { MoveGorilla("Cam10"); } yield return this; }
                 else if (CamPos == "Cam5") { MoveGorilla("Cam10"); yield return this; }
-                else if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } yield return this; }
+                else if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveGorilla("Cam10"); } yield return this; }
             }
         }
 
@@ -132,7 +132,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                 else if (CamPos == "Cam1") { int random = Random.Range(1, 3); if (random == 1) { MoveMingus("Cam7"); } else { MoveMingus("Cam2"); } yield return this; }
                 else if (CamPos == "Cam7") { MoveMingus("Cam1"); yield return this; }
                 else if (CamPos == "Cam9") { MoveMingus("Cam10"); yield return this; }
-                else if (CamPos == "Cam2") { if (DoorManager.Data.LeftDoorOpen) { FNAG.Data.Jumpscare(); } yield return this; }
+                else if (CamPos == "Cam2") { if (DoorManager.Data.LeftDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveMingus("Cam10"); } yield return this; }
             }
         }
 
@@ -164,7 +164,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                 else if (CamPos == "Cam10") { int random = Random.Range(1, 3); if (random == 1) { MoveBob("Cam6"); } else { MoveBob("Cam4"); } yield return this; }
                 else if (CamPos == "Cam4") { MoveBob("Cam3"); yield return this; }
                 else if (CamPos == "Cam6") { MoveBob("Cam10"); yield return this; }
-                else if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } yield return this; }
+                else if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveBob("Cam10"); } yield return this; }
             }
         }
 
@@ -335,7 +335,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                     else if (CamPos == "Cam10") { if (random == 1) { MoveGorilla("Cam5"); } else { MoveGorilla("Cam4"); } return; }
                     else if (CamPos == "Cam4") { if (random == 1) { MoveGorilla("Cam3"); } else { MoveGorilla("Cam10"); } return; }
                     else if (CamPos == "Cam5") { MoveGorilla("Cam10"); return; }
-                    else if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } return; }
+                    else if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveGorilla("Cam10"); } return; }
                     break;
                 case (byte)PhotonData.Key.Mingus:
                     if (CamPos == "Cam11") { MoveMingus("Cam10"); return; }
@@ -343,14 +343,14 @@ namespace FiveNightsAtGorillas.Managers.AI
                     else if (CamPos == "Cam7") { MoveMingus("Cam1"); return; }
                     else if (CamPos == "Cam9") { MoveMingus("Cam10"); return; }
                     else if (CamPos == "Cam1") { if (random == 1) { MoveMingus("Cam7"); } else { MoveMingus("Cam2"); } return; }
-                    else if (CamPos == "Cam2") { if (DoorManager.Data.LeftDoorOpen) { FNAG.Data.Jumpscare(); } return; }
+                    else if (CamPos == "Cam2") { if (DoorManager.Data.LeftDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveMingus("Cam10"); } return; }
                     break;
                 case (byte)PhotonData.Key.Bob:
                     if (CamPos == "Cam11") { MoveBob("Cam10"); return; }
                     else if (CamPos == "Cam10") { if (random == 1) { MoveBob("Cam6"); } else { MoveBob("Cam4"); } return; }
                     else if (CamPos == "Cam4") { MoveBob("Cam3"); return; }
                     else if (CamPos == "Cam6") { MoveBob("Cam10"); return; }
-                    else if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } return; }
+                    else if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveBob("Cam10"); } return; }
                     break;
                 case (byte)PhotonData.Key.Dingus:
                     if (CamPos == "Stage1") { MoveDingus("Stage2"); return; }
