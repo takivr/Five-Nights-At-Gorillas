@@ -21,7 +21,7 @@ namespace FiveNightsAtGorillas.Other.CustomNightSub
                     if (RefrenceManager.Data.GD.text != "0")
                     {
                         int value = int.Parse(RefrenceManager.Data.GD.text);
-                        value -= 1;
+                        value--;
                         RefrenceManager.Data.GD.text = value.ToString();
                     }
                 }
@@ -29,8 +29,8 @@ namespace FiveNightsAtGorillas.Other.CustomNightSub
                 {
                     if (RefrenceManager.Data.MD.text != "0")
                     {
-                        int value = int.Parse(RefrenceManager.Data.GD.text);
-                        value -= 1;
+                        int value = int.Parse(RefrenceManager.Data.MD.text);
+                        value--;
                         RefrenceManager.Data.MD.text = value.ToString();
                     }
                 }
@@ -38,8 +38,8 @@ namespace FiveNightsAtGorillas.Other.CustomNightSub
                 {
                     if (RefrenceManager.Data.BD.text != "0")
                     {
-                        int value = int.Parse(RefrenceManager.Data.GD.text);
-                        value -= 1;
+                        int value = int.Parse(RefrenceManager.Data.BD.text);
+                        value--;
                         RefrenceManager.Data.BD.text = value.ToString();
                     }
                 }
@@ -47,8 +47,8 @@ namespace FiveNightsAtGorillas.Other.CustomNightSub
                 {
                     if (RefrenceManager.Data.DD.text != "0")
                     {
-                        int value = int.Parse(RefrenceManager.Data.GD.text);
-                        value -= 1;
+                        int value = int.Parse(RefrenceManager.Data.DD.text);
+                        value--;
                         RefrenceManager.Data.DD.text = value.ToString();
                     }
                 }
