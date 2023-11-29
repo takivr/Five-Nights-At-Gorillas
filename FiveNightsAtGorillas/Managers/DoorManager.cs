@@ -20,8 +20,8 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
         public bool LeftDoorOpen { get; private set; } = true;
         public bool RightLightOn { get; private set; }
         public bool LeftLightOn { get; private set; }
-        public bool CanUseLeftLight { get; private set; }
-        public bool CanUseRightLight { get; private set; }
+        public bool CanUseLeftLight { get; private set; } = true;
+        public bool CanUseRightLight { get; private set; } = true;
 
         void Awake() { Data = this; PhotonNetwork.AddCallbackTarget(this); PhotonNetwork.NetworkingClient.EventReceived += OnEvent; }
 
@@ -80,12 +80,14 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     RefrenceManager.Data.RightDoorVoid.SetActive(true);
                     RefrenceManager.Data.RightLightSound.Stop();
                     RightLightOn = false;
+                    StopCoroutine(LightUsedDelay());
                 }
                 else
                 {
                     RefrenceManager.Data.RightDoorVoid.SetActive(false);
                     RefrenceManager.Data.RightLightSound.Play();
                     RightLightOn = true;
+                    StartCoroutine(LightUsedDelay());
                 }
             }
             else
@@ -95,12 +97,14 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     RefrenceManager.Data.LeftDoorVoid.SetActive(true);
                     RefrenceManager.Data.LeftLightSound.Stop();
                     LeftLightOn = false;
+                    StopCoroutine(LightUsedDelay());
                 }
                 else
                 {
                     RefrenceManager.Data.LeftDoorVoid.SetActive(false);
                     RefrenceManager.Data.LeftLightSound.Play();
                     LeftLightOn = true;
+                    StartCoroutine(LightUsedDelay());
                 }
             }
         }
@@ -115,6 +119,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                 CanUseRightLight = false;
                 CanUseLeftLight = false;
                 RefrenceManager.Data.RightDoorFailSound.Play();
+                StartCoroutine(LightDelay());
             }
 
             if (LeftLightOn)
@@ -123,6 +128,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                 CanUseRightLight = false;
                 CanUseLeftLight = false;
                 RefrenceManager.Data.LeftDoorFailSound.Play();
+                StartCoroutine(LightDelay());
             }
         }
 
