@@ -34,16 +34,16 @@ namespace FiveNightsAtGorillas.Managers.Cameras
                 allCam.GetComponent<Renderer>().material = RefrenceManager.Data.WhiteRefrence;
             }
             if (NewCameraName == "Cam1") { CurrentCameraPos = "Cam1"; RefrenceManager.Data.Cam1.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
-            if (NewCameraName == "Cam2") { CurrentCameraPos = "Cam2"; RefrenceManager.Data.Cam2.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
-            if (NewCameraName == "Cam3") { CurrentCameraPos = "Cam3"; RefrenceManager.Data.Cam3.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
-            if (NewCameraName == "Cam4") { CurrentCameraPos = "Cam4"; RefrenceManager.Data.Cam4.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
-            if (NewCameraName == "Cam5") { CurrentCameraPos = "Cam5"; RefrenceManager.Data.Cam5.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
-            if (NewCameraName == "Cam6") { CurrentCameraPos = "Cam6"; RefrenceManager.Data.Cam7.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
-            if (NewCameraName == "Cam7") { CurrentCameraPos = "Cam7"; RefrenceManager.Data.Cam6.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
-            if (NewCameraName == "Cam8") { CurrentCameraPos = "Cam8"; RefrenceManager.Data.Cam8.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
-            if (NewCameraName == "Cam9") { CurrentCameraPos = "Cam9"; RefrenceManager.Data.Cam9.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
-            if (NewCameraName == "Cam10") { CurrentCameraPos = "Cam10"; RefrenceManager.Data.Cam10.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
-            if (NewCameraName == "Cam11") { CurrentCameraPos = "Cam11"; RefrenceManager.Data.Cam11.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            else if (NewCameraName == "Cam2") { CurrentCameraPos = "Cam2"; RefrenceManager.Data.Cam2.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            else if (NewCameraName == "Cam3") { CurrentCameraPos = "Cam3"; RefrenceManager.Data.Cam3.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            else if (NewCameraName == "Cam4") { CurrentCameraPos = "Cam4"; RefrenceManager.Data.Cam4.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            else if (NewCameraName == "Cam5") { CurrentCameraPos = "Cam5"; RefrenceManager.Data.Cam5.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            else if (NewCameraName == "Cam6") { CurrentCameraPos = "Cam6"; RefrenceManager.Data.Cam6.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            else if (NewCameraName == "Cam7") { CurrentCameraPos = "Cam7"; RefrenceManager.Data.Cam7.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            else if (NewCameraName == "Cam8") { CurrentCameraPos = "Cam8"; RefrenceManager.Data.Cam8.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            else if (NewCameraName == "Cam9") { CurrentCameraPos = "Cam9"; RefrenceManager.Data.Cam9.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            else if (NewCameraName == "Cam10") { CurrentCameraPos = "Cam10"; RefrenceManager.Data.Cam10.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
+            else if (NewCameraName == "Cam11") { CurrentCameraPos = "Cam11"; RefrenceManager.Data.Cam11.GetComponent<Renderer>().material = RefrenceManager.Data.RedRefrence; }
             AIManager aiM = RefrenceManager.Data.mingusParent.GetComponent<AIManager>();
             AIManager aiG = RefrenceManager.Data.gorillaParent.GetComponent<AIManager>();
             AIManager aiD = RefrenceManager.Data.dingusParent.GetComponent<AIManager>();
@@ -170,31 +170,31 @@ namespace FiveNightsAtGorillas.Managers.Cameras
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam10Mingus;
                 }
-                else if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam10")
+                if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam10")
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam10Bob;
                 }
-                else if (RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos == "Cam10")
+                if (RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos == "Cam10")
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam10Gorilla;
                 }
-                else if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam10" && RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos == "Cam10")
+                if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam10" && RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos == "Cam10")
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam10BobMingus;
                 }
-                else if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam10" && RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos == "Cam10")
+                if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam10" && RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos == "Cam10")
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam10BobGorilla;
                 }
-                else if (RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos == "Cam10" && RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos == "Cam10")
+                if (RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos == "Cam10" && RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos == "Cam10")
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam10GorillaMingus;
                 }
-                else if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam10" && RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos == "Cam10" && RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos == "Cam10")
+                if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam10" && RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos == "Cam10" && RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos == "Cam10")
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam10All;
                 }
-                else if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos != "Cam10" && RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos != "Cam10" && RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos != "Cam10")
+                if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos != "Cam10" && RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos != "Cam10" && RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos != "Cam10")
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam10Nothing;
                 }
@@ -205,31 +205,31 @@ namespace FiveNightsAtGorillas.Managers.Cameras
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam11Mingus;
                 }
-                else if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam11")
+                if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam11")
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam11Bob;
                 }
-                else if (RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos == "Cam11")
+                if (RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos == "Cam11")
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam11Gorilla;
                 }
-                else if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam11" && RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos == "Cam11")
+                if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam11" && RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos == "Cam11")
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam11MingusBob;
                 }
-                else if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam11" && RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos == "Cam11")
+                if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam11" && RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos == "Cam11")
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam11GorillaBob;
                 }
-                else if (RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos == "Cam11" && RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos == "Cam11")
+                if (RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos == "Cam11" && RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos == "Cam11")
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam11GorillaMingus;
                 }
-                else if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam11" && RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos == "Cam11" && RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos == "Cam11")
+                if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam11" && RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos == "Cam11" && RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos == "Cam11")
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam11All;
                 }
-                else if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos != "Cam11" && RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos != "Cam11" && RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos != "Cam11")
+                if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos != "Cam11" && RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos != "Cam11" && RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().CamPos != "Cam11")
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam11Nothing;
                 }

@@ -178,8 +178,8 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.MenuStartButton[4].AddComponent<StartNight>().Night = 5;
             RefrenceManager.Data.MenuStartButton[5].AddComponent<StartNight>().Night = 6;
             RefrenceManager.Data.MenuStartButton[6].AddComponent<StartNight>().Night = 7;
-            RefrenceManager.Data.MenuScrollLeft.AddComponent<MenuScroll>().isRight = false;
-            RefrenceManager.Data.MenuScrollRight.AddComponent<MenuScroll>().isRight = true;
+            RefrenceManager.Data.MenuScrollLeftButton.AddComponent<MenuScroll>().isRight = false;
+            RefrenceManager.Data.MenuScrollRightButton.AddComponent<MenuScroll>().isRight = true;
 
             RefrenceManager.Data.MenuCNAddGorilla.AddComponent<CNAdd>().IsGorilla = true;
             RefrenceManager.Data.MenuCNAddMingus.AddComponent<CNAdd>().IsMingus = true;
@@ -393,7 +393,7 @@ namespace FiveNightsAtGorillas
 
         IEnumerator DingusRunDelay()
         {
-            yield return new WaitForSeconds(5);
+            yield return new WaitForSeconds(2);
             if (DoorManager.Data.LeftDoorOpen)
             {
                 Jumpscare();

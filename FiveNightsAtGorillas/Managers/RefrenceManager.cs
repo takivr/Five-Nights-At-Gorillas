@@ -123,6 +123,8 @@ namespace FiveNightsAtGorillas.Managers.Refrences
         public GameObject MenuSelects { get; private set; }
         public GameObject MenuScrollLeft { get; private set; }
         public GameObject MenuScrollRight { get; private set; }
+        public GameObject MenuScrollRightButton { get; private set; }
+        public GameObject MenuScrollLeftButton { get; private set; }
         public List<GameObject> MenuStartButton { get; private set; }
         public GameObject MenuCNAddGorilla { get; private set; }
         public GameObject MenuCNAddMingus { get; private set; }
@@ -209,8 +211,10 @@ namespace FiveNightsAtGorillas.Managers.Refrences
                 Poweroutage = GameObject.Find("PowerOutage").GetComponent<AudioSource>();
                 MenuIgnoreButton = GameObject.Find("Menu(Clone)/Warning/IgnoreWarning/Button");
                 MenuWarning = GameObject.Find("Warning");
-                MenuScrollLeft = GameObject.Find($"{Menu.name}/Select left/Button");
-                MenuScrollRight = GameObject.Find($"{Menu.name}/Select right/Button");
+                MenuScrollLeftButton = GameObject.Find($"{Menu.name}/Select left/Button");
+                MenuScrollRightButton = GameObject.Find($"{Menu.name}/Select right/Button");
+                MenuScrollLeft = GameObject.Find("Select left");
+                MenuScrollRight = GameObject.Find("Select right");
                 MenuStartButton.Add(GameObject.Find("START(n1)"));
                 MenuStartButton.Add(GameObject.Find("START(n2)"));
                 MenuStartButton.Add(GameObject.Find("START(n3)"));

@@ -9,7 +9,7 @@ namespace FiveNightsAtGorillas.Managers.TimePower
     {
         public static TimePowerManager Data;
         public int CurrentPower { get; private set; } = 100;
-        public int CurrentPowerDrainTime { get; private set; } = 10;
+        public int CurrentPowerDrainTime { get; private set; } = 15;
         public string CurrentTime { get; private set; } = "12AM";
         public bool AllowedToRun { get; private set; } = false;
 
