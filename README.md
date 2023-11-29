@@ -13,7 +13,7 @@ To use the mod, you need [Utilla](https://github.com/legoandmars/Utilla) and [TM
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## POWER:
-Because only the doors are synced, that means that only the doors will drain power. But don't think you can keep lights on forever! you will have a separate power meter that only has 30% on it. when you use lights, that meter will go down for as long as you keep the lights on. Once it runs out, you can't use the lights again until the next round.
+Because only the doors are synced, that means that only the doors will drain power. But don't think you can keep lights on forever! if you use the lights to much, your light perms will get taken away! and you will have to wait 30 seconds before being able to use it again.
 > One thing to note is that when the power goes out, the face does not appear because imo it looked very weird and stupid
 
 
