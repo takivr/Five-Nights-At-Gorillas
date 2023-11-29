@@ -15,7 +15,7 @@ namespace FiveNightsAtGorillas.Other.Scroll
             {
                 if (isRight)
                 {
-                    if (RefrenceManager.Data.NightOneSelect.activeSelf) //Set the end part to "== true" if it's not working
+                    if (RefrenceManager.Data.NightOneSelect.activeSelf)
                     {
                         RefrenceManager.Data.NightOneSelect.SetActive(false);
                         RefrenceManager.Data.NightTwoSelect.SetActive(true);

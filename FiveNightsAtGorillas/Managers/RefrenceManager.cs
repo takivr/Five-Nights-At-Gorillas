@@ -209,8 +209,8 @@ namespace FiveNightsAtGorillas.Managers.Refrences
                 Poweroutage = GameObject.Find("PowerOutage").GetComponent<AudioSource>();
                 MenuIgnoreButton = GameObject.Find("Menu(Clone)/Warning/IgnoreWarning/Button");
                 MenuWarning = GameObject.Find("Warning");
-                MenuScrollLeft = GameObject.Find("Select left");
-                MenuScrollRight = GameObject.Find("Select right");
+                MenuScrollLeft = GameObject.Find($"{Menu.name}/Select left/Button");
+                MenuScrollRight = GameObject.Find($"{Menu.name}/Select right/Button");
                 MenuStartButton.Add(GameObject.Find("START(n1)"));
                 MenuStartButton.Add(GameObject.Find("START(n2)"));
                 MenuStartButton.Add(GameObject.Find("START(n3)"));
