@@ -7,21 +7,15 @@ A gorilla tag mod that recreates the whole five nights at Freddy's game in goril
 
 To use the mod, you need [Utilla](https://github.com/legoandmars/Utilla) and [TMPLoader](https://github.com/AHauntedArmy/TMPLoader), once you load the mod successfully, go to the custom gamemode called "FNAG" and once you join look at the back of stump and you will see the menu.
 
-## WARNING! The light and cameras are NOT synced because it's meant to be a thing you can quickly use with no cooldown. Only doors and enemy pos are synced and the doors have a cooldown of 4 seconds per use
+## WARNING! The light and cameras are NOT synced because it's meant to be a thing you can quickly use with no cooldown. Only doors and enemy pos are synced and the doors have a cooldown of 5 seconds per use
+
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-
-This version is a little bit different from the orignal fnaf 1.
 
 ## POWER:
-Power is the same as in the game. The more stuff you use the faster the power drains
+Because only the doors are synced, that means that only the doors will drain power. But don't think you can keep lights on forever! you will have a separate power meter that only has 30% on it. when you use lights, that meter will go down for as long as you keep the lights on. Once it runs out, you can't use the lights again until the next round.
 > One thing to note is that when the power goes out, the face does not appear because imo it looked very weird and stupid
 
--------------------------------------------------------------------------------------------------------------------------------------------------------
-
-## CAMERAS AND ENEMYS:
-with gorilla (freddy) being on Cam3 (right hall in the far back) if you keep your camera on there, gorilla (freddy) will only then have a 4 out of 10 chance to attack
-same with dingus (foxy) he will only have a 4 out of 10 chance to move if your camera is on Cam8 (pirate cove)
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 
