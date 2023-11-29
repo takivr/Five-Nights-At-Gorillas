@@ -1,4 +1,5 @@
 ﻿using FiveNightsAtGorillas.Managers.DoorAndLight;
+using FiveNightsAtGorillas.Managers.Refrences;
 using FiveNightsAtGorillas.Other.PlayerDetecter;
 using UnityEngine;
 
@@ -25,12 +26,20 @@ namespace FiveNightsAtGorillas.Other.Door
                         {
                             DoorManager.Data.UseOnlineDoor(false);
                         }
+                        else
+                        {
+                            RefrenceManager.Data.LeftDoorFailSound.Play();
+                        }
                     }
                     else if(PlayersInRound.Data.PlayersPlaying <= 1)
                     {
                         if (DoorManager.Data.CanUseLeftButton)
                         {
                             DoorManager.Data.UseLocalDoor(false);
+                        }
+                        else
+                        {
+                            RefrenceManager.Data.LeftDoorFailSound.Play();
                         }
                     }
                 }
@@ -42,12 +51,20 @@ namespace FiveNightsAtGorillas.Other.Door
                         {
                             DoorManager.Data.UseOnlineDoor(true);
                         }
+                        else
+                        {
+                            RefrenceManager.Data.RightDoorFailSound.Play();
+                        }
                     }
                     else if(PlayersInRound.Data.PlayersPlaying <= 1)
                     {
                         if (DoorManager.Data.CanUseRightButton)
                         {
                             DoorManager.Data.UseLocalDoor(true);
+                        }
+                        else
+                        {
+                            RefrenceManager.Data.RightDoorFailSound.Play();
                         }
                     }
                 }

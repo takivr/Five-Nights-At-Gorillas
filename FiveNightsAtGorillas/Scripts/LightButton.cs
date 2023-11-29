@@ -1,4 +1,5 @@
 ﻿using FiveNightsAtGorillas.Managers.DoorAndLight;
+using FiveNightsAtGorillas.Managers.Refrences;
 using UnityEngine;
 
 namespace FiveNightsAtGorillas.Other.Light
@@ -16,8 +17,8 @@ namespace FiveNightsAtGorillas.Other.Light
         {
             if (other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider")
             {
-                if (isLeft) { DoorManager.Data.UseLight(false); }
-                else if (!isLeft) { DoorManager.Data.UseLight(true); }
+                if (isLeft) { if (DoorManager.Data.CanUseLeftLight) { DoorManager.Data.UseLight(false); } else { RefrenceManager.Data.LeftDoorFailSound.Play(); } }
+                else if (!isLeft) { if (DoorManager.Data.CanUseRightLight) { DoorManager.Data.UseLight(true); } else { RefrenceManager.Data.RightDoorFailSound.Play(); } }
             }
         }
     }

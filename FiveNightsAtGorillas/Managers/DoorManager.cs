@@ -20,6 +20,8 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
         public bool LeftDoorOpen { get; private set; } = true;
         public bool RightLightOn { get; private set; }
         public bool LeftLightOn { get; private set; }
+        public bool CanUseLeftLight { get; private set; }
+        public bool CanUseRightLight { get; private set; }
 
         void Awake() { Data = this; PhotonNetwork.AddCallbackTarget(this); PhotonNetwork.NetworkingClient.EventReceived += OnEvent; }
 
@@ -101,6 +103,34 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     LeftLightOn = true;
                 }
             }
+        }
+
+        IEnumerator LightUsedDelay()
+        {
+            yield return new WaitForSeconds(7);
+
+            if (RightLightOn)
+            {
+                UseLight(true);
+                CanUseRightLight = false;
+                CanUseLeftLight = false;
+                RefrenceManager.Data.RightDoorFailSound.Play();
+            }
+
+            if (LeftLightOn)
+            {
+                UseLight(false);
+                CanUseRightLight = false;
+                CanUseLeftLight = false;
+                RefrenceManager.Data.LeftDoorFailSound.Play();
+            }
+        }
+
+        IEnumerator LightDelay()
+        {
+            yield return new WaitForSeconds(40);
+            CanUseRightLight = true;
+            CanUseLeftLight = true;
         }
 
         public void UseOnlineDoor(bool isRight)

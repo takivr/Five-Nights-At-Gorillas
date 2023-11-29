@@ -26,6 +26,8 @@ namespace FiveNightsAtGorillas.Managers.Refrences
         public GameObject LeftDoor { get; private set; }
         public AudioSource LeftLightSound { get; private set; }
         public AudioSource RightLightSound { get; private set; }
+        public AudioSource RightDoorFailSound{ get; private set; }
+        public AudioSource LeftDoorFailSound { get; private set; }
         public AudioSource RightDoorSound { get; private set; }
         public AudioSource LeftDoorSound { get; private set; }
         public List<GameObject> CameraButtons { get; private set; }
@@ -293,6 +295,8 @@ namespace FiveNightsAtGorillas.Managers.Refrences
                 WhiteRefrence = GameObject.Find("WhiteRefrence").GetComponent<Renderer>().material;
                 RedRefrence = GameObject.Find("RedRefrence").GetComponent<Renderer>().material;
                 MenuRoundRunning = GameObject.Find("RoundRunning");
+                RightDoorFailSound = GameObject.Find("RightDoorFailAudio").GetComponent<AudioSource>();
+                LeftDoorFailSound = GameObject.Find("LeftDoorFailAudio").GetComponent<AudioSource>();
 
                 AlreadySetRefrences = true;
             }
