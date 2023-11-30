@@ -1,24 +1,21 @@
-﻿using Photon.Pun;
+﻿using UnityEngine;
 
 namespace FiveNightsAtGorillas.Managers.NetworkedData
 {
-    public class PhotonData : MonoBehaviourPunCallbacks
+    public class PhotonData : MonoBehaviour
     {
-        public enum Key
-        {
-            RightDoor = 1,
-            LeftDoor = 2,
-            Gorilla = 3,
-            Bob = 4,
-            Mingus = 5,
-            Dingus = 6,
-            Close = 7,
-            Open = 8,
-            StartNight = 9
-        }
+        public const byte RightDoor = 1;
+        public const byte LeftDoor = 2;
+        public const byte Gorilla = 3;
+        public const byte Bob = 4;
+        public const byte Mingus = 5;
+        public const byte Dingus = 6;
+        public const byte Close = 7;
+        public const byte Open = 8;
+        public const byte StartNight = 9;
 
-        public static PhotonData instance;
+        public static PhotonData Data;
 
-        void Awake() { instance = this; }
+        void Awake() { Data = this; }
     }
 }

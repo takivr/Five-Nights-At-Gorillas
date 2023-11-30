@@ -145,30 +145,30 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
             {
                 if (RightDoorOpen)
                 {
-                    object[] value = new object[] { PhotonData.Key.Close, "0.772" };
+                    object[] value = new object[] { PhotonData.Close, 0.772f };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                    PhotonNetwork.RaiseEvent((byte)PhotonData.Key.RightDoor, value, options, SendOptions.SendReliable);
+                    PhotonNetwork.RaiseEvent((byte)PhotonData.RightDoor, value, options, SendOptions.SendReliable);
                 }
                 else
                 {
-                    object[] value = new object[] { PhotonData.Key.Open, "2.272" };
+                    object[] value = new object[] { PhotonData.Open, 2.272f };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                    PhotonNetwork.RaiseEvent((byte)PhotonData.Key.RightDoor, value, options, SendOptions.SendReliable);
+                    PhotonNetwork.RaiseEvent((byte)PhotonData.RightDoor, value, options, SendOptions.SendReliable);
                 }
             }
             else
             {
                 if (LeftDoorOpen)
                 {
-                    object[] value = new object[] { PhotonData.Key.Close, "0.75" };
+                    object[] value = new object[] { PhotonData.Close, 0.75f };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                    PhotonNetwork.RaiseEvent((byte)PhotonData.Key.LeftDoor, value, options, SendOptions.SendReliable);
+                    PhotonNetwork.RaiseEvent((byte)PhotonData.LeftDoor, value, options, SendOptions.SendReliable);
                 }
                 else
                 {
-                    object[] value = new object[] { PhotonData.Key.Open, "2.35" };
+                    object[] value = new object[] { PhotonData.Open, 2.35f };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                    PhotonNetwork.RaiseEvent((byte)PhotonData.Key.LeftDoor, value, options, SendOptions.SendReliable);
+                    PhotonNetwork.RaiseEvent((byte)PhotonData.LeftDoor, value, options, SendOptions.SendReliable);
                 }
             }
             TimePowerManager.Data.RefreshDrainTime();
@@ -178,22 +178,21 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
         {
             object[] receivedData = (object[])photonEvent.CustomData;
             string Action = receivedData[0].ToString();
-            string v = receivedData[1].ToString();
-            float y = float.Parse(v);
+            float y = float.Parse(receivedData[1].ToString());
             switch (photonEvent.Code)
             {
-                case (byte)PhotonData.Key.RightDoor:
-                    if (Action == PhotonData.Key.Close.ToString()) { CloseOpenDoor(true, true, y); }
-                    else if (Action == PhotonData.Key.Open.ToString()) { CloseOpenDoor(true, true, y); }
+                case PhotonData.RightDoor:
+                    if (Action == PhotonData.Close.ToString()) { CloseOpenDoor(true, true, y); }
+                    else if (Action == PhotonData.Open.ToString()) { CloseOpenDoor(true, true, y); }
                     break;
-                case (byte)PhotonData.Key.LeftDoor:
-                    if (Action == PhotonData.Key.Close.ToString()) { CloseOpenDoor(false, true, y); }
-                    else if (Action == PhotonData.Key.Open.ToString()) { CloseOpenDoor(false, true, y); }
+                case PhotonData.LeftDoor:
+                    if (Action == PhotonData.Close.ToString()) { CloseOpenDoor(false, true, y); }
+                    else if (Action == PhotonData.Open.ToString()) { CloseOpenDoor(false, true, y); }
                     break;
             }
         }
 
-        void CloseOpenDoor(bool isRight, bool isClose, float yLevel)
+        object CloseOpenDoor(bool isRight, bool isClose, float yLevel)
         {
             if (isRight)
             {
@@ -234,6 +233,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                 }
             }
             TimePowerManager.Data.RefreshDrainTime();
+            return this;
         }
 
         IEnumerator ButtonDelay(bool isRight)

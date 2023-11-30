@@ -248,7 +248,7 @@ namespace FiveNightsAtGorillas
             #endregion
         }
 
-        public void StartGame(int Night, int GD, int MD, int BD, int DD)
+        public object StartGame(int Night, int GD, int MD, int BD, int DD)
         {
             #region StartGame
             if (Night == 1)
@@ -314,6 +314,7 @@ namespace FiveNightsAtGorillas
             SkyColorGameBlack();
             TeleportPlayerToGame();
             #endregion
+            return this;
         }
 
         public void TeleportPlayerBack() 

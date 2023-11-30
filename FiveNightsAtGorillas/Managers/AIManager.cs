@@ -228,7 +228,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                 int randomvalue = Random.Range(1, 3);
                 object[] value = new object[] { randomvalue };
                 RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                PhotonNetwork.RaiseEvent((byte)PhotonData.Key.Gorilla, value, options, SendOptions.SendReliable);
+                PhotonNetwork.RaiseEvent(PhotonData.Gorilla, value, options, SendOptions.SendReliable);
             }
         }
 
@@ -259,7 +259,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                 int randomvalue = Random.Range(1, 3);
                 object[] value = new object[] { randomvalue };
                 RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                PhotonNetwork.RaiseEvent((byte)PhotonData.Key.Mingus, value, options, SendOptions.SendReliable);
+                PhotonNetwork.RaiseEvent(PhotonData.Mingus, value, options, SendOptions.SendReliable);
             }
         }
 
@@ -290,7 +290,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                 int randomvalue = Random.Range(1, 3);
                 object[] value = new object[] { randomvalue };
                 RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                PhotonNetwork.RaiseEvent((byte)PhotonData.Key.Bob, value, options, SendOptions.SendReliable);
+                PhotonNetwork.RaiseEvent(PhotonData.Bob, value, options, SendOptions.SendReliable);
             }
         }
 
@@ -319,7 +319,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                 else if (Difficulty == 19) { yield return new WaitForSeconds(10); }
                 else if (Difficulty == 20) { yield return new WaitForSeconds(7); }
                 RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                PhotonNetwork.RaiseEvent((byte)PhotonData.Key.Dingus, null, options, SendOptions.SendReliable);
+                PhotonNetwork.RaiseEvent(PhotonData.Dingus, null, options, SendOptions.SendReliable);
             }
         }
         #endregion
@@ -327,17 +327,17 @@ namespace FiveNightsAtGorillas.Managers.AI
         void OnEvent(EventData photonEvent)
         {
             object[] receivedData = (object[])photonEvent.CustomData;
-            int random = (int)receivedData[0];
+            int random = int.Parse(receivedData[0].ToString());
             switch (photonEvent.Code)
             {
-                case (byte)PhotonData.Key.Gorilla:
+                case PhotonData.Gorilla:
                     if (CamPos == "Cam11") { MoveGorilla("Cam10"); return; }
                     else if (CamPos == "Cam10") { if (random == 1) { MoveGorilla("Cam5"); } else { MoveGorilla("Cam4"); } return; }
                     else if (CamPos == "Cam4") { if (random == 1) { MoveGorilla("Cam3"); } else { MoveGorilla("Cam10"); } return; }
                     else if (CamPos == "Cam5") { MoveGorilla("Cam10"); return; }
                     else if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveGorilla("Cam10"); } return; }
                     break;
-                case (byte)PhotonData.Key.Mingus:
+                case PhotonData.Mingus:
                     if (CamPos == "Cam11") { MoveMingus("Cam10"); return; }
                     else if (CamPos == "Cam10") { if (random == 1) { MoveMingus("Cam9"); } else { MoveMingus("Cam1"); } return; }
                     else if (CamPos == "Cam7") { MoveMingus("Cam1"); return; }
@@ -345,14 +345,14 @@ namespace FiveNightsAtGorillas.Managers.AI
                     else if (CamPos == "Cam1") { if (random == 1) { MoveMingus("Cam7"); } else { MoveMingus("Cam2"); } return; }
                     else if (CamPos == "Cam2") { if (DoorManager.Data.LeftDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveMingus("Cam10"); } return; }
                     break;
-                case (byte)PhotonData.Key.Bob:
+                case PhotonData.Bob:
                     if (CamPos == "Cam11") { MoveBob("Cam10"); return; }
                     else if (CamPos == "Cam10") { if (random == 1) { MoveBob("Cam6"); } else { MoveBob("Cam4"); } return; }
                     else if (CamPos == "Cam6") { MoveBob("Cam10"); return; }
                     else if (CamPos == "Cam4") { MoveBob("Cam3"); return; }
                     else if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveBob("Cam10"); } return; }
                     break;
-                case (byte)PhotonData.Key.Dingus:
+                case PhotonData.Dingus:
                     if (CamPos == "Stage1") { MoveDingus("Stage2"); return; }
                     if (CamPos == "Stage2") { MoveDingus("Stage3"); return; }
                     if (CamPos == "Stage3") { MoveDingus("Stage4"); return; }
@@ -372,7 +372,7 @@ namespace FiveNightsAtGorillas.Managers.AI
             }
         }
 
-        void MoveGorilla(string NewCamPos)
+        object MoveGorilla(string NewCamPos)
         {
             if (AllowedToRun)
             {
@@ -398,9 +398,10 @@ namespace FiveNightsAtGorillas.Managers.AI
                 }
                 RestartAI();
             }
+            return this;
         }
 
-        void MoveMingus(string NewCamPos)
+        object MoveMingus(string NewCamPos)
         {
             if (AllowedToRun)
             {
@@ -427,9 +428,10 @@ namespace FiveNightsAtGorillas.Managers.AI
                 }
                 RestartAI();
             }
+            return this;
         }
 
-        void MoveBob(string NewCamPos)
+        object MoveBob(string NewCamPos)
         {
             if (AllowedToRun)
             {
@@ -455,9 +457,10 @@ namespace FiveNightsAtGorillas.Managers.AI
                 }
                 RestartAI();
             }
+            return this;
         }
 
-        void MoveDingus(string NewCamPos)
+        object MoveDingus(string NewCamPos)
         {
             if (AllowedToRun)
             {
@@ -484,6 +487,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                 }
                 RestartAI();
             }
+            return this;
         }
     }
 }

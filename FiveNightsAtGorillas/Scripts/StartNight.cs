@@ -21,7 +21,7 @@ namespace FiveNightsAtGorillas.Other.NightStart
                 {
                     object[] value = new object[] { Night, int.Parse(RefrenceManager.Data.GD.text), int.Parse(RefrenceManager.Data.MD.text), int.Parse(RefrenceManager.Data.BD.text), int.Parse(RefrenceManager.Data.DD.text) };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                    PhotonNetwork.RaiseEvent((byte)PhotonData.Key.RightDoor, value, options, SendOptions.SendReliable);
+                    PhotonNetwork.RaiseEvent(PhotonData.RightDoor, value, options, SendOptions.SendReliable);
                 }
                 else if(!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom.PlayerCount <= 1)
                 {
@@ -32,14 +32,14 @@ namespace FiveNightsAtGorillas.Other.NightStart
 
         void OnEvent(EventData photonEvent)
         {
-            if(photonEvent.Code == (byte)PhotonData.Key.StartNight)
+            if(photonEvent.Code == PhotonData.StartNight)
             {
                 object[] receivedData = (object[])photonEvent.CustomData;
-                int NightNumber = int.Parse((string)receivedData[0]);
-                int GD = int.Parse((string)receivedData[1]);
-                int MD = int.Parse((string)receivedData[2]);
-                int BD = int.Parse((string)receivedData[3]);
-                int DD = int.Parse((string)receivedData[4]);
+                int NightNumber = int.Parse(receivedData[0].ToString());
+                int GD = int.Parse(receivedData[1].ToString());
+                int MD = int.Parse(receivedData[2].ToString());
+                int BD = int.Parse(receivedData[3].ToString());
+                int DD = int.Parse(receivedData[4].ToString());
                 FNAG.Data.StartGame(NightNumber, GD, MD, BD, DD);
             }
         }
