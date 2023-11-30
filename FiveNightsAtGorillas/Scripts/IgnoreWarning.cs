@@ -14,7 +14,7 @@ namespace FiveNightsAtGorillas.Other.Ignore
                 RefrenceManager.Data.MenuWarning.SetActive(false);
                 RefrenceManager.Data.MenuIgnoreButton.SetActive(false);
                 RefrenceManager.Data.MenuSelects.SetActive(true);
-                RefrenceManager.Data.MenuScrollLeft.SetActive(true);
+                RefrenceManager.Data.MenuScrollLeft.SetActive(false);
                 RefrenceManager.Data.MenuScrollRight.SetActive(true);
             }
         }

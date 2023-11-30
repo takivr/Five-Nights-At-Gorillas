@@ -20,6 +20,7 @@ namespace FiveNightsAtGorillas.Managers.TimePower
             AllowedToRun = false;
             CurrentTime = "12AM";
             CurrentPower = 100;
+            RefreshText();
         }
 
         public void StartEverything()
@@ -28,6 +29,7 @@ namespace FiveNightsAtGorillas.Managers.TimePower
             AllowedToRun = true;
             CurrentTime = "12AM";
             CurrentPower = 100;
+            RefreshText();
             StartCoroutine(PowerDelay());
             StartCoroutine(TimeDelay());
         }

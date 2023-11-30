@@ -81,6 +81,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     RefrenceManager.Data.RightLightSound.Stop();
                     RightLightOn = false;
                     StopCoroutine(LightUsedDelay());
+                    return;
                 }
                 else
                 {
@@ -88,6 +89,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     RefrenceManager.Data.RightLightSound.Play();
                     RightLightOn = true;
                     StartCoroutine(LightUsedDelay());
+                    return;
                 }
             }
             else
@@ -98,6 +100,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     RefrenceManager.Data.LeftLightSound.Stop();
                     LeftLightOn = false;
                     StopCoroutine(LightUsedDelay());
+                    return;
                 }
                 else
                 {
@@ -105,6 +108,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     RefrenceManager.Data.LeftLightSound.Play();
                     LeftLightOn = true;
                     StartCoroutine(LightUsedDelay());
+                    return;
                 }
             }
         }
@@ -148,12 +152,14 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     object[] value = new object[] { PhotonData.Close, 0.772f };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.RightDoor, value, options, SendOptions.SendReliable);
+                    return;
                 }
                 else
                 {
                     object[] value = new object[] { PhotonData.Open, 2.272f };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.RightDoor, value, options, SendOptions.SendReliable);
+                    return;
                 }
             }
             else
@@ -163,15 +169,16 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     object[] value = new object[] { PhotonData.Close, 0.75f };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.LeftDoor, value, options, SendOptions.SendReliable);
+                    return;
                 }
                 else
                 {
                     object[] value = new object[] { PhotonData.Open, 2.35f };
                     RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
                     PhotonNetwork.RaiseEvent((byte)PhotonData.LeftDoor, value, options, SendOptions.SendReliable);
+                    return;
                 }
             }
-            TimePowerManager.Data.RefreshDrainTime();
         }
 
         public void OnEvent(EventData photonEvent)
