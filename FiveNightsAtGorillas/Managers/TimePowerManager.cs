@@ -25,7 +25,6 @@ namespace FiveNightsAtGorillas.Managers.TimePower
 
         public void StartEverything()
         {
-            Debug.Log("Start Everything");
             AllowedToRun = true;
             CurrentTime = "12AM";
             CurrentPower = 100;
@@ -36,8 +35,25 @@ namespace FiveNightsAtGorillas.Managers.TimePower
 
         public void RefreshDrainTime()
         {
-            if (DoorManager.Data.RightDoorOpen) { CurrentPowerDrainTime += 4; } else { CurrentPowerDrainTime -= 4; }
-            if (DoorManager.Data.LeftDoorOpen) { CurrentPowerDrainTime += 4; } else { CurrentPowerDrainTime -= 4; }
+            if(DoorManager.Data.RightDoorOpen && !DoorManager.Data.LeftDoorOpen)
+            {
+                CurrentPowerDrainTime = 9;
+                return;
+            }
+            else if(!DoorManager.Data.RightDoorOpen && DoorManager.Data.LeftDoorOpen)
+            {
+                CurrentPowerDrainTime = 9;
+                return;
+            }
+            else if(DoorManager.Data.RightDoorOpen && DoorManager.Data.LeftDoorOpen)
+            {
+                CurrentPowerDrainTime = 15;
+                return;
+            }
+            else if(!DoorManager.Data.RightDoorOpen && !DoorManager.Data.LeftDoorOpen)
+            {
+                CurrentPowerDrainTime = 3;
+            }
         }
 
         void RefreshText()
