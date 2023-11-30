@@ -246,6 +246,7 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.MenuSelects.SetActive(false);
             RefrenceManager.Data.MenuScrollLeft.SetActive(false);
             RefrenceManager.Data.MenuScrollRight.SetActive(false);
+            RefrenceManager.Data.MenuRoundRunning.SetActive(false);
             #endregion
         }
 

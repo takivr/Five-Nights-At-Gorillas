@@ -8,7 +8,7 @@ namespace FiveNightsAtGorillas.Managers.Cameras
     public class CameraManager : MonoBehaviourPunCallbacks
     {
         public static CameraManager Data;
-        public string CurrentCameraPos;
+        public string CurrentCameraPos = "Cam1";
 
         void Awake() { Data = this; }
 

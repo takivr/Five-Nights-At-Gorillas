@@ -18,6 +18,7 @@ namespace FiveNightsAtGorillas.Managers.AI
         public string AIName { get; set; }
         public bool AllowedToRun { get; private set; }
         public int Difficulty { get; set; }
+        public bool AllowedToMove { get; private set; } = false;
 
         void Awake()
         {
@@ -25,302 +26,129 @@ namespace FiveNightsAtGorillas.Managers.AI
             PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
         }
 
-        public void StopAI() { AllowedToRun = false; if (AIName != "dingus") { CamPos = "Cam11"; } else { CamPos = "Stage1"; } }
+        public void StopAI() { AllowedToRun = false; AllowedToMove = false; if (AIName != "dingus") { CamPos = "Cam11"; } else { CamPos = "Stage1"; } }
         public void StartAI()
         {
-            if(Difficulty != 0) { AllowedToRun = true; }
-            if (PlayersInRound.Data.PlayersPlaying <= 1 && AllowedToRun)
-            {
-                StartCoroutine(GorillaLocalDelay());
-                StartCoroutine(MingusLocalDelay());
-                StartCoroutine(BobLocalDelay());
-                StartCoroutine(DingusLocalDelay());
-            }
-            else if (PlayersInRound.Data.PlayersPlaying > 1 && AllowedToRun)
-            {
-                if (PhotonNetwork.LocalPlayer.IsMasterClient)
-                {
-                    StartCoroutine(GorillaOnlineDelay());
-                    StartCoroutine(MingusOnlineDelay());
-                    StartCoroutine(BobOnlineDelay());
-                    StartCoroutine(DingusOnlineDelay());
-                }
-            }
+            AllowedToRun = true;
+            StartCoroutine(AllowedToMoveDelay());
+        }
+
+        IEnumerator AllowedToMoveDelay()
+        {
+            AllowedToMove = false;
+            if(Difficulty == 1) { yield return new WaitForSeconds(50); }
+            else if(Difficulty == 2) { yield return new WaitForSeconds(45); }
+            else if(Difficulty == 3) { yield return new WaitForSeconds(40); }
+            else if(Difficulty == 4) { yield return new WaitForSeconds(35); }
+            else if(Difficulty == 5) { yield return new WaitForSeconds(32); }
+            else if(Difficulty == 6) { yield return new WaitForSeconds(30); }
+            else if(Difficulty == 7) { yield return new WaitForSeconds(28); }
+            else if(Difficulty == 8) { yield return new WaitForSeconds(26); }
+            else if(Difficulty == 9) { yield return new WaitForSeconds(24); }
+            else if(Difficulty == 10) { yield return new WaitForSeconds(22); }
+            else if(Difficulty == 11) { yield return new WaitForSeconds(20); }
+            else if(Difficulty == 12) { yield return new WaitForSeconds(18); }
+            else if(Difficulty == 13) { yield return new WaitForSeconds(16); }
+            else if(Difficulty == 14) { yield return new WaitForSeconds(14); }
+            else if(Difficulty == 15) { yield return new WaitForSeconds(12); }
+            else if(Difficulty == 16) { yield return new WaitForSeconds(10); }
+            else if(Difficulty == 17) { yield return new WaitForSeconds(9); }
+            else if(Difficulty == 18) { yield return new WaitForSeconds(8); }
+            else if(Difficulty == 19) { yield return new WaitForSeconds(7); }
+            else if(Difficulty == 20) { yield return new WaitForSeconds(6); }
+            AllowedToMove = true;
+            if (AllowedToRun) { RestartAI(); }
         }
 
         void RestartAI()
         {
             CameraManager.Data.RefreshCamera();
-            if (PlayersInRound.Data.PlayersPlaying <= 1 && AllowedToRun)
+            if (PlayersInRound.Data.PlayersPlaying <= 1 && AllowedToRun && AllowedToMove)
             {
-                if (AIName == "gorilla" && Difficulty != 0 && AllowedToRun) { StartCoroutine(GorillaLocalDelay()); }
-                if (AIName == "mingus" && Difficulty != 0 && AllowedToRun) { StartCoroutine(MingusLocalDelay()); }
-                if (AIName == "bob" && Difficulty != 0 && AllowedToRun) { StartCoroutine(BobLocalDelay()); }
-                if (AIName == "dingus" && Difficulty != 0 && AllowedToRun) { StartCoroutine(DingusLocalDelay()); }
+                if (AIName == "gorilla" && Difficulty != 0 && AllowedToRun && AllowedToMove) { GorillaLocalDelay(); }
+                if (AIName == "mingus" && Difficulty != 0 && AllowedToRun && AllowedToMove) { MingusLocalDelay(); }
+                if (AIName == "bob" && Difficulty != 0 && AllowedToRun && AllowedToMove) { BobLocalDelay(); }
+                if (AIName == "dingus" && Difficulty != 0 && AllowedToRun && AllowedToMove) { DingusLocalDelay(); }
             }
-            else if (PlayersInRound.Data.PlayersPlaying > 1 && AllowedToRun)
+            else if (PlayersInRound.Data.PlayersPlaying > 1 && AllowedToRun && AllowedToMove)
             {
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
-                    if (AIName == "gorilla" && Difficulty != 0 && AllowedToRun) { StartCoroutine(GorillaOnlineDelay()); }
-                    if (AIName == "mingus" && Difficulty != 0 && AllowedToRun) { StartCoroutine(MingusOnlineDelay()); }
-                    if (AIName == "bob" && Difficulty != 0 && AllowedToRun) { StartCoroutine(BobOnlineDelay()); }
-                    if (AIName == "dingus" && Difficulty != 0 && AllowedToRun) { StartCoroutine(DingusOnlineDelay()); }
+                    if (AIName == "gorilla" && Difficulty != 0 && AllowedToRun && AllowedToMove) { GorillaOnlineDelay(); }
+                    if (AIName == "mingus" && Difficulty != 0 && AllowedToRun && AllowedToMove) { MingusOnlineDelay(); }
+                    if (AIName == "bob" && Difficulty != 0 && AllowedToRun && AllowedToMove) { BobOnlineDelay(); }
+                    if (AIName == "dingus" && Difficulty != 0 && AllowedToRun && AllowedToMove) { DingusOnlineDelay(); }
                 }
             }
         }
 
         #region EnemyMove
-        IEnumerator GorillaLocalDelay()
+        void GorillaLocalDelay()
         {
-            if (Difficulty != 0)
-            {
-                if (Difficulty == 1) { yield return new WaitForSeconds(50); }
-                else if (Difficulty == 2) { yield return new WaitForSeconds(47); }
-                else if (Difficulty == 3) { yield return new WaitForSeconds(44); }
-                else if (Difficulty == 4) { yield return new WaitForSeconds(41); }
-                else if (Difficulty == 5) { yield return new WaitForSeconds(37); }
-                else if (Difficulty == 6) { yield return new WaitForSeconds(34); }
-                else if (Difficulty == 7) { yield return new WaitForSeconds(31); }
-                else if (Difficulty == 8) { yield return new WaitForSeconds(27); }
-                else if (Difficulty == 9) { yield return new WaitForSeconds(25); }
-                else if (Difficulty == 10) { yield return new WaitForSeconds(24); }
-                else if (Difficulty == 11) { yield return new WaitForSeconds(23); }
-                else if (Difficulty == 12) { yield return new WaitForSeconds(22); }
-                else if (Difficulty == 13) { yield return new WaitForSeconds(21); }
-                else if (Difficulty == 14) { yield return new WaitForSeconds(17); }
-                else if (Difficulty == 15) { yield return new WaitForSeconds(14); }
-                else if (Difficulty == 16) { yield return new WaitForSeconds(13); }
-                else if (Difficulty == 17) { yield return new WaitForSeconds(12); }
-                else if (Difficulty == 18) { yield return new WaitForSeconds(11); }
-                else if (Difficulty == 19) { yield return new WaitForSeconds(10); }
-                else if (Difficulty == 20) { yield return new WaitForSeconds(7); }
-                if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveGorilla("Cam10"); } yield break; }
-                else if (CamPos == "Cam4") { int random = Random.Range(1, 3); if (random == 1) { MoveGorilla("Cam3"); } else { MoveGorilla("Cam10"); } yield break; }
-                else if (CamPos == "Cam10") { int random = Random.Range(1, 3); if (random == 1) { MoveGorilla("Cam5"); } else { MoveGorilla("Cam4"); } yield break; }
-                else if (CamPos == "Cam5") { MoveGorilla("Cam10"); yield break; }
-                else if (CamPos == "Cam11") { MoveGorilla("Cam10"); yield break; }
-            }
+            if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveGorilla("Cam10"); } }
+            else if (CamPos == "Cam4") { int random = Random.Range(1, 3); if (random == 1) { MoveGorilla("Cam3"); } else { MoveGorilla("Cam10"); } }
+            else if (CamPos == "Cam10") { int random = Random.Range(1, 3); if (random == 1) { MoveGorilla("Cam5"); } else { MoveGorilla("Cam4"); } }
+            else if (CamPos == "Cam5") { MoveGorilla("Cam10"); }
+            else if (CamPos == "Cam11") { MoveGorilla("Cam10"); }
         }
 
-        IEnumerator MingusLocalDelay()
+        void MingusLocalDelay()
         {
-            if (Difficulty != 0)
-            {
-                if (Difficulty == 1) { yield return new WaitForSeconds(50); }
-                else if (Difficulty == 2) { yield return new WaitForSeconds(47); }
-                else if (Difficulty == 3) { yield return new WaitForSeconds(44); }
-                else if (Difficulty == 4) { yield return new WaitForSeconds(41); }
-                else if (Difficulty == 5) { yield return new WaitForSeconds(37); }
-                else if (Difficulty == 6) { yield return new WaitForSeconds(34); }
-                else if (Difficulty == 7) { yield return new WaitForSeconds(31); }
-                else if (Difficulty == 8) { yield return new WaitForSeconds(27); }
-                else if (Difficulty == 9) { yield return new WaitForSeconds(25); }
-                else if (Difficulty == 10) { yield return new WaitForSeconds(24); }
-                else if (Difficulty == 11) { yield return new WaitForSeconds(23); }
-                else if (Difficulty == 12) { yield return new WaitForSeconds(22); }
-                else if (Difficulty == 13) { yield return new WaitForSeconds(21); }
-                else if (Difficulty == 14) { yield return new WaitForSeconds(17); }
-                else if (Difficulty == 15) { yield return new WaitForSeconds(14); }
-                else if (Difficulty == 16) { yield return new WaitForSeconds(13); }
-                else if (Difficulty == 17) { yield return new WaitForSeconds(12); }
-                else if (Difficulty == 18) { yield return new WaitForSeconds(11); }
-                else if (Difficulty == 19) { yield return new WaitForSeconds(10); }
-                else if (Difficulty == 20) { yield return new WaitForSeconds(7); }
-                if (CamPos == "Cam2") { if (DoorManager.Data.LeftDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveMingus("Cam10"); } yield break; }
-                else if (CamPos == "Cam1") { int random = Random.Range(1, 3); if (random == 1) { MoveMingus("Cam7"); } else { MoveMingus("Cam2"); } yield break; }
-                else if (CamPos == "Cam7") { MoveMingus("Cam1"); yield break; }
-                else if (CamPos == "Cam9") { MoveMingus("Cam10"); yield break; }
-                else if (CamPos == "Cam10") { int random = Random.Range(1, 3); if (random == 1) { MoveMingus("Cam9"); } else { MoveMingus("Cam1"); } yield break; }
-                else if (CamPos == "Cam11") { MoveMingus("Cam10"); yield break; }
-            }
+            if (CamPos == "Cam2") { if (DoorManager.Data.LeftDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveMingus("Cam10"); } }
+            else if (CamPos == "Cam1") { int random = Random.Range(1, 3); if (random == 1) { MoveMingus("Cam7"); } else { MoveMingus("Cam2"); } }
+            else if (CamPos == "Cam7") { MoveMingus("Cam1"); }
+            else if (CamPos == "Cam9") { MoveMingus("Cam10"); }
+            else if (CamPos == "Cam10") { int random = Random.Range(1, 3); if (random == 1) { MoveMingus("Cam9"); } else { MoveMingus("Cam1"); } }
+            else if (CamPos == "Cam11") { MoveMingus("Cam10"); }
         }
 
-        IEnumerator BobLocalDelay()
+        void BobLocalDelay()
         {
-            if (Difficulty != 0)
-            {
-                if (Difficulty == 1) { yield return new WaitForSeconds(50); }
-                else if (Difficulty == 2) { yield return new WaitForSeconds(47); }
-                else if (Difficulty == 3) { yield return new WaitForSeconds(44); }
-                else if (Difficulty == 4) { yield return new WaitForSeconds(41); }
-                else if (Difficulty == 5) { yield return new WaitForSeconds(37); }
-                else if (Difficulty == 6) { yield return new WaitForSeconds(34); }
-                else if (Difficulty == 7) { yield return new WaitForSeconds(31); }
-                else if (Difficulty == 8) { yield return new WaitForSeconds(27); }
-                else if (Difficulty == 9) { yield return new WaitForSeconds(25); }
-                else if (Difficulty == 10) { yield return new WaitForSeconds(24); }
-                else if (Difficulty == 11) { yield return new WaitForSeconds(23); }
-                else if (Difficulty == 12) { yield return new WaitForSeconds(22); }
-                else if (Difficulty == 13) { yield return new WaitForSeconds(21); }
-                else if (Difficulty == 14) { yield return new WaitForSeconds(17); }
-                else if (Difficulty == 15) { yield return new WaitForSeconds(14); }
-                else if (Difficulty == 16) { yield return new WaitForSeconds(13); }
-                else if (Difficulty == 17) { yield return new WaitForSeconds(12); }
-                else if (Difficulty == 18) { yield return new WaitForSeconds(11); }
-                else if (Difficulty == 19) { yield return new WaitForSeconds(10); }
-                else if (Difficulty == 20) { yield return new WaitForSeconds(7); }
-                if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveBob("Cam10"); } yield break; }
-                else if (CamPos == "Cam4") { MoveBob("Cam3"); yield break; }
-                else if (CamPos == "Cam6") { MoveBob("Cam10"); yield break; }
-                else if (CamPos == "Cam10") { int random = Random.Range(1, 3); if (random == 1) { MoveBob("Cam6"); } else { MoveBob("Cam4"); } yield break; }
-                if (CamPos == "Cam11") { MoveBob("Cam10"); yield break; }
-            }
+            if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveBob("Cam10"); } }
+            else if (CamPos == "Cam4") { MoveBob("Cam3"); }
+            else if (CamPos == "Cam10") { int random = Random.Range(1, 3); if (random == 1) { MoveBob("Cam6"); } else { MoveBob("Cam4"); } }
+            else if (CamPos == "Cam6") { int random = Random.Range(1, 3); if (random == 1) { MoveBob("Cam10"); } else { MoveBob("Cam4"); }  }
+            else if (CamPos == "Cam11") { MoveBob("Cam10"); }
         }
 
-        IEnumerator DingusLocalDelay()
+        void DingusLocalDelay()
         {
-            if (Difficulty != 0)
-            {
-                if (Difficulty == 1) { yield return new WaitForSeconds(50); }
-                else if (Difficulty == 2) { yield return new WaitForSeconds(47); }
-                else if (Difficulty == 3) { yield return new WaitForSeconds(44); }
-                else if (Difficulty == 4) { yield return new WaitForSeconds(41); }
-                else if (Difficulty == 5) { yield return new WaitForSeconds(37); }
-                else if (Difficulty == 6) { yield return new WaitForSeconds(34); }
-                else if (Difficulty == 7) { yield return new WaitForSeconds(31); }
-                else if (Difficulty == 8) { yield return new WaitForSeconds(27); }
-                else if (Difficulty == 9) { yield return new WaitForSeconds(25); }
-                else if (Difficulty == 10) { yield return new WaitForSeconds(24); }
-                else if (Difficulty == 11) { yield return new WaitForSeconds(23); }
-                else if (Difficulty == 12) { yield return new WaitForSeconds(22); }
-                else if (Difficulty == 13) { yield return new WaitForSeconds(21); }
-                else if (Difficulty == 14) { yield return new WaitForSeconds(17); }
-                else if (Difficulty == 15) { yield return new WaitForSeconds(14); }
-                else if (Difficulty == 16) { yield return new WaitForSeconds(13); }
-                else if (Difficulty == 17) { yield return new WaitForSeconds(12); }
-                else if (Difficulty == 18) { yield return new WaitForSeconds(11); }
-                else if (Difficulty == 19) { yield return new WaitForSeconds(10); }
-                else if (Difficulty == 20) { yield return new WaitForSeconds(7); }
-                if (CamPos == "Stage6") { FNAG.Data.DingusRun(); yield break; }
-                else if (CamPos == "Stage5") { MoveDingus("Stage6"); yield break; }
-                else if (CamPos == "Stage4") { MoveDingus("Stage5"); yield break; }
-                else if (CamPos == "Stage3") { MoveDingus("Stage4"); yield break; }
-                else if (CamPos == "Stage2") { MoveDingus("Stage3"); yield break; }
-                else if (CamPos == "Stage1") { MoveDingus("Stage2"); yield break; }
-            }
+            if (CamPos == "Stage6") { FNAG.Data.DingusRun(); }
+            else if (CamPos == "Stage5") { MoveDingus("Stage6"); }
+            else if (CamPos == "Stage4") { MoveDingus("Stage5"); }
+            else if (CamPos == "Stage3") { MoveDingus("Stage4"); }
+            else if (CamPos == "Stage2") { MoveDingus("Stage3"); }
+            else if (CamPos == "Stage1") { MoveDingus("Stage2"); }
         }
 
-        IEnumerator GorillaOnlineDelay()
+        void GorillaOnlineDelay()
         {
-            if (Difficulty != 0)
-            {
-                if (Difficulty == 1) { yield return new WaitForSeconds(50); }
-                else if (Difficulty == 2) { yield return new WaitForSeconds(47); }
-                else if (Difficulty == 3) { yield return new WaitForSeconds(44); }
-                else if (Difficulty == 4) { yield return new WaitForSeconds(41); }
-                else if (Difficulty == 5) { yield return new WaitForSeconds(37); }
-                else if (Difficulty == 6) { yield return new WaitForSeconds(34); }
-                else if (Difficulty == 7) { yield return new WaitForSeconds(31); }
-                else if (Difficulty == 8) { yield return new WaitForSeconds(27); }
-                else if (Difficulty == 9) { yield return new WaitForSeconds(25); }
-                else if (Difficulty == 10) { yield return new WaitForSeconds(24); }
-                else if (Difficulty == 11) { yield return new WaitForSeconds(23); }
-                else if (Difficulty == 12) { yield return new WaitForSeconds(22); }
-                else if (Difficulty == 13) { yield return new WaitForSeconds(21); }
-                else if (Difficulty == 14) { yield return new WaitForSeconds(17); }
-                else if (Difficulty == 15) { yield return new WaitForSeconds(14); }
-                else if (Difficulty == 16) { yield return new WaitForSeconds(13); }
-                else if (Difficulty == 17) { yield return new WaitForSeconds(12); }
-                else if (Difficulty == 18) { yield return new WaitForSeconds(11); }
-                else if (Difficulty == 19) { yield return new WaitForSeconds(10); }
-                else if (Difficulty == 20) { yield return new WaitForSeconds(7); }
-                int randomvalue = Random.Range(1, 3);
-                object[] value = new object[] { randomvalue };
-                RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                PhotonNetwork.RaiseEvent(PhotonData.Gorilla, value, options, SendOptions.SendReliable);
-            }
+            int randomvalue = Random.Range(1, 3);
+            object[] value = new object[] { randomvalue };
+            RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(PhotonData.Gorilla, value, options, SendOptions.SendReliable);
         }
 
-        IEnumerator MingusOnlineDelay()
+        void MingusOnlineDelay()
         {
-            if (Difficulty != 0)
-            {
-                if (Difficulty == 1) { yield return new WaitForSeconds(50); }
-                else if (Difficulty == 2) { yield return new WaitForSeconds(47); }
-                else if (Difficulty == 3) { yield return new WaitForSeconds(44); }
-                else if (Difficulty == 4) { yield return new WaitForSeconds(41); }
-                else if (Difficulty == 5) { yield return new WaitForSeconds(37); }
-                else if (Difficulty == 6) { yield return new WaitForSeconds(34); }
-                else if (Difficulty == 7) { yield return new WaitForSeconds(31); }
-                else if (Difficulty == 8) { yield return new WaitForSeconds(27); }
-                else if (Difficulty == 9) { yield return new WaitForSeconds(25); }
-                else if (Difficulty == 10) { yield return new WaitForSeconds(24); }
-                else if (Difficulty == 11) { yield return new WaitForSeconds(23); }
-                else if (Difficulty == 12) { yield return new WaitForSeconds(22); }
-                else if (Difficulty == 13) { yield return new WaitForSeconds(21); }
-                else if (Difficulty == 14) { yield return new WaitForSeconds(17); }
-                else if (Difficulty == 15) { yield return new WaitForSeconds(14); }
-                else if (Difficulty == 16) { yield return new WaitForSeconds(13); }
-                else if (Difficulty == 17) { yield return new WaitForSeconds(12); }
-                else if (Difficulty == 18) { yield return new WaitForSeconds(11); }
-                else if (Difficulty == 19) { yield return new WaitForSeconds(10); }
-                else if (Difficulty == 20) { yield return new WaitForSeconds(7); }
-                int randomvalue = Random.Range(1, 3);
-                object[] value = new object[] { randomvalue };
-                RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                PhotonNetwork.RaiseEvent(PhotonData.Mingus, value, options, SendOptions.SendReliable);
-            }
+            int randomvalue = Random.Range(1, 3);
+            object[] value = new object[] { randomvalue };
+            RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(PhotonData.Mingus, value, options, SendOptions.SendReliable);
         }
 
-        IEnumerator BobOnlineDelay()
+        void BobOnlineDelay()
         {
-            if (Difficulty != 0)
-            {
-                if (Difficulty == 1) { yield return new WaitForSeconds(50); }
-                else if (Difficulty == 2) { yield return new WaitForSeconds(47); }
-                else if (Difficulty == 3) { yield return new WaitForSeconds(44); }
-                else if (Difficulty == 4) { yield return new WaitForSeconds(41); }
-                else if (Difficulty == 5) { yield return new WaitForSeconds(37); }
-                else if (Difficulty == 6) { yield return new WaitForSeconds(34); }
-                else if (Difficulty == 7) { yield return new WaitForSeconds(31); }
-                else if (Difficulty == 8) { yield return new WaitForSeconds(27); }
-                else if (Difficulty == 9) { yield return new WaitForSeconds(25); }
-                else if (Difficulty == 10) { yield return new WaitForSeconds(24); }
-                else if (Difficulty == 11) { yield return new WaitForSeconds(23); }
-                else if (Difficulty == 12) { yield return new WaitForSeconds(22); }
-                else if (Difficulty == 13) { yield return new WaitForSeconds(21); }
-                else if (Difficulty == 14) { yield return new WaitForSeconds(17); }
-                else if (Difficulty == 15) { yield return new WaitForSeconds(14); }
-                else if (Difficulty == 16) { yield return new WaitForSeconds(13); }
-                else if (Difficulty == 17) { yield return new WaitForSeconds(12); }
-                else if (Difficulty == 18) { yield return new WaitForSeconds(11); }
-                else if (Difficulty == 19) { yield return new WaitForSeconds(10); }
-                else if (Difficulty == 20) { yield return new WaitForSeconds(7); }
-                int randomvalue = Random.Range(1, 3);
-                object[] value = new object[] { randomvalue };
-                RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                PhotonNetwork.RaiseEvent(PhotonData.Bob, value, options, SendOptions.SendReliable);
-            }
+            int randomvalue = Random.Range(1, 3);
+            object[] value = new object[] { randomvalue };
+            RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(PhotonData.Bob, value, options, SendOptions.SendReliable);
         }
 
-        IEnumerator DingusOnlineDelay()
+        void DingusOnlineDelay()
         {
-            if (Difficulty != 0)
-            {
-                if (Difficulty == 1) { yield return new WaitForSeconds(50); }
-                else if (Difficulty == 2) { yield return new WaitForSeconds(47); }
-                else if (Difficulty == 3) { yield return new WaitForSeconds(44); }
-                else if (Difficulty == 4) { yield return new WaitForSeconds(41); }
-                else if (Difficulty == 5) { yield return new WaitForSeconds(37); }
-                else if (Difficulty == 6) { yield return new WaitForSeconds(34); }
-                else if (Difficulty == 7) { yield return new WaitForSeconds(31); }
-                else if (Difficulty == 8) { yield return new WaitForSeconds(27); }
-                else if (Difficulty == 9) { yield return new WaitForSeconds(25); }
-                else if (Difficulty == 10) { yield return new WaitForSeconds(24); }
-                else if (Difficulty == 11) { yield return new WaitForSeconds(23); }
-                else if (Difficulty == 12) { yield return new WaitForSeconds(22); }
-                else if (Difficulty == 13) { yield return new WaitForSeconds(21); }
-                else if (Difficulty == 14) { yield return new WaitForSeconds(17); }
-                else if (Difficulty == 15) { yield return new WaitForSeconds(14); }
-                else if (Difficulty == 16) { yield return new WaitForSeconds(13); }
-                else if (Difficulty == 17) { yield return new WaitForSeconds(12); }
-                else if (Difficulty == 18) { yield return new WaitForSeconds(11); }
-                else if (Difficulty == 19) { yield return new WaitForSeconds(10); }
-                else if (Difficulty == 20) { yield return new WaitForSeconds(7); }
-                RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                PhotonNetwork.RaiseEvent(PhotonData.Dingus, null, options, SendOptions.SendReliable);
-            }
+            RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
+            PhotonNetwork.RaiseEvent(PhotonData.Dingus, null, options, SendOptions.SendReliable);
         }
         #endregion
 
@@ -331,34 +159,34 @@ namespace FiveNightsAtGorillas.Managers.AI
             switch (photonEvent.Code)
             {
                 case PhotonData.Gorilla:
-                    if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveGorilla("Cam10"); } return; }
-                    else if (CamPos == "Cam4") { if (random == 1) { MoveGorilla("Cam3"); } else { MoveGorilla("Cam10"); } return; }
-                    else if (CamPos == "Cam10") { if (random == 1) { MoveGorilla("Cam5"); } else { MoveGorilla("Cam4"); } return; }
-                    else if (CamPos == "Cam5") { MoveGorilla("Cam10"); return; }
-                    else if (CamPos == "Cam11") { MoveGorilla("Cam10"); return; }
+                    if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveGorilla("Cam10"); } }
+                    else if (CamPos == "Cam4") { if (random == 1) { MoveGorilla("Cam3"); } else { MoveGorilla("Cam10"); } }
+                    else if (CamPos == "Cam10") { if (random == 1) { MoveGorilla("Cam5"); } else { MoveGorilla("Cam4"); } }
+                    else if (CamPos == "Cam5") { MoveGorilla("Cam10"); }
+                    else if (CamPos == "Cam11") { MoveGorilla("Cam10"); }
                     break;
                 case PhotonData.Mingus:
-                    if (CamPos == "Cam2") { if (DoorManager.Data.LeftDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveMingus("Cam10"); } return; }
-                    else if (CamPos == "Cam1") { if (random == 1) { MoveMingus("Cam7"); } else { MoveMingus("Cam2"); } return; }
-                    else if (CamPos == "Cam7") { MoveMingus("Cam1"); return; }
-                    else if (CamPos == "Cam9") { MoveMingus("Cam10"); return; }
-                    else if (CamPos == "Cam10") { if (random == 1) { MoveMingus("Cam9"); } else { MoveMingus("Cam1"); } return; }
-                    else if (CamPos == "Cam11") { MoveMingus("Cam10"); return; }
+                    if (CamPos == "Cam2") { if (DoorManager.Data.LeftDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveMingus("Cam10"); } }
+                    else if (CamPos == "Cam1") { if (random == 1) { MoveMingus("Cam7"); } else { MoveMingus("Cam2"); } }
+                    else if (CamPos == "Cam7") { MoveMingus("Cam1"); }
+                    else if (CamPos == "Cam9") { MoveMingus("Cam10"); }
+                    else if (CamPos == "Cam10") { if (random == 1) { MoveMingus("Cam9"); } else { MoveMingus("Cam1"); } }
+                    else if (CamPos == "Cam11") { MoveMingus("Cam10"); }
                     break;
                 case PhotonData.Bob:
-                    if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveBob("Cam10"); } return; }
-                    else if (CamPos == "Cam4") { MoveBob("Cam3"); return; }
-                    else if (CamPos == "Cam6") { MoveBob("Cam10"); return; }
-                    else if (CamPos == "Cam10") { if (random == 1) { MoveBob("Cam6"); } else { MoveBob("Cam4"); } return; }
-                    if (CamPos == "Cam11") { MoveBob("Cam10"); return; }
+                    if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveBob("Cam10"); } }
+                    else if (CamPos == "Cam4") { MoveBob("Cam3"); }
+                    else if (CamPos == "Cam10") { if (random == 1) { MoveBob("Cam6"); } else { MoveBob("Cam4"); } }
+                    else if (CamPos == "Cam6") {  if (random == 1) { MoveBob("Cam10"); } else { MoveBob("Cam4"); } }
+                    else if (CamPos == "Cam11") { MoveBob("Cam10"); }
                     break;
                 case PhotonData.Dingus:
-                    if (CamPos == "Stage6") { FNAG.Data.DingusRun(); return; }
-                    else if (CamPos == "Stage5") { MoveDingus("Stage6"); return; }
-                    else if (CamPos == "Stage4") { MoveDingus("Stage5"); return; }
-                    else if (CamPos == "Stage3") { MoveDingus("Stage4"); return; }
-                    else if (CamPos == "Stage2") { MoveDingus("Stage3"); return; }
-                    else if (CamPos == "Stage1") { MoveDingus("Stage2"); return; }
+                    if (CamPos == "Stage6") { FNAG.Data.DingusRun(); }
+                    else if (CamPos == "Stage5") { MoveDingus("Stage6"); }
+                    else if (CamPos == "Stage4") { MoveDingus("Stage5"); }
+                    else if (CamPos == "Stage3") { MoveDingus("Stage4"); }
+                    else if (CamPos == "Stage2") { MoveDingus("Stage3"); }
+                    else if (CamPos == "Stage1") { MoveDingus("Stage2"); }
                     break;
             }
         }
@@ -396,7 +224,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                         }
                     }
                 }
-                RestartAI();
+                StartCoroutine(AllowedToMoveDelay());
             }
             return this;
         }
@@ -426,23 +254,30 @@ namespace FiveNightsAtGorillas.Managers.AI
                         }
                     }
                 }
-                RestartAI();
+                StartCoroutine(AllowedToMoveDelay());
             }
             return this;
         }
 
         object MoveBob(string NewCamPos)
         {
+            Debug.Log("Start Move bob method");
             if (AllowedToRun)
             {
+                Debug.Log("AllowedToRun");
                 AIManager ai = RefrenceManager.Data.bobParent.GetComponent<AIManager>();
+                Debug.Log("Got bob parent");
                 if (ai.CamPos != NewCamPos)
                 {
+                    Debug.Log("no one else is in the area bob wants to go");
                     if (ai.AIName == "bob")
                     {
+                        Debug.Log("AI name is bob");
                         if (ai.Difficulty != 0)
                         {
+                            Debug.Log("Difficulty is not 0");
                             ai.CamPos = NewCamPos;
+                            Debug.Log("Set the new cam pos");
                             foreach (var gPOS in RefrenceManager.Data.bob)
                             {
                                 gPOS.SetActive(false);
@@ -455,7 +290,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                         }
                     }
                 }
-                RestartAI();
+                StartCoroutine(AllowedToMoveDelay());
             }
             return this;
         }
@@ -485,7 +320,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                         }
                     }
                 }
-                RestartAI();
+                StartCoroutine(AllowedToMoveDelay());
             }
             return this;
         }
