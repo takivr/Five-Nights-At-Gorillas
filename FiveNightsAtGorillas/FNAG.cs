@@ -129,6 +129,8 @@ namespace FiveNightsAtGorillas
         {
             GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/Office/Floor/Floor").AddComponent<GorillaSurfaceOverride>().overrideIndex = 0;
             GameObject.Find("Office Walls").AddComponent<GorillaSurfaceOverride>().overrideIndex = 0;
+            GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/Office/Chair/Cylinder (1)").AddComponent<GorillaSurfaceOverride>().overrideIndex = 3;
+            GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/TheRest/Deco/Monitors").AddComponent<GorillaSurfaceOverride>().overrideIndex = 146;
             RefrenceManager.Data.CameraScreen.AddComponent<GorillaSurfaceOverride>().overrideIndex = 29;
             GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/Office/Desk/Collider").AddComponent<GorillaSurfaceOverride>().overrideIndex = 146;
             RefrenceManager.Data.RightDoorVoid.AddComponent<GorillaSurfaceOverride>().overrideIndex = 0;

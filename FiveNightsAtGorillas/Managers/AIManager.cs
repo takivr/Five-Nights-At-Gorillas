@@ -260,23 +260,15 @@ namespace FiveNightsAtGorillas.Managers.AI
 
         object MoveBob(string NewCamPos)
         {
-            Debug.Log("Start Move bob method");
             if (AllowedToRun)
             {
-                Debug.Log("AllowedToRun");
                 AIManager ai = RefrenceManager.Data.bobParent.GetComponent<AIManager>();
-                Debug.Log("Got bob parent");
                 if (ai.CamPos != NewCamPos)
                 {
-                    Debug.Log("no one else is in the area bob wants to go");
                     if (ai.AIName == "bob")
                     {
-                        Debug.Log("AI name is bob");
                         if (ai.Difficulty != 0)
                         {
-                            Debug.Log("Difficulty is not 0");
-                            ai.CamPos = NewCamPos;
-                            Debug.Log("Set the new cam pos");
                             foreach (var gPOS in RefrenceManager.Data.bob)
                             {
                                 gPOS.SetActive(false);
