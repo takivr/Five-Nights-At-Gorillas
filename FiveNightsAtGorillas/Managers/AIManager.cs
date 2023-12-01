@@ -12,7 +12,7 @@ using FiveNightsAtGorillas.Managers.Cameras;
 
 namespace FiveNightsAtGorillas.Managers.AI
 {
-    public class AIManager : MonoBehaviourPunCallbacks, IOnEventCallback
+    public class AIManager : MonoBehaviourPun, IOnEventCallback
     {
         public string CamPos { get; set; }
         public string AIName { get; set; }
@@ -151,7 +151,7 @@ namespace FiveNightsAtGorillas.Managers.AI
         }
         #endregion
 
-        void OnEvent(EventData photonEvent)
+        public void OnEvent(EventData photonEvent)
         {
             object[] receivedData = (object[])photonEvent.CustomData;
             int random = int.Parse(receivedData[0].ToString());

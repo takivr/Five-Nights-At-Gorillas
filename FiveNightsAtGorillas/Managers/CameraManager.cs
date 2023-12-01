@@ -1,11 +1,10 @@
 ﻿using FiveNightsAtGorillas.Managers.AI;
 using FiveNightsAtGorillas.Managers.Refrences;
-using Photon.Pun;
 using UnityEngine;
 
 namespace FiveNightsAtGorillas.Managers.Cameras
 {
-    public class CameraManager : MonoBehaviourPunCallbacks
+    public class CameraManager : MonoBehaviour
     {
         public static CameraManager Data;
         public string CurrentCameraPos = "Cam1";

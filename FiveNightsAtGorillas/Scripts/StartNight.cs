@@ -35,7 +35,7 @@ namespace FiveNightsAtGorillas.Other.NightStart
             }
         }
 
-        void OnEvent(EventData photonEvent)
+        public void OnEvent(EventData photonEvent)
         {
             if(photonEvent.Code == PhotonData.StartNight)
             {

@@ -9,7 +9,7 @@ using FiveNightsAtGorillas.Managers.TimePower;
 
 namespace FiveNightsAtGorillas.Managers.DoorAndLight
 {
-    public class DoorManager : MonoBehaviourPunCallbacks, IOnEventCallback
+    public class DoorManager : MonoBehaviour, IOnEventCallback
     {
         public static DoorManager Data;
         public int ButtonTimerDelay { get; private set; } = 3;

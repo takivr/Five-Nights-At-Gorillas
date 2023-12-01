@@ -21,7 +21,6 @@ using FiveNightsAtGorillas.Other.NightStart;
 using FiveNightsAtGorillas.Other.Scroll;
 using FiveNightsAtGorillas.Other.CustomNightAdd;
 using FiveNightsAtGorillas.Other.CustomNightSub;
-using System.ComponentModel;
 
 namespace FiveNightsAtGorillas
 {
@@ -250,7 +249,7 @@ namespace FiveNightsAtGorillas
             #endregion
         }
 
-        public object StartGame(int Night, int GD, int MD, int BD, int DD)
+        public void StartGame(int Night, int GD, int MD, int BD, int DD)
         {
             #region StartGame
             if (Night == 1)
@@ -316,7 +315,6 @@ namespace FiveNightsAtGorillas
             SkyColorGameBlack();
             TeleportPlayerToGame();
             #endregion
-            return this;
         }
 
         public void TeleportPlayerBack() 
