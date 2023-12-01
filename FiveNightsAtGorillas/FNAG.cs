@@ -236,9 +236,6 @@ namespace FiveNightsAtGorillas
             #region ResetDoors
             DoorManager.Data.ResetDoors();
             #endregion
-            #region ResetTimeAndPower
-            TimePowerManager.Data.StopEverything();
-            #endregion
             #region ResetMenu
             RefrenceManager.Data.MenuWarning.SetActive(true);
             RefrenceManager.Data.MenuIgnoreButton.SetActive(true);
@@ -355,7 +352,9 @@ namespace FiveNightsAtGorillas
                 DoorManager.Data.UseLight(true);
             }
             StopGame();
+            DoorManager.Data.PowerOutage();
             RefrenceManager.Data.Poweroutage.Play();
+            TimePowerManager.Data.StopOnlyPower();
             SkyColorFullBlack();
             StartCoroutine(PoweroutageDelay());
         }
@@ -365,6 +364,7 @@ namespace FiveNightsAtGorillas
             StopGame();
             RefrenceManager.Data.SixAM.SetActive(true);
             RefrenceManager.Data.SixAMSound.Play();
+            RefrenceManager.Data.Poweroutage.Stop();
             StartCoroutine(SixAMDelay());
         }
 
@@ -384,6 +384,7 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.SixAM.SetActive(false);
             TeleportPlayerBack();
             SkyColorWhite();
+            TimePowerManager.Data.StopEverything();
         }
 
         IEnumerator PoweroutageDelay()
@@ -409,6 +410,7 @@ namespace FiveNightsAtGorillas
         {
             yield return new WaitForSeconds(3);
             TeleportPlayerBack();
+            TimePowerManager.Data.StopEverything();
             SkyColorWhite();
             RefrenceManager.Data.Jumpscare.SetActive(false);
             RefrenceManager.Data.JumpscareAnimation.StopPlayback();

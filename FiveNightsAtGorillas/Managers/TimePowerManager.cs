@@ -11,21 +11,32 @@ namespace FiveNightsAtGorillas.Managers.TimePower
         public int CurrentPower { get; private set; } = 100;
         public int CurrentPowerDrainTime { get; private set; } = 15;
         public string CurrentTime { get; private set; } = "12AM";
-        public bool AllowedToRun { get; private set; } = false;
+        public bool AllowedToRunTime { get; private set; } = false;
+        public bool AllowedToRunPower { get; private set; } = false;
 
         void Awake() { Data = this; }
         
         public void StopEverything()
         {
-            AllowedToRun = false;
+            AllowedToRunTime = false;
+            AllowedToRunPower = false;
             CurrentTime = "12AM";
             CurrentPower = 100;
             RefreshText();
         }
 
+        public void StopOnlyPower()
+        {
+            AllowedToRunPower = false;
+            AllowedToRunTime = true;
+            CurrentPower = 0;
+            RefreshText();
+        }
+
         public void StartEverything()
         {
-            AllowedToRun = true;
+            AllowedToRunTime = true;
+            AllowedToRunPower = true;
             CurrentTime = "12AM";
             CurrentPower = 100;
             RefreshText();
@@ -65,7 +76,7 @@ namespace FiveNightsAtGorillas.Managers.TimePower
         IEnumerator PowerDelay()
         {
             yield return new WaitForSeconds(CurrentPowerDrainTime);
-            if (AllowedToRun)
+            if (AllowedToRunPower)
             {
                 CurrentPower--;
                 if(CurrentPower < 0)
@@ -80,7 +91,7 @@ namespace FiveNightsAtGorillas.Managers.TimePower
         IEnumerator TimeDelay()
         {
             yield return new WaitForSeconds(90);
-            if (AllowedToRun)
+            if (AllowedToRunTime)
             {
                 if (CurrentTime == "12AM") { CurrentTime = "1AM"; }
                 else if (CurrentTime == "1AM") { CurrentTime = "2AM"; }

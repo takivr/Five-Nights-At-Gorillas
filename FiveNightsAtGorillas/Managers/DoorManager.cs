@@ -33,16 +33,34 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
 
         public void ResetDoors()
         {
-            RightDoorOpen = true;
-            LeftDoorOpen = true;
-            CloseOpenDoor(true, false, 2.272f);
-            CloseOpenDoor(false, false, 2.35f);
-            RightLightOn = false;
-            LeftLightOn = false;
-            RefrenceManager.Data.LeftDoorVoid.SetActive(true);
-            RefrenceManager.Data.LeftLightSound.Stop();
-            RefrenceManager.Data.RightDoorVoid.SetActive(true);
-            RefrenceManager.Data.RightLightSound.Stop();
+            CanUseLeftButton = true;
+            CanUseRightButton = true;
+            CanUseLeftLight = true;
+            CanUseRightLight = true;
+            if (!RightDoorOpen)
+            {
+                CloseOpenDoor(true, false, 2.272f);
+            }
+            if (!LeftDoorOpen)
+            {
+                CloseOpenDoor(false, false, 2.35f);
+            }
+            if (RightLightOn)
+            {
+                UseLight(true);
+            }
+            if (LeftLightOn)
+            {
+                UseLight(false);
+            }
+        }
+
+        public void PowerOutage()
+        {
+            CanUseLeftButton = false;
+            CanUseRightButton = false;
+            CanUseLeftLight = false;
+            CanUseRightLight = false;
         }
 
         public void UseLocalDoor(bool isRight)
