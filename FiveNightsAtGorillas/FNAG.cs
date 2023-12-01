@@ -412,6 +412,7 @@ namespace FiveNightsAtGorillas
             else
             {
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().ResetDingus();
+                RefrenceManager.Data.DingusScrapingSound.Play();
             }
         }
 

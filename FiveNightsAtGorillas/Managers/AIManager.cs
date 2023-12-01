@@ -84,7 +84,7 @@ namespace FiveNightsAtGorillas.Managers.AI
         #region EnemyMove
         void GorillaLocalDelay()
         {
-            if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { if (CameraManager.Data.CurrentCameraPos != "Cam3") { FNAG.Data.Jumpscare(); } } else { MoveGorilla("Cam10"); } }
+            if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveGorilla("Cam10"); } }
             else if (CamPos == "Cam4") { int random = Random.Range(1, 3); if (random == 1) { MoveGorilla("Cam3"); } else { MoveGorilla("Cam10"); } }
             else if (CamPos == "Cam10") { int random = Random.Range(1, 3); if (random == 1) { MoveGorilla("Cam5"); } else { MoveGorilla("Cam4"); } }
             else if (CamPos == "Cam5") { MoveGorilla("Cam10"); }
@@ -192,11 +192,9 @@ namespace FiveNightsAtGorillas.Managers.AI
 
         public void ResetDingus()
         {
-            if (gameObject.GetComponent<AIManager>().AIName == "dingus")
-            {
-                CamPos = "Stage1";
-                foreach (GameObject D in RefrenceManager.Data.dingus) { D.SetActive(false); }
-            }
+            CamPos = "Stage1";
+            foreach (GameObject D in RefrenceManager.Data.dingus) { D.SetActive(false); }
+            RefrenceManager.Data.dingus[0].SetActive(true);
         }
 
         object MoveGorilla(string NewCamPos)
