@@ -1,5 +1,4 @@
 ﻿using FiveNightsAtGorillas.Managers.Cameras;
-using FiveNightsAtGorillas.Managers.Refrences;
 using UnityEngine;
 
 namespace FiveNightsAtGorillas.Other.Camera
@@ -24,7 +23,7 @@ namespace FiveNightsAtGorillas.Other.Camera
             if (other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider")
             {
                 CameraManager.Data.ChangeCamera(CameraButtonTrigger);
-                RefrenceManager.Data.CameraButtonPressSound.Play();
+                //RefrenceManager.Data.CameraButtonPressSound.Play();
             }
         }
     }
