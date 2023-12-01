@@ -12,7 +12,7 @@ using FiveNightsAtGorillas.Managers.Cameras;
 
 namespace FiveNightsAtGorillas.Managers.AI
 {
-    public class AIManager : MonoBehaviourPunCallbacks
+    public class AIManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         public string CamPos { get; set; }
         public string AIName { get; set; }
@@ -22,8 +22,7 @@ namespace FiveNightsAtGorillas.Managers.AI
 
         void Awake()
         {
-            PhotonNetwork.AddCallbackTarget(this); 
-            PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
+            PhotonNetwork.AddCallbackTarget(this);
         }
 
         public void StopAI() { AllowedToRun = false; AllowedToMove = false; if (AIName != "dingus") { CamPos = "Cam11"; } else { CamPos = "Stage1"; } }

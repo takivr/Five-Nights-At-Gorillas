@@ -9,7 +9,7 @@ using FiveNightsAtGorillas.Managers.TimePower;
 
 namespace FiveNightsAtGorillas.Managers.DoorAndLight
 {
-    public class DoorManager : MonoBehaviourPunCallbacks
+    public class DoorManager : MonoBehaviourPunCallbacks, IOnEventCallback
     {
         public static DoorManager Data;
         public int ButtonTimerDelay { get; private set; } = 3;
@@ -23,7 +23,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
         public bool CanUseLeftLight { get; private set; } = true;
         public bool CanUseRightLight { get; private set; } = true;
 
-        void Awake() { Data = this; PhotonNetwork.AddCallbackTarget(this); PhotonNetwork.NetworkingClient.EventReceived += OnEvent; }
+        void Awake() { Data = this; PhotonNetwork.AddCallbackTarget(this); }
 
         //R door opened: 2.272
         //R door closed: 0.772
@@ -199,7 +199,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
             }
         }
 
-        object CloseOpenDoor(bool isRight, bool isClose, float yLevel)
+        public void CloseOpenDoor(bool isRight, bool isClose, float yLevel)
         {
             if (isRight)
             {
@@ -240,7 +240,6 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                 }
             }
             TimePowerManager.Data.RefreshDrainTime();
-            return this;
         }
 
         IEnumerator ButtonDelay(bool isRight)
