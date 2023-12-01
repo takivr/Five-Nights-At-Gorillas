@@ -146,7 +146,7 @@ namespace FNAGUpdater
                         proc = new Process();
                         proc.StartInfo.WorkingDirectory = batDir;
                         proc.StartInfo.FileName = "FNAGUpdate-STEAM.bat";
-                        proc.StartInfo.CreateNoWindow = false;
+                        proc.StartInfo.CreateNoWindow = true;
                         proc.Start();
                         proc.WaitForExit();
                     }
@@ -161,7 +161,7 @@ namespace FNAGUpdater
                         proc = new Process();
                         proc.StartInfo.WorkingDirectory = batDir;
                         proc.StartInfo.FileName = "FNAGUpdate-OCULUS.bat";
-                        proc.StartInfo.CreateNoWindow = false;
+                        proc.StartInfo.CreateNoWindow = true;
                         proc.Start();
                         proc.WaitForExit();
                     }
