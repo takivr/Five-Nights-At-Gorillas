@@ -33,11 +33,11 @@ namespace FiveNightsAtGorillas.Other.NightStart
                 }
                if (!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom.PlayerCount <= 1)
                     {
-                        FNAG.Data.StartGame(Night, int.Parse(RefrenceManager.Data.GD.text), int.Parse(RefrenceManager.Data.MD.text), int.Parse(RefrenceManager.Data.BD.text), int.Parse(RefrenceManager.Data.DD.text));
+                        FNAG.Data.StartGame(Night.ToString(), RefrenceManager.Data.GD.text.ToString(), RefrenceManager.Data.MD.text.ToString(), RefrenceManager.Data.BD.text.ToString(), RefrenceManager.Data.DD.text.ToString());
                     }
                     else if (PhotonNetwork.InRoom)
                     {
-                        object[] value = new object[] { Night, int.Parse(RefrenceManager.Data.GD.text), int.Parse(RefrenceManager.Data.MD.text), int.Parse(RefrenceManager.Data.BD.text), int.Parse(RefrenceManager.Data.DD.text) };
+                        object[] value = new object[] { Night, RefrenceManager.Data.GD.text.ToString(), RefrenceManager.Data.MD.text.ToString(), RefrenceManager.Data.BD.text.ToString(), RefrenceManager.Data.DD.text.ToString() };
                         RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
                         PhotonNetwork.RaiseEvent(PhotonData.RightDoor, value, options, SendOptions.SendReliable);
                     }
@@ -46,15 +46,17 @@ namespace FiveNightsAtGorillas.Other.NightStart
 
         public void OnEvent(EventData photonEvent)
         {
-            if(photonEvent.Code == PhotonData.StartNight)
+            object[] receivedData = (object[])photonEvent.CustomData;
+            string NightNumber = receivedData[0].ToString();
+            string GD = receivedData[1].ToString();
+            string MD = receivedData[2].ToString();
+            string BD = receivedData[3].ToString();
+            string DD = receivedData[4].ToString();
+            switch (photonEvent.Code)
             {
-                object[] receivedData = (object[])photonEvent.CustomData;
-                int NightNumber = int.Parse(receivedData[0].ToString());
-                int GD = int.Parse(receivedData[1].ToString());
-                int MD = int.Parse(receivedData[2].ToString());
-                int BD = int.Parse(receivedData[3].ToString());
-                int DD = int.Parse(receivedData[4].ToString());
-                FNAG.Data.StartGame(NightNumber, GD, MD, BD, DD);
+                case PhotonData.StartNight:
+                    FNAG.Data.StartGame(NightNumber, GD, MD, BD, DD);
+                    break;
             }
         }
     }

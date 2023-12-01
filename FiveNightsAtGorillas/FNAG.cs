@@ -255,57 +255,57 @@ namespace FiveNightsAtGorillas
             #endregion
         }
 
-        public void StartGame(int Night, int GD, int MD, int BD, int DD)
+        public void StartGame(string Night, string GD, string MD, string BD, string DD)
         {
             #region StartGame
-            if (Night == 1)
+            if (Night == "1")
             {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 0;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 2;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 2;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 0;
             }
-            if (Night == 2)
+            if (Night == "2")
             {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 0;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 2;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 3;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 1;
             }
-            if (Night == 3)
+            if (Night == "3")
             {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 1;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 5;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 4;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 2;
             }
-            if (Night == 4)
+            if (Night == "4")
             {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 2;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 7;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 3;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 6;
             }
-            if (Night == 5)
+            if (Night == "5")
             {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 5;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 7;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 6;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 6;
             }
-            if (Night == 6)
+            if (Night == "6")
             {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 8;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 12;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 10;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 16;
             }
-            if (Night == 7)
+            if (Night == "7")
             {
-                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = GD;
-                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = MD;
-                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = BD;
-                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = DD;
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = int.Parse(GD);
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = int.Parse(MD);
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = int.Parse(BD);
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = int.Parse(DD);
             }
             RefrenceManager.Data.MenuRoundRunning.SetActive(true);
             RefrenceManager.Data.MenuWarning.SetActive(false);
