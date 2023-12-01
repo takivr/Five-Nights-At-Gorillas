@@ -199,7 +199,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
             }
         }
 
-        object CloseOpenDoor(bool isRight, bool isClose, float yLevel)
+        public void CloseOpenDoor(bool isRight, bool isClose, float yLevel)
         {
             if (isRight)
             {
@@ -240,7 +240,6 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                 }
             }
             TimePowerManager.Data.RefreshDrainTime();
-            return this;
         }
 
         IEnumerator ButtonDelay(bool isRight)
