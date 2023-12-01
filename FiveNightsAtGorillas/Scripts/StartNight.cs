@@ -31,15 +31,15 @@ namespace FiveNightsAtGorillas.Other.NightStart
                     FNAG.Data.Jumpscare();
                     return;
                 }
-                    if (PhotonNetwork.InRoom)
+               if (!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom.PlayerCount <= 1)
+                    {
+                        FNAG.Data.StartGame(Night, int.Parse(RefrenceManager.Data.GD.text), int.Parse(RefrenceManager.Data.MD.text), int.Parse(RefrenceManager.Data.BD.text), int.Parse(RefrenceManager.Data.DD.text));
+                    }
+                    else if (PhotonNetwork.InRoom)
                     {
                         object[] value = new object[] { Night, int.Parse(RefrenceManager.Data.GD.text), int.Parse(RefrenceManager.Data.MD.text), int.Parse(RefrenceManager.Data.BD.text), int.Parse(RefrenceManager.Data.DD.text) };
                         RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
                         PhotonNetwork.RaiseEvent(PhotonData.RightDoor, value, options, SendOptions.SendReliable);
-                    }
-                    else if (!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom.PlayerCount <= 1)
-                    {
-                        FNAG.Data.StartGame(Night, int.Parse(RefrenceManager.Data.GD.text), int.Parse(RefrenceManager.Data.MD.text), int.Parse(RefrenceManager.Data.BD.text), int.Parse(RefrenceManager.Data.DD.text));
                     }
             }
         }
