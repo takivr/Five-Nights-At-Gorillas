@@ -15,6 +15,15 @@ namespace FiveNightsAtGorillas.Other.Light
 
         void OnTriggerEnter(Collider other)
         {
+            if (other.name == "LeftHandTriggerCollider")
+            {
+                GorillaTagger.Instance.StartVibration(true, GorillaTagger.Instance.tapHapticStrength / 2, GorillaTagger.Instance.tapHapticDuration);
+            }
+            else if (other.name == "RightHandTriggerCollider")
+            {
+                GorillaTagger.Instance.StartVibration(false, GorillaTagger.Instance.tapHapticStrength / 2, GorillaTagger.Instance.tapHapticDuration);
+            }
+
             if (other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider")
             {
                 if (isLeft) { if (DoorManager.Data.CanUseLeftLight) { DoorManager.Data.UseLight(false); } else { RefrenceManager.Data.LeftDoorFailSound.Play(); } }

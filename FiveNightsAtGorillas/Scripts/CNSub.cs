@@ -14,6 +14,15 @@ namespace FiveNightsAtGorillas.Other.CustomNightSub
 
         void OnTriggerEnter(Collider other)
         {
+            if (other.name == "LeftHandTriggerCollider")
+            {
+                GorillaTagger.Instance.StartVibration(true, GorillaTagger.Instance.tapHapticStrength / 2, GorillaTagger.Instance.tapHapticDuration);
+            }
+            else if (other.name == "RightHandTriggerCollider")
+            {
+                GorillaTagger.Instance.StartVibration(false, GorillaTagger.Instance.tapHapticStrength / 2, GorillaTagger.Instance.tapHapticDuration);
+            }
+
             if (other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider")
             {
                 if (IsGorilla)

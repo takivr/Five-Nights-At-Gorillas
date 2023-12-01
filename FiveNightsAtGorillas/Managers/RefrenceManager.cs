@@ -118,6 +118,7 @@ namespace FiveNightsAtGorillas.Managers.Refrences
         public AudioSource JumpscareSound { get; private set; }
         public AudioSource SixAMSound { get; private set; }
         public AudioSource Poweroutage { get; private set; }
+        public AudioSource CameraButtonPressSound { get; private set; }
 
         public GameObject MenuIgnoreButton { get; private set; }
         public GameObject MenuWarning { get; private set; }
@@ -297,6 +298,7 @@ namespace FiveNightsAtGorillas.Managers.Refrences
                 MenuRoundRunning = GameObject.Find("RoundRunning");
                 RightDoorFailSound = GameObject.Find("RightDoorFailAudio").GetComponent<AudioSource>();
                 LeftDoorFailSound = GameObject.Find("LeftDoorFailAudio").GetComponent<AudioSource>();
+                CameraButtonPressSound = GameObject.Find("Camera Button Sound").GetComponent<AudioSource>();
 
                 AlreadySetRefrences = true;
             }
