@@ -7,11 +7,11 @@ using UnityEngine;
 
 namespace FiveNightsAtGorillas.Other.NightStart
 {
-    public class StartNight : MonoBehaviour
+    public class StartNight : MonoBehaviour, IOnEventCallback
     {
         public int Night;
 
-        void Awake() { PhotonNetwork.AddCallbackTarget(this); PhotonNetwork.NetworkingClient.EventReceived += OnEvent; gameObject.layer = 18; }
+        void Awake() { PhotonNetwork.AddCallbackTarget(this); gameObject.layer = 18; }
 
         void OnTriggerEnter(Collider other)
         {
