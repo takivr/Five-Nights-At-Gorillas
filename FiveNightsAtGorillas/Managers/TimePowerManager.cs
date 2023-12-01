@@ -9,7 +9,7 @@ namespace FiveNightsAtGorillas.Managers.TimePower
     {
         public static TimePowerManager Data;
         public int CurrentPower { get; private set; } = 100;
-        public int CurrentPowerDrainTime { get; private set; } = 15;
+        public int CurrentPowerDrainTime { get; private set; } = 10;
         public string CurrentTime { get; private set; } = "12AM";
         public bool AllowedToRunTime { get; private set; } = false;
         public bool AllowedToRunPower { get; private set; } = false;
@@ -48,17 +48,17 @@ namespace FiveNightsAtGorillas.Managers.TimePower
         {
             if(DoorManager.Data.RightDoorOpen && !DoorManager.Data.LeftDoorOpen)
             {
-                CurrentPowerDrainTime = 9;
+                CurrentPowerDrainTime = 6;
                 return;
             }
             else if(!DoorManager.Data.RightDoorOpen && DoorManager.Data.LeftDoorOpen)
             {
-                CurrentPowerDrainTime = 9;
+                CurrentPowerDrainTime = 6;
                 return;
             }
             else if(DoorManager.Data.RightDoorOpen && DoorManager.Data.LeftDoorOpen)
             {
-                CurrentPowerDrainTime = 15;
+                CurrentPowerDrainTime = 10;
                 return;
             }
             else if(!DoorManager.Data.RightDoorOpen && !DoorManager.Data.LeftDoorOpen)
