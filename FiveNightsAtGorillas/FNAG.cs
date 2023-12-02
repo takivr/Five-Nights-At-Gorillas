@@ -6,7 +6,7 @@ using System.Reflection;
 using UnityEngine;
 using Utilla;
 using System.Collections;
-using FiveNightsAtGorillas.Patches.Teleport;
+using FiveNightsAtGorillas.Managers.Teleport;
 using FiveNightsAtGorillas.Other.Door;
 using FiveNightsAtGorillas.Managers.AI;
 using FiveNightsAtGorillas.Managers.DoorAndLight;
@@ -254,12 +254,12 @@ namespace FiveNightsAtGorillas
 
         public void TeleportPlayerBack()
         { 
-            Vector3 Back = new Vector3(-66.3163f, 12.9148f, -82.4704f); TeleportPatch.TeleportPlayer(Back, 90, true);
+            Vector3 Back = new Vector3(-66.3163f, 12.9148f, -82.4704f); Teleport.Data.TeleportPlayer(Back);
         }
 
         public void TeleportPlayerToGame()
         { 
-            Vector3 Back = new Vector3(-103.6259f, 24.8166f, -66.3371f); TeleportPatch.TeleportPlayer(Back, 90, true);
+            Vector3 Back = new Vector3(-103.6259f, 24.8166f, -66.3371f); Teleport.Data.TeleportPlayer(Back);
         }
 
         public void Jumpscare()
