@@ -27,7 +27,6 @@ namespace FiveNightsAtGorillas
 {
     [ModdedGamemode("fnag", "FNAG", Utilla.Models.BaseGamemode.Casual)]
     [BepInDependency("org.legoandmars.gorillatag.utilla")]
-    [BepInDependency("com.ahauntedarmy.gorillatag.tmploader")]
     [BepInPlugin(FNAGInfo.GUID, FNAGInfo.Name, FNAGInfo.Version)]
     public class FNAG : BaseUnityPlugin
     {
@@ -253,12 +252,12 @@ namespace FiveNightsAtGorillas
             #endregion
         }
 
-        public void TeleportPlayerBack() 
+        public void TeleportPlayerBack()
         { 
             Vector3 Back = new Vector3(-66.3163f, 12.9148f, -82.4704f); TeleportPatch.TeleportPlayer(Back, 90, true);
         }
 
-        public void TeleportPlayerToGame() 
+        public void TeleportPlayerToGame()
         { 
             Vector3 Back = new Vector3(-103.6259f, 24.8166f, -66.3371f); TeleportPatch.TeleportPlayer(Back, 90, true);
         }
