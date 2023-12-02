@@ -12,7 +12,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
     public class DoorManager : MonoBehaviour, IOnEventCallback
     {
         public static DoorManager Data;
-        public int ButtonTimerDelay { get; private set; } = 3;
+        public int ButtonTimerDelay { get; private set; } = 5;
         public float LightTimerDelay { get; private set; } = 0.5f;
         public bool CanUseLeftButton { get; private set; } = true;
         public bool CanUseRightButton { get; private set; } = true;
