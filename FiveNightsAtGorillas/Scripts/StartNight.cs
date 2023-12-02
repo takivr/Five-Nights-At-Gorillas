@@ -2,7 +2,6 @@
 using FiveNightsAtGorillas.Managers.NetworkedData;
 using FiveNightsAtGorillas.Managers.Refrences;
 using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
 
 namespace FiveNightsAtGorillas.Other.NightStart
@@ -31,16 +30,14 @@ namespace FiveNightsAtGorillas.Other.NightStart
                     FNAG.Data.Jumpscare();
                     return;
                 }
-               if (!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom.PlayerCount <= 1)
-                    {
-                        FNAG.Data.StartGame(Night.ToString(), RefrenceManager.Data.GD.text.ToString(), RefrenceManager.Data.MD.text.ToString(), RefrenceManager.Data.BD.text.ToString(), RefrenceManager.Data.DD.text.ToString());
-                    }
-                    else if (PhotonNetwork.InRoom)
-                    {
-                        object[] value = new object[] { Night.ToString(), RefrenceManager.Data.GD.text.ToString(), RefrenceManager.Data.MD.text.ToString(), RefrenceManager.Data.BD.text.ToString(), RefrenceManager.Data.DD.text.ToString() };
-                        RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                        PhotonNetwork.RaiseEvent(PhotonData.RightDoor, value, options, SendOptions.SendReliable);
-                    }
+                if (!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom.PlayerCount <= 1)
+                {
+                    PhotonData.Data.StartGame(Night.ToString(), RefrenceManager.Data.GD.text.ToString(), RefrenceManager.Data.MD.text.ToString(), RefrenceManager.Data.BD.text.ToString(), RefrenceManager.Data.DD.text.ToString());
+                }
+                else if (PhotonNetwork.InRoom)
+                {
+                    PhotonData.Data.OnlineStartGame(Night.ToString());
+                }
             }
         }
     }
