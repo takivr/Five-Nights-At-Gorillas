@@ -101,6 +101,7 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.MenuRoundRunning.SetActive(false);
 
             RefrenceManager.Data.Menu.SetActive(false);
+            RefrenceManager.Data.FNAGMAP.SetActive(false);
         }
         #endregion
         #region EnemySetup
@@ -207,6 +208,7 @@ namespace FiveNightsAtGorillas
         { 
             InCustomRoom = true; 
             RefrenceManager.Data.Menu.SetActive(true);
+            RefrenceManager.Data.FNAGMAP.SetActive(true);
         }
 
         [ModdedGamemodeLeave]
@@ -215,6 +217,7 @@ namespace FiveNightsAtGorillas
             InCustomRoom = false;
             StopGame();
             RefrenceManager.Data.Menu.SetActive(false);
+            RefrenceManager.Data.FNAGMAP.SetActive(false);
             GameObject.Find("Selects").SetActive(false);
         }
 

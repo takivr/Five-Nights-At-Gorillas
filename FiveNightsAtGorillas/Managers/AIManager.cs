@@ -155,7 +155,7 @@ namespace FiveNightsAtGorillas.Managers.AI
 
         public void OnEvent(EventData photonEvent)
         {
-            if (GorillaComputer.instance.currentGameMode == "MODDED_fnagCASUAL" && photonEvent.CustomData != null)
+            if (FNAG.Data.InCustomRoom && photonEvent.CustomData != null)
             {
             object[] receivedData = (object[])photonEvent.CustomData;
                 byte random = (byte)receivedData[0];

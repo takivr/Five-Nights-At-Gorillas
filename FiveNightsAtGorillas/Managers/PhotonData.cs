@@ -27,7 +27,7 @@ namespace FiveNightsAtGorillas.Managers.NetworkedData
 
         public void OnEvent(EventData photonEvent)
         {
-            if (GorillaComputer.instance.currentGameMode == "MODDED_fnagCASUAL" && photonEvent.CustomData != null)
+            if (FNAG.Data.InCustomRoom && photonEvent.CustomData != null)
             {
                 object[] receivedData = (object[])photonEvent.CustomData;
                 byte NightNumber = (byte)receivedData[0];
