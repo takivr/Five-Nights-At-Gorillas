@@ -103,12 +103,6 @@ namespace FiveNightsAtGorillas.Managers.NetworkedData
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = int.Parse(BD);
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = int.Parse(DD);
             }
-            RefrenceManager.Data.MenuRoundRunning.SetActive(true);
-            RefrenceManager.Data.MenuWarning.SetActive(false);
-            RefrenceManager.Data.MenuIgnoreButton.SetActive(false);
-            RefrenceManager.Data.MenuSelects.SetActive(false);
-            RefrenceManager.Data.MenuScrollLeft.SetActive(false);
-            RefrenceManager.Data.MenuScrollRight.SetActive(false);
             TimePowerManager.Data.StartEverything();
             RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().StartAI();
             RefrenceManager.Data.mingusParent.GetComponent<AIManager>().StartAI();

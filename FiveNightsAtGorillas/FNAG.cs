@@ -254,12 +254,12 @@ namespace FiveNightsAtGorillas
 
         public void TeleportPlayerBack()
         { 
-            Vector3 Back = new Vector3(-66.3163f, 12.9148f, -82.4704f); Teleport.Data.TeleportPlayer(Back);
+            Vector3 Back = new Vector3(-66.3163f, 12.9148f, -82.4704f); Teleport.TeleportPlayer(Back, 90f, true);
         }
 
         public void TeleportPlayerToGame()
         { 
-            Vector3 Back = new Vector3(-103.6259f, 24.8166f, -66.3371f); Teleport.Data.TeleportPlayer(Back);
+            Vector3 Back = new Vector3(-103.6259f, 24.8166f, -66.3371f); Teleport.TeleportPlayer(Back, 90f, true);
         }
 
         public void Jumpscare()

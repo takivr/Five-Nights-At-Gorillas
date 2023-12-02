@@ -1,5 +1,4 @@
-﻿using ExitGames.Client.Photon;
-using FiveNightsAtGorillas.Managers.NetworkedData;
+﻿using FiveNightsAtGorillas.Managers.NetworkedData;
 using FiveNightsAtGorillas.Managers.Refrences;
 using Photon.Pun;
 using UnityEngine;
