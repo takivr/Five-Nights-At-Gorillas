@@ -201,19 +201,22 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
 
         public void OnEvent(EventData photonEvent)
         {
-            object[] receivedData = (object[])photonEvent.CustomData;
-            string Action = receivedData[0].ToString();
-            float y = float.Parse(receivedData[1].ToString());
-            switch (photonEvent.Code)
+            if(photonEvent.CustomData != null)
             {
-                case PhotonData.RightDoor:
-                    if (Action == PhotonData.Close.ToString()) { CloseOpenDoor(true, true, y); }
-                    else if (Action == PhotonData.Open.ToString()) { CloseOpenDoor(true, true, y); }
-                    break;
-                case PhotonData.LeftDoor:
-                    if (Action == PhotonData.Close.ToString()) { CloseOpenDoor(false, true, y); }
-                    else if (Action == PhotonData.Open.ToString()) { CloseOpenDoor(false, true, y); }
-                    break;
+                object[] receivedData = (object[])photonEvent.CustomData;
+                byte Action = (byte)receivedData[0];
+                float y = float.Parse(receivedData[1].ToString());
+                switch (photonEvent.Code)
+                {
+                    case PhotonData.RightDoor:
+                        if (Action == PhotonData.Close) { CloseOpenDoor(true, true, y); }
+                        else if (Action == PhotonData.Open) { CloseOpenDoor(true, true, y); }
+                        break;
+                    case PhotonData.LeftDoor:
+                        if (Action == PhotonData.Close) { CloseOpenDoor(false, true, y); }
+                        else if (Action == PhotonData.Open) { CloseOpenDoor(false, true, y); }
+                        break;
+                }
             }
         }
 
