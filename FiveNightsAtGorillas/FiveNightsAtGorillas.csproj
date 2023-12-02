@@ -77,9 +77,6 @@
     <Reference Include="System.ServiceModel.Internals">
       <HintPath>$(GameAssemblyPath)\System.ServiceModel.Internals.dll</HintPath>
     </Reference>
-    <Reference Include="TMPLoader">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Oculus\Software\Software\another-axiom-gorilla-tag\BepInEx\plugins\TMPLoader\TMPLoader.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.Animation.Rigging">
       <HintPath>$(GameAssemblyPath)\Unity.Animation.Rigging.dll</HintPath>
     </Reference>
@@ -96,7 +93,7 @@
       <HintPath>$(GameAssemblyPath)\Unity.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>..\..\..\..\..\..\..\Program Files\Oculus\Software\Software\another-axiom-gorilla-tag\BepInEx\plugins\TMPLoader\Unity.TextMeshPro.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files\Oculus\Software\Software\another-axiom-gorilla-tag\Gorilla Tag_Data\Managed\Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
       <HintPath>$(GameAssemblyPath)\Unity.Timeline.dll</HintPath>
