@@ -154,7 +154,7 @@ namespace FiveNightsAtGorillas.Managers.AI
         public void OnEvent(EventData photonEvent)
         {
             object[] receivedData = (object[])photonEvent.CustomData;
-            int random = int.Parse(receivedData[0].ToString());
+            byte random = (byte)receivedData[0];
             switch (photonEvent.Code)
             {
                 case PhotonData.Gorilla:
