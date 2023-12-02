@@ -35,7 +35,7 @@ namespace FiveNightsAtGorillas.Managers.NetworkedData
             switch (photonEvent.Code)
             {
                 case StartNight:
-                    StartGame(NightNumber, GD, MD, BD, DD);
+                    StartGame(NightNumber, GD.ToString(), MD.ToString(), BD.ToString(), DD.ToString());
                     break;
             }
         }
@@ -48,7 +48,7 @@ namespace FiveNightsAtGorillas.Managers.NetworkedData
             PhotonNetwork.RaiseEvent(RightDoor, value, options, SendOptions.SendReliable);
         }
 
-        public void StartGame(byte Night, byte GD, byte MD, byte BD, byte DD)
+        public void StartGame(byte Night, string GD, string MD, string BD, string DD)
         {
             #region StartGame
             if (Night == 1)
@@ -95,10 +95,10 @@ namespace FiveNightsAtGorillas.Managers.NetworkedData
             }
             if (Night == 7)
             {
-                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = GD;
-                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = MD;
-                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = BD;
-                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = DD;
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = int.Parse(GD);
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = int.Parse(MD);
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = int.Parse(BD);
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = int.Parse(DD);
             }
             RefrenceManager.Data.MenuRoundRunning.SetActive(true);
             RefrenceManager.Data.MenuWarning.SetActive(false);
