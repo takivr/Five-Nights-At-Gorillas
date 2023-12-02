@@ -26,17 +26,20 @@ namespace FiveNightsAtGorillas.Managers.NetworkedData
 
         public void OnEvent(EventData photonEvent)
         {
-            object[] receivedData = (object[])photonEvent.CustomData;
-            byte NightNumber = (byte)receivedData[0];
-            byte GD = (byte)receivedData[1];
-            byte MD = (byte)receivedData[2];
-            byte BD = (byte)receivedData[3];
-            byte DD = (byte)receivedData[4];
-            switch (photonEvent.Code)
+            if (photonEvent.CustomData != null)
             {
-                case StartNight:
-                    StartGame(NightNumber, GD.ToString(), MD.ToString(), BD.ToString(), DD.ToString());
-                    break;
+                object[] receivedData = (object[])photonEvent.CustomData;
+                byte NightNumber = (byte)receivedData[0];
+                byte GD = (byte)receivedData[1];
+                byte MD = (byte)receivedData[2];
+                byte BD = (byte)receivedData[3];
+                byte DD = (byte)receivedData[4];
+                switch (photonEvent.Code)
+                {
+                    case StartNight:
+                        StartGame(NightNumber, GD.ToString(), MD.ToString(), BD.ToString(), DD.ToString());
+                        break;
+                }
             }
         }
 
