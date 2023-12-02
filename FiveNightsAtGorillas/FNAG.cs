@@ -216,9 +216,6 @@ namespace FiveNightsAtGorillas
             InCustomRoom = false;
             StopGame();
             RefrenceManager.Data.Menu.SetActive(false);
-            RefrenceManager.Data.MenuScrollLeft.SetActive(false);
-            RefrenceManager.Data.MenuScrollRight.SetActive(false);
-            RefrenceManager.Data.MenuWarning.SetActive(true);
             GameObject.Find("Selects").SetActive(false);
         }
 
