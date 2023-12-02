@@ -205,7 +205,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
             {
                 object[] receivedData = (object[])photonEvent.CustomData;
                 byte Action = (byte)receivedData[0];
-                float y = float.Parse(receivedData[1].ToString());
+                byte y = (byte)receivedData[1];
                 switch (photonEvent.Code)
                 {
                     case PhotonData.RightDoor:
