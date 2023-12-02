@@ -6,6 +6,7 @@ using Photon.Realtime;
 using ExitGames.Client.Photon;
 using FiveNightsAtGorillas.Managers.NetworkedData;
 using FiveNightsAtGorillas.Managers.TimePower;
+using GorillaNetworking;
 
 namespace FiveNightsAtGorillas.Managers.DoorAndLight
 {
@@ -201,7 +202,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
 
         public void OnEvent(EventData photonEvent)
         {
-            if(photonEvent.CustomData != null)
+            if (GorillaComputer.instance.currentGameMode == "MODDED_fnagCASUAL" && photonEvent.CustomData != null)
             {
                 object[] receivedData = (object[])photonEvent.CustomData;
                 byte Action = (byte)receivedData[0];

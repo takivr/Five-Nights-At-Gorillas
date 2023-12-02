@@ -9,6 +9,7 @@ using FiveNightsAtGorillas.Managers.DoorAndLight;
 using Photon.Realtime;
 using FiveNightsAtGorillas.Other.PlayerDetecter;
 using FiveNightsAtGorillas.Managers.Cameras;
+using GorillaNetworking;
 
 namespace FiveNightsAtGorillas.Managers.AI
 {
@@ -154,9 +155,9 @@ namespace FiveNightsAtGorillas.Managers.AI
 
         public void OnEvent(EventData photonEvent)
         {
-            if (photonEvent.CustomData != null)
+            if (GorillaComputer.instance.currentGameMode == "MODDED_fnagCASUAL" && photonEvent.CustomData != null)
             {
-                object[] receivedData = (object[])photonEvent.CustomData;
+            object[] receivedData = (object[])photonEvent.CustomData;
                 byte random = (byte)receivedData[0];
                 switch (photonEvent.Code)
                 {

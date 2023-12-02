@@ -2,6 +2,7 @@
 using FiveNightsAtGorillas.Managers.AI;
 using FiveNightsAtGorillas.Managers.Refrences;
 using FiveNightsAtGorillas.Managers.TimePower;
+using GorillaNetworking;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -26,7 +27,7 @@ namespace FiveNightsAtGorillas.Managers.NetworkedData
 
         public void OnEvent(EventData photonEvent)
         {
-            if (photonEvent.CustomData != null)
+            if (GorillaComputer.instance.currentGameMode == "MODDED_fnagCASUAL" && photonEvent.CustomData != null)
             {
                 object[] receivedData = (object[])photonEvent.CustomData;
                 byte NightNumber = (byte)receivedData[0];
