@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using static OVRPlugin;
 
 namespace FiveNightsAtGorillas.Managers.Refrences
 {
@@ -120,6 +121,8 @@ namespace FiveNightsAtGorillas.Managers.Refrences
         public AudioSource Poweroutage { get; private set; }
         public AudioSource CameraButtonPressSound { get; private set; }
         public AudioSource DingusScrapingSound { get; private set; }
+        public AudioSource GorillaBoopSound { get; private set; }
+        public GameObject gorillaBoopTrigger { get; private set; }
 
         public GameObject MenuIgnoreButton { get; private set; }
         public GameObject MenuWarning { get; private set; }
@@ -301,6 +304,8 @@ namespace FiveNightsAtGorillas.Managers.Refrences
                 LeftDoorFailSound = GameObject.Find("LeftDoorFailAudio").GetComponent<AudioSource>();
                 CameraButtonPressSound = GameObject.Find("Camera Button Sound").GetComponent<AudioSource>();
                 DingusScrapingSound = GameObject.Find("DingusScrapingDoor").GetComponent<AudioSource>();
+                GorillaBoopSound = GameObject.Find("GorillaBoopSound").GetComponent<AudioSource>();
+                gorillaBoopTrigger = GameObject.Find("gorilla Boop Trigger");
 
                 AlreadySetRefrences = true;
             }

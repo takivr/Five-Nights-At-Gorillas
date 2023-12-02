@@ -21,6 +21,7 @@ using FiveNightsAtGorillas.Other.NightStart;
 using FiveNightsAtGorillas.Other.Scroll;
 using FiveNightsAtGorillas.Other.CustomNightAdd;
 using FiveNightsAtGorillas.Other.CustomNightSub;
+using FiveNightsAtGorillas.Other.BOOP;
 
 namespace FiveNightsAtGorillas
 {
@@ -157,7 +158,7 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos = "Cam11";
             RefrenceManager.Data.dingusParent.GetComponent<AIManager>().CamPos = "Stage1";
             RefrenceManager.Data.NearGameTrigger.AddComponent<PlayersInRound>();
-            RefrenceManager.Data.NearGameTrigger.layer = 18;
+            RefrenceManager.Data.gorillaBoopTrigger.AddComponent<Boop_>();
 
             RefrenceManager.Data.Cam1.AddComponent<CameraButton>().CameraButtonTrigger = "Cam1";
             RefrenceManager.Data.Cam2.AddComponent<CameraButton>().CameraButtonTrigger = "Cam2";
