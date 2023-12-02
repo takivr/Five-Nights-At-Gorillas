@@ -146,8 +146,9 @@ namespace FiveNightsAtGorillas.Managers.AI
 
         void DingusOnlineDelay()
         {
+            object[] value = new object[] { "NN" };
             RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-            PhotonNetwork.RaiseEvent(PhotonData.Dingus, null, options, SendOptions.SendReliable);
+            PhotonNetwork.RaiseEvent(PhotonData.Dingus, value, options, SendOptions.SendReliable);
         }
         #endregion
 
