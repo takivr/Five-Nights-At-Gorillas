@@ -153,40 +153,43 @@ namespace FiveNightsAtGorillas.Managers.AI
 
         public void OnEvent(EventData photonEvent)
         {
-            object[] receivedData = (object[])photonEvent.CustomData;
-            byte random = (byte)receivedData[0];
-            switch (photonEvent.Code)
+            if (photonEvent.CustomData != null)
             {
-                case PhotonData.Gorilla:
-                    if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveGorilla("Cam10"); } }
-                    else if (CamPos == "Cam4") { if (random == 1) { MoveGorilla("Cam3"); } else { MoveGorilla("Cam10"); } }
-                    else if (CamPos == "Cam10") { if (random == 1) { MoveGorilla("Cam5"); } else { MoveGorilla("Cam4"); } }
-                    else if (CamPos == "Cam5") { MoveGorilla("Cam10"); }
-                    else if (CamPos == "Cam11") { MoveGorilla("Cam10"); }
-                    break;
-                case PhotonData.Mingus:
-                    if (CamPos == "Cam2") { if (DoorManager.Data.LeftDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveMingus("Cam10"); } }
-                    else if (CamPos == "Cam1") { if (random == 1) { MoveMingus("Cam7"); } else { MoveMingus("Cam2"); } }
-                    else if (CamPos == "Cam7") { MoveMingus("Cam1"); }
-                    else if (CamPos == "Cam9") { MoveMingus("Cam10"); }
-                    else if (CamPos == "Cam10") { if (random == 1) { MoveMingus("Cam9"); } else { MoveMingus("Cam1"); } }
-                    else if (CamPos == "Cam11") { MoveMingus("Cam10"); }
-                    break;
-                case PhotonData.Bob:
-                    if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveBob("Cam10"); } }
-                    else if (CamPos == "Cam4") { MoveBob("Cam3"); }
-                    else if (CamPos == "Cam10") { if (random == 1) { MoveBob("Cam6"); } else { MoveBob("Cam4"); } }
-                    else if (CamPos == "Cam6") {  if (random == 1) { MoveBob("Cam10"); } else { MoveBob("Cam4"); } }
-                    else if (CamPos == "Cam11") { MoveBob("Cam10"); }
-                    break;
-                case PhotonData.Dingus:
-                    if (CamPos == "Stage6") { FNAG.Data.DingusRun(); }
-                    else if (CamPos == "Stage5") { MoveDingus("Stage6"); }
-                    else if (CamPos == "Stage4") { MoveDingus("Stage5"); }
-                    else if (CamPos == "Stage3") { MoveDingus("Stage4"); }
-                    else if (CamPos == "Stage2") { MoveDingus("Stage3"); }
-                    else if (CamPos == "Stage1") { MoveDingus("Stage2"); }
-                    break;
+                object[] receivedData = (object[])photonEvent.CustomData;
+                byte random = (byte)receivedData[0];
+                switch (photonEvent.Code)
+                {
+                    case PhotonData.Gorilla:
+                        if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveGorilla("Cam10"); } }
+                        else if (CamPos == "Cam4") { if (random == 1) { MoveGorilla("Cam3"); } else { MoveGorilla("Cam10"); } }
+                        else if (CamPos == "Cam10") { if (random == 1) { MoveGorilla("Cam5"); } else { MoveGorilla("Cam4"); } }
+                        else if (CamPos == "Cam5") { MoveGorilla("Cam10"); }
+                        else if (CamPos == "Cam11") { MoveGorilla("Cam10"); }
+                        break;
+                    case PhotonData.Mingus:
+                        if (CamPos == "Cam2") { if (DoorManager.Data.LeftDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveMingus("Cam10"); } }
+                        else if (CamPos == "Cam1") { if (random == 1) { MoveMingus("Cam7"); } else { MoveMingus("Cam2"); } }
+                        else if (CamPos == "Cam7") { MoveMingus("Cam1"); }
+                        else if (CamPos == "Cam9") { MoveMingus("Cam10"); }
+                        else if (CamPos == "Cam10") { if (random == 1) { MoveMingus("Cam9"); } else { MoveMingus("Cam1"); } }
+                        else if (CamPos == "Cam11") { MoveMingus("Cam10"); }
+                        break;
+                    case PhotonData.Bob:
+                        if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveBob("Cam10"); } }
+                        else if (CamPos == "Cam4") { MoveBob("Cam3"); }
+                        else if (CamPos == "Cam10") { if (random == 1) { MoveBob("Cam6"); } else { MoveBob("Cam4"); } }
+                        else if (CamPos == "Cam6") { if (random == 1) { MoveBob("Cam10"); } else { MoveBob("Cam4"); } }
+                        else if (CamPos == "Cam11") { MoveBob("Cam10"); }
+                        break;
+                    case PhotonData.Dingus:
+                        if (CamPos == "Stage6") { FNAG.Data.DingusRun(); }
+                        else if (CamPos == "Stage5") { MoveDingus("Stage6"); }
+                        else if (CamPos == "Stage4") { MoveDingus("Stage5"); }
+                        else if (CamPos == "Stage3") { MoveDingus("Stage4"); }
+                        else if (CamPos == "Stage2") { MoveDingus("Stage3"); }
+                        else if (CamPos == "Stage1") { MoveDingus("Stage2"); }
+                        break;
+                }
             }
         }
 
