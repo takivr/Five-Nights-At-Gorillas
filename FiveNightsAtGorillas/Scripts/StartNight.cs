@@ -34,10 +34,10 @@ namespace FiveNightsAtGorillas.Other.NightStart
                     PhotonData.Data.StartGame((byte)Night, RefrenceManager.Data.GD.text.ToString(), RefrenceManager.Data.MD.text.ToString(), RefrenceManager.Data.BD.text.ToString(), RefrenceManager.Data.DD.text.ToString());
                     return;
                 }
-                else if (PhotonNetwork.InRoom)
+                /*else if (PhotonNetwork.InRoom)
                 {
                     PhotonData.Data.OnlineStartGame(Night.ToString());
-                }
+                }*/
             }
         }
     }

@@ -27,7 +27,7 @@ namespace FiveNightsAtGorillas.Managers.NetworkedData
 
         public void OnEvent(EventData photonEvent)
         {
-            if (FNAG.Data.InCustomRoom && photonEvent.CustomData != null)
+            if (FNAG.Data.InCustomRoom && photonEvent != null)
             {
                 object[] receivedData = (object[])photonEvent.CustomData;
                 byte NightNumber = (byte)receivedData[0];

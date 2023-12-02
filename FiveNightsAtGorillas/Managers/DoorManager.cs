@@ -10,7 +10,7 @@ using GorillaNetworking;
 
 namespace FiveNightsAtGorillas.Managers.DoorAndLight
 {
-    public class DoorManager : MonoBehaviour, IOnEventCallback
+    public class DoorManager : MonoBehaviour//, IOnEventCallback
     {
         public static DoorManager Data;
         public int ButtonTimerDelay { get; private set; } = 5;
@@ -162,7 +162,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
             CanUseLeftLight = true;
         }
 
-        public void UseOnlineDoor(bool isRight)
+        /*public void UseOnlineDoor(bool isRight)
         {
             if (isRight)
             {
@@ -198,11 +198,11 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     return;
                 }
             }
-        }
+        }*/
 
-        public void OnEvent(EventData photonEvent)
+        /*public void OnEvent(EventData photonEvent)
         {
-            if (FNAG.Data.InCustomRoom && photonEvent.CustomData != null)
+            if (FNAG.Data.InCustomRoom && photonEvent != null)
             {
                 object[] receivedData = (object[])photonEvent.CustomData;
                 byte Action = (byte)receivedData[0];
@@ -219,7 +219,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                         break;
                 }
             }
-        }
+        }*/
 
         public void CloseOpenDoor(bool isRight, bool isClose, float yLevel)
         {
@@ -278,12 +278,10 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
             if (isRight) { CanUseRightButton = true; } else { CanUseLeftButton = true; }
         }
 
-        //I hope this works lol
-        object PlayDoorSound(bool isRight)
+        void PlayDoorSound(bool isRight)
         {
             if (isRight) { RefrenceManager.Data.RightDoorSound.Play(); StartCoroutine(ButtonDelay(true)); }
             else { RefrenceManager.Data.LeftDoorSound.Play(); StartCoroutine(ButtonDelay(false)); }
-            return this;
         }
     }
 }

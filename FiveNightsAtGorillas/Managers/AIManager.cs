@@ -13,7 +13,7 @@ using GorillaNetworking;
 
 namespace FiveNightsAtGorillas.Managers.AI
 {
-    public class AIManager : MonoBehaviourPun, IOnEventCallback
+    public class AIManager : MonoBehaviourPun//, IOnEventCallback
     {
         public string CamPos { get; set; }
         public string AIName { get; set; }
@@ -63,14 +63,14 @@ namespace FiveNightsAtGorillas.Managers.AI
         void RestartAI()
         {
             CameraManager.Data.RefreshCamera();
-            if (PlayersInRound.Data.PlayersPlaying <= 1 && AllowedToRun && AllowedToMove)
+            if (/*PlayersInRound.Data.PlayersPlaying <= 1 && */AllowedToRun && AllowedToMove)
             {
                 if (AIName == "gorilla" && Difficulty != 0 && AllowedToRun && AllowedToMove) { GorillaLocalDelay(); }
                 if (AIName == "mingus" && Difficulty != 0 && AllowedToRun && AllowedToMove) { MingusLocalDelay(); }
                 if (AIName == "bob" && Difficulty != 0 && AllowedToRun && AllowedToMove) { BobLocalDelay(); }
                 if (AIName == "dingus" && Difficulty != 0 && AllowedToRun && AllowedToMove) { DingusLocalDelay(); }
             }
-            else if (PlayersInRound.Data.PlayersPlaying > 1 && AllowedToRun && AllowedToMove)
+            /*else if (PlayersInRound.Data.PlayersPlaying > 1 && AllowedToRun && AllowedToMove)
             {
                 if (PhotonNetwork.LocalPlayer.IsMasterClient)
                 {
@@ -79,7 +79,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                     if (AIName == "bob" && Difficulty != 0 && AllowedToRun && AllowedToMove) { BobOnlineDelay(); }
                     if (AIName == "dingus" && Difficulty != 0 && AllowedToRun && AllowedToMove) { DingusOnlineDelay(); }
                 }
-            }
+            }*/
         }
 
         #region EnemyMove
@@ -121,7 +121,7 @@ namespace FiveNightsAtGorillas.Managers.AI
             else if (CamPos == "Stage1") { MoveDingus("Stage2"); }
         }
 
-        void GorillaOnlineDelay()
+        /*void GorillaOnlineDelay()
         {
             int randomvalue = Random.Range(1, 3);
             object[] value = new object[] { randomvalue };
@@ -150,12 +150,12 @@ namespace FiveNightsAtGorillas.Managers.AI
             object[] value = new object[] { "NN" };
             RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
             PhotonNetwork.RaiseEvent(PhotonData.Dingus, value, options, SendOptions.SendReliable);
-        }
+        }*/
         #endregion
 
-        public void OnEvent(EventData photonEvent)
+        /*public void OnEvent(EventData photonEvent)
         {
-            if (FNAG.Data.InCustomRoom && photonEvent.CustomData != null)
+            if (FNAG.Data.InCustomRoom && photonEvent != null)
             {
             object[] receivedData = (object[])photonEvent.CustomData;
                 byte random = (byte)receivedData[0];
@@ -193,7 +193,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                         break;
                 }
             }
-        }
+        }*/
 
         public void ResetDingus()
         {
