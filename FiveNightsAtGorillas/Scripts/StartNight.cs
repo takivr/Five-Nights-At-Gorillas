@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace FiveNightsAtGorillas.Other.NightStart
 {
-    public class StartNight : MonoBehaviour, IOnEventCallback
+    public class StartNight : MonoBehaviour
     {
         public int Night;
 
@@ -37,26 +37,10 @@ namespace FiveNightsAtGorillas.Other.NightStart
                     }
                     else if (PhotonNetwork.InRoom)
                     {
-                        object[] value = new object[] { Night, RefrenceManager.Data.GD.text.ToString(), RefrenceManager.Data.MD.text.ToString(), RefrenceManager.Data.BD.text.ToString(), RefrenceManager.Data.DD.text.ToString() };
+                        object[] value = new object[] { Night.ToString(), RefrenceManager.Data.GD.text.ToString(), RefrenceManager.Data.MD.text.ToString(), RefrenceManager.Data.BD.text.ToString(), RefrenceManager.Data.DD.text.ToString() };
                         RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
                         PhotonNetwork.RaiseEvent(PhotonData.RightDoor, value, options, SendOptions.SendReliable);
                     }
-            }
-        }
-
-        public void OnEvent(EventData photonEvent)
-        {
-            object[] receivedData = (object[])photonEvent.CustomData;
-            string NightNumber = receivedData[0].ToString();
-            string GD = receivedData[1].ToString();
-            string MD = receivedData[2].ToString();
-            string BD = receivedData[3].ToString();
-            string DD = receivedData[4].ToString();
-            switch (photonEvent.Code)
-            {
-                case PhotonData.StartNight:
-                    FNAG.Data.StartGame(NightNumber, GD, MD, BD, DD);
-                    break;
             }
         }
     }
