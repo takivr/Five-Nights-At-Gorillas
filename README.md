@@ -2,6 +2,7 @@
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ![Downloads](https://img.shields.io/github/downloads/MrBanana01/Five-Nights-At-Gorillas/total.svg)
+
 ^ This will show the downloads for the lastest release, not how many downloads were from this entire repo.
 
 A gorilla tag mod that recreates the whole five nights at Freddy's game in gorilla tag via a custom GameMode, All credit to the original five nights at Freddy's goes to "Scott Cawthon" or "Scottgames"
