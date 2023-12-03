@@ -74,36 +74,20 @@ namespace FiveNightsAtGorillas
 
             RefrenceManager.Data.SetRefrences();
 
+            SetupHitSounds();
             SetupComps();
             SetupEnemys();
             SetupMenu();
-            SetupHitSounds();
+
+            RefrenceManager.Data.GD.text = "20";
+            RefrenceManager.Data.MD.text = "20";
+            RefrenceManager.Data.BD.text = "20";
+            RefrenceManager.Data.DD.text = "20";
+
+            DoorManager.Data.UseLocalDoor(true);
+            DoorManager.Data.UseLocalDoor(false);
         }
 
-        #region MenuSetup
-        void SetupMenu()
-        {
-            RefrenceManager.Data.Menu.transform.position = new Vector3(-63.078f, 12.4836f, -82.3281f);
-            RefrenceManager.Data.Menu.transform.localRotation = Quaternion.Euler(0, 90, 0);
-
-            RefrenceManager.Data.NightOneSelect.SetActive(true);
-            RefrenceManager.Data.NightTwoSelect.SetActive(false);
-            RefrenceManager.Data.NightThreeSelect.SetActive(false);
-            RefrenceManager.Data.NightFourSelect.SetActive(false);
-            RefrenceManager.Data.NightFiveSelect.SetActive(false);
-            RefrenceManager.Data.NightSixSelect.SetActive(false);
-            RefrenceManager.Data.CustomNightSelect.SetActive(false);
-
-            RefrenceManager.Data.MenuScrollLeft.SetActive(false);
-            RefrenceManager.Data.MenuScrollRight.SetActive(false);
-            RefrenceManager.Data.MenuWarning.SetActive(true);
-            RefrenceManager.Data.MenuSelects.SetActive(false);
-            RefrenceManager.Data.MenuRoundRunning.SetActive(false);
-
-            RefrenceManager.Data.Menu.SetActive(false);
-            RefrenceManager.Data.FNAGMAP.SetActive(false);
-        }
-        #endregion
         #region EnemySetup
         void SetupEnemys()
         {
@@ -129,13 +113,12 @@ namespace FiveNightsAtGorillas
         void SetupHitSounds()
         {
             GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/Office/Floor/Floor").AddComponent<GorillaSurfaceOverride>().overrideIndex = 0;
-            GameObject.Find("Office Walls").AddComponent<GorillaSurfaceOverride>().overrideIndex = 0;
+            GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/Office/Walls/Office Walls").AddComponent<GorillaSurfaceOverride>().overrideIndex = 0;
             GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/Office/Chair/Cylinder (1)").AddComponent<GorillaSurfaceOverride>().overrideIndex = 3;
             GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/TheRest/Deco/Monitors").AddComponent<GorillaSurfaceOverride>().overrideIndex = 146;
             RefrenceManager.Data.CameraScreen.AddComponent<GorillaSurfaceOverride>().overrideIndex = 29;
+            RefrenceManager.Data.CameraScreen.AddComponent<BoxCollider>();
             GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/Office/Desk/Collider").AddComponent<GorillaSurfaceOverride>().overrideIndex = 146;
-            RefrenceManager.Data.RightDoorVoid.AddComponent<GorillaSurfaceOverride>().overrideIndex = 0;
-            RefrenceManager.Data.LeftDoorVoid.AddComponent<GorillaSurfaceOverride>().overrideIndex = 0;
         }
         #endregion
         #region SetupComps
@@ -192,6 +175,30 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.MenuCNSubMingus.AddComponent<CNSub>().IsMingus = true;
             RefrenceManager.Data.MenuCNSubBob.AddComponent<CNSub>().IsBob = true;
             RefrenceManager.Data.MenuCNSubDingus.AddComponent<CNSub>().IsDingus = true;
+        }
+        #endregion
+        #region MenuSetup
+        void SetupMenu()
+        {
+            RefrenceManager.Data.Menu.transform.position = new Vector3(-63.078f, 12.4836f, -82.3281f);
+            RefrenceManager.Data.Menu.transform.localRotation = Quaternion.Euler(0, 90, 0);
+
+            RefrenceManager.Data.NightOneSelect.SetActive(true);
+            RefrenceManager.Data.NightTwoSelect.SetActive(false);
+            RefrenceManager.Data.NightThreeSelect.SetActive(false);
+            RefrenceManager.Data.NightFourSelect.SetActive(false);
+            RefrenceManager.Data.NightFiveSelect.SetActive(false);
+            RefrenceManager.Data.NightSixSelect.SetActive(false);
+            RefrenceManager.Data.CustomNightSelect.SetActive(false);
+
+            RefrenceManager.Data.MenuScrollLeft.SetActive(false);
+            RefrenceManager.Data.MenuScrollRight.SetActive(true);
+            RefrenceManager.Data.MenuWarning.SetActive(false);
+            RefrenceManager.Data.MenuSelects.SetActive(true);
+            RefrenceManager.Data.MenuRoundRunning.SetActive(false);
+
+            RefrenceManager.Data.Menu.SetActive(false);
+            RefrenceManager.Data.FNAGMAP.SetActive(false);
         }
         #endregion
 
@@ -345,6 +352,7 @@ namespace FiveNightsAtGorillas
             {
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().ResetDingus();
                 RefrenceManager.Data.DingusScrapingSound.Play();
+                TimePowerManager.Data.DingusThing();
             }
         }
 

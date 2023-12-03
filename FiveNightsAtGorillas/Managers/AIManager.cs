@@ -95,10 +95,10 @@ namespace FiveNightsAtGorillas.Managers.AI
         void MingusLocalDelay()
         {
             if (CamPos == "Cam2") { if (DoorManager.Data.LeftDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveMingus("Cam10"); } }
+            else if (CamPos == "Cam10") { int random = Random.Range(1, 3); if (random == 1) { MoveMingus("Cam9"); } else { MoveMingus("Cam1"); } }
             else if (CamPos == "Cam1") { int random = Random.Range(1, 3); if (random == 1) { MoveMingus("Cam7"); } else { MoveMingus("Cam2"); } }
             else if (CamPos == "Cam7") { MoveMingus("Cam1"); }
             else if (CamPos == "Cam9") { MoveMingus("Cam10"); }
-            else if (CamPos == "Cam10") { int random = Random.Range(1, 3); if (random == 1) { MoveMingus("Cam9"); } else { MoveMingus("Cam1"); } }
             else if (CamPos == "Cam11") { MoveMingus("Cam10"); }
         }
 
@@ -113,7 +113,7 @@ namespace FiveNightsAtGorillas.Managers.AI
 
         void DingusLocalDelay()
         {
-            if (CamPos == "Stage6") { FNAG.Data.DingusRun(); }
+            if (CamPos == "Stage6") { FNAG.Data.DingusRun(); MoveDingus("Stage1"); }
             else if (CamPos == "Stage5") { MoveDingus("Stage6"); }
             else if (CamPos == "Stage4") { MoveDingus("Stage5"); }
             else if (CamPos == "Stage3") { MoveDingus("Stage4"); }
@@ -272,6 +272,7 @@ namespace FiveNightsAtGorillas.Managers.AI
                     {
                         if (ai.Difficulty != 0)
                         {
+                            ai.CamPos = NewCamPos;
                             foreach (var gPOS in RefrenceManager.Data.bob)
                             {
                                 gPOS.SetActive(false);

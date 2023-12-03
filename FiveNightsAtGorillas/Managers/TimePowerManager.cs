@@ -25,6 +25,8 @@ namespace FiveNightsAtGorillas.Managers.TimePower
             RefreshText();
         }
 
+        public void DingusThing() { CurrentPower -= 10; RefreshText(); }
+
         public void StopOnlyPower()
         {
             AllowedToRunPower = false;

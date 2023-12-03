@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace FiveNightsAtGorillas.Managers.NetworkedData
 {
-    public class PhotonData : MonoBehaviour, IOnEventCallback
+    public class PhotonData : MonoBehaviour//, IOnEventCallback
     {
         public const byte RightDoor = 90;
         public const byte LeftDoor = 91;
@@ -25,7 +25,7 @@ namespace FiveNightsAtGorillas.Managers.NetworkedData
 
         void Awake() { Data = this; }
 
-        public void OnEvent(EventData photonEvent)
+        /*public void OnEvent(EventData photonEvent)
         {
             if (FNAG.Data.InCustomRoom && photonEvent != null)
             {
@@ -42,15 +42,15 @@ namespace FiveNightsAtGorillas.Managers.NetworkedData
                         break;
                 }
             }
-        }
+        }*/
 
-        public void OnlineStartGame(string Night)
+        /*public void OnlineStartGame(string Night)
         {
             object[] value = new object[] { Night, RefrenceManager.Data.GD.text, RefrenceManager.Data.MD.text, RefrenceManager.Data.BD.text, RefrenceManager.Data.DD.text };
 
             RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
             PhotonNetwork.RaiseEvent(RightDoor, value, options, SendOptions.SendReliable);
-        }
+        }*/
 
         public void StartGame(byte Night, string GD, string MD, string BD, string DD)
         {
