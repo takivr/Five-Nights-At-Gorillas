@@ -206,8 +206,21 @@ namespace FiveNightsAtGorillas.Managers.AI
         {
             if (AllowedToRun)
             {
+                bool CanContinue = false;
+                AIManager[] OtherAI = Resources.FindObjectsOfTypeAll<AIManager>();
+                foreach(AIManager AI in OtherAI)
+                {
+                    if(AI.CamPos == NewCamPos)
+                    {
+                        CanContinue = false;
+                    }
+                    else
+                    {
+                        CanContinue = true;
+                    }
+                }
                 AIManager ai = RefrenceManager.Data.gorillaParent.GetComponent<AIManager>();
-                if (ai.CamPos != NewCamPos)
+                if (ai.CamPos != NewCamPos && CanContinue)
                 {
                     if (ai.AIName == "gorilla")
                     {
@@ -235,8 +248,21 @@ namespace FiveNightsAtGorillas.Managers.AI
         {
             if (AllowedToRun)
             {
+                bool CanContinue = false;
+                AIManager[] OtherAI = Resources.FindObjectsOfTypeAll<AIManager>();
+                foreach (AIManager AI in OtherAI)
+                {
+                    if (AI.CamPos == NewCamPos)
+                    {
+                        CanContinue = false;
+                    }
+                    else
+                    {
+                        CanContinue = true;
+                    }
+                }
                 AIManager ai = RefrenceManager.Data.mingusParent.GetComponent<AIManager>();
-                if (ai.CamPos != NewCamPos)
+                if (ai.CamPos != NewCamPos && CanContinue)
                 {
                     if (ai.AIName == "mingus")
                     {
@@ -265,8 +291,21 @@ namespace FiveNightsAtGorillas.Managers.AI
         {
             if (AllowedToRun)
             {
+                bool CanContinue = false;
+                AIManager[] OtherAI = Resources.FindObjectsOfTypeAll<AIManager>();
+                foreach (AIManager AI in OtherAI)
+                {
+                    if (AI.CamPos == NewCamPos)
+                    {
+                        CanContinue = false;
+                    }
+                    else
+                    {
+                        CanContinue = true;
+                    }
+                }
                 AIManager ai = RefrenceManager.Data.bobParent.GetComponent<AIManager>();
-                if (ai.CamPos != NewCamPos)
+                if (ai.CamPos != NewCamPos && CanContinue)
                 {
                     if (ai.AIName == "bob")
                     {

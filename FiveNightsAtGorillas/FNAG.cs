@@ -78,14 +78,6 @@ namespace FiveNightsAtGorillas
             SetupComps();
             SetupEnemys();
             SetupMenu();
-
-            RefrenceManager.Data.GD.text = "20";
-            RefrenceManager.Data.MD.text = "20";
-            RefrenceManager.Data.BD.text = "20";
-            RefrenceManager.Data.DD.text = "20";
-
-            DoorManager.Data.UseLocalDoor(true);
-            DoorManager.Data.UseLocalDoor(false);
         }
 
         #region EnemySetup
@@ -260,6 +252,7 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.CustomNightSelect.SetActive(false);
             RefrenceManager.Data.MenuRoundRunning.SetActive(false);
             #endregion
+            CameraManager.Data.RefreshCamera();
         }
 
         public void TeleportPlayerBack()
