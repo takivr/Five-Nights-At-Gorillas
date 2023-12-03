@@ -75,7 +75,12 @@ namespace FiveNightsAtGorillas.Managers.Cameras
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam3Bob;
                 }
-                else if (aiG.CamPos == "Cam3")
+                else
+                {
+                    RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam3Nothing;
+                }
+
+                if (aiG.CamPos == "Cam3")
                 {
                     RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam3Gorilla;
                 }

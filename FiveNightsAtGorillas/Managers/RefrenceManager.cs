@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
-using static OVRPlugin;
 
 namespace FiveNightsAtGorillas.Managers.Refrences
 {
@@ -128,6 +127,7 @@ namespace FiveNightsAtGorillas.Managers.Refrences
         public GameObject MenuWarning { get; private set; }
         public GameObject MenuRoundRunning { get; private set; }
         public GameObject MenuSelects { get; private set; }
+        public List<GameObject> MenuNights { get; private set; }
         public GameObject MenuScrollLeft { get; private set; }
         public GameObject MenuScrollRight { get; private set; }
         public GameObject MenuScrollRightButton { get; private set; }
@@ -147,7 +147,7 @@ namespace FiveNightsAtGorillas.Managers.Refrences
         public TextMeshPro DD { get; private set; }
         public TextMeshPro MD { get; private set; }
 
-        void Awake() { Data = this; MenuStartButton = new List<GameObject>(); gorilla = new List<GameObject>(); bob = new List<GameObject>(); mingus = new List<GameObject>(); dingus = new List<GameObject>(); CameraButtons = new List<GameObject>(); }
+        void Awake() { Data = this; MenuStartButton = new List<GameObject>(); MenuNights = new List<GameObject>(); gorilla = new List<GameObject>(); bob = new List<GameObject>(); mingus = new List<GameObject>(); dingus = new List<GameObject>(); CameraButtons = new List<GameObject>(); }
         public void SetRefrences()
         {
             if (!AlreadySetRefrences)
@@ -220,8 +220,8 @@ namespace FiveNightsAtGorillas.Managers.Refrences
                 MenuWarning = GameObject.Find("Warning");
                 MenuScrollLeftButton = GameObject.Find($"{Menu.name}/Select left/Button");
                 MenuScrollRightButton = GameObject.Find($"{Menu.name}/Select right/Button");
-                MenuScrollLeft = GameObject.Find("Select left");
-                MenuScrollRight = GameObject.Find("Select right");
+                MenuScrollLeft = GameObject.Find($"{Menu.name}/Select left/");
+                MenuScrollRight = GameObject.Find($"{Menu.name}/Select right/");
                 MenuStartButton.Add(GameObject.Find("START(n1)"));
                 MenuStartButton.Add(GameObject.Find("START(n2)"));
                 MenuStartButton.Add(GameObject.Find("START(n3)"));
@@ -306,6 +306,13 @@ namespace FiveNightsAtGorillas.Managers.Refrences
                 DingusScrapingSound = GameObject.Find("DingusScrapingDoor").GetComponent<AudioSource>();
                 GorillaBoopSound = GameObject.Find("GorillaBoopSound").GetComponent<AudioSource>();
                 gorillaBoopTrigger = GameObject.Find("gorilla Boop Trigger");
+                MenuNights.Add(NightOneSelect);
+                MenuNights.Add(NightTwoSelect);
+                MenuNights.Add(NightThreeSelect);
+                MenuNights.Add(NightFourSelect);
+                MenuNights.Add(NightFiveSelect);
+                MenuNights.Add(NightSixSelect);
+                MenuNights.Add(CustomNightSelect);
 
                 AlreadySetRefrences = true;
             }

@@ -31,13 +31,8 @@ namespace FiveNightsAtGorillas.Other.NightStart
                 }
                 if (!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom.PlayerCount <= 1)
                 {
-                    PhotonData.Data.StartGame((byte)Night, RefrenceManager.Data.GD.text.ToString(), RefrenceManager.Data.MD.text.ToString(), RefrenceManager.Data.BD.text.ToString(), RefrenceManager.Data.DD.text.ToString());
-                    return;
+                    FNAG.Data.StartGame(Night, RefrenceManager.Data.GD.text.ToString(), RefrenceManager.Data.MD.text.ToString(), RefrenceManager.Data.BD.text.ToString(), RefrenceManager.Data.DD.text.ToString());
                 }
-                /*else if (PhotonNetwork.InRoom)
-                {
-                    PhotonData.Data.OnlineStartGame(Night.ToString());
-                }*/
             }
         }
     }

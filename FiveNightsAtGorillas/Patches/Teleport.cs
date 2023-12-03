@@ -6,6 +6,7 @@ using HarmonyLib;
 using System.Reflection;
 using UnityEngine;
 using System;
+using FiveNightsAtGorillas.Managers.Refrences;
 
 namespace FiveNightsAtGorillas.Managers.Teleport
 {
@@ -69,6 +70,7 @@ namespace FiveNightsAtGorillas.Managers.Teleport
             _teleportRotation = destinationRotation;
             _isTeleporting = true;
             _rotate = true;
+            RefrenceManager.Data.FNAGMAP.SetActive(true);
         }
     }
 }

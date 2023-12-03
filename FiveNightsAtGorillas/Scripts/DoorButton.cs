@@ -29,19 +29,6 @@ namespace FiveNightsAtGorillas.Other.Door
             {
                 if (isLeft)
                 {
-                    /*if (PlayersInRound.Data.PlayersPlaying > 1)
-                    {
-                        if (DoorManager.Data.CanUseLeftButton)
-                        {
-                            DoorManager.Data.UseOnlineDoor(false);
-                        }
-                        else
-                        {
-                            RefrenceManager.Data.LeftDoorFailSound.Play();
-                        }
-                    }*/
-                    //else if(PlayersInRound.Data.PlayersPlaying <= 1)
-                    //{
                         if (DoorManager.Data.CanUseLeftButton)
                         {
                             DoorManager.Data.UseLocalDoor(false);
@@ -50,23 +37,9 @@ namespace FiveNightsAtGorillas.Other.Door
                         {
                             RefrenceManager.Data.LeftDoorFailSound.Play();
                         }
-                    //}
                 }
                 else
                 {
-                    /*if (PlayersInRound.Data.PlayersPlaying > 1)
-                    {
-                        if (DoorManager.Data.CanUseRightButton)
-                        {
-                            DoorManager.Data.UseOnlineDoor(true);
-                        }
-                        else
-                        {
-                            RefrenceManager.Data.RightDoorFailSound.Play();
-                        }
-                    }*/
-                    //else if(PlayersInRound.Data.PlayersPlaying <= 1)
-                    //{
                         if (DoorManager.Data.CanUseRightButton)
                         {
                             DoorManager.Data.UseLocalDoor(true);
@@ -75,7 +48,6 @@ namespace FiveNightsAtGorillas.Other.Door
                         {
                             RefrenceManager.Data.RightDoorFailSound.Play();
                         }
-                    //}
                 }
             }
         }

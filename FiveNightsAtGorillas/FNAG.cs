@@ -30,12 +30,14 @@ namespace FiveNightsAtGorillas
     [BepInPlugin(FNAGInfo.GUID, FNAGInfo.Name, FNAGInfo.Version)]
     public class FNAG : BaseUnityPlugin
     {
-        public int Version { get; private set; } = 100;
+        public int Version { get; private set; } = 101;
 
         public static FNAG Data;
         public bool RoundCurrentlyRunning;
         public bool LocalPlayingRound;
         public bool InCustomRoom { get; private set; }
+        public int CurrentPage { get; private set; } = 0;
+        public bool TestMode { get; private set; } = false;
 
         void Start() { Events.GameInitialized += OnGameInitialized; Data = this; }
 
@@ -78,6 +80,12 @@ namespace FiveNightsAtGorillas
             SetupComps();
             SetupEnemys();
             SetupMenu();
+
+            if (TestMode)
+            {
+                RefrenceManager.Data.Menu.SetActive(true);
+                RefrenceManager.Data.FNAGMAP.SetActive(true);
+            }
         }
 
         #region EnemySetup
@@ -94,11 +102,12 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.SixAM.SetActive(false);
             RefrenceManager.Data.Jumpscare.SetActive(false);
             RefrenceManager.Data.FNAGMAP.transform.position = new Vector3(-102.0151f, 23.7944f, -65.1198f);
-            RefrenceManager.Data.Jumpscares.transform.localRotation = Quaternion.Euler(0, 90, 0);
+            RefrenceManager.Data.Jumpscares.transform.localRotation = Quaternion.Euler(0, 180, 0);
             RefrenceManager.Data.Jumpscare.transform.parent = GorillaTagger.Instance.mainCamera.transform;
             RefrenceManager.Data.SixAM.transform.parent = GorillaTagger.Instance.mainCamera.transform;
-            RefrenceManager.Data.Jumpscare.transform.localPosition = new Vector3(0, -0.5f, 0.4f);
-            RefrenceManager.Data.SixAM.transform.localPosition = new Vector3(0.2273f, 0, 0.1091f);
+            RefrenceManager.Data.Jumpscare.transform.localPosition = new Vector3(0, -0.4f, 0.8f);
+            RefrenceManager.Data.SixAM.transform.localPosition = new Vector3(0, 0, 0.1f);
+            RefrenceManager.Data.SixAM.transform.localRotation = Quaternion.Euler(0, 180, 0);
         }
         #endregion
         #region SetupHitsounds
@@ -202,6 +211,28 @@ namespace FiveNightsAtGorillas
             return bundle;
         }
 
+        public void ChangeCurrentPage(bool isSub)
+        {
+            foreach (GameObject obj in RefrenceManager.Data.MenuNights)
+            {
+                obj.SetActive(false);
+            }
+
+            if (isSub)
+            {
+                CurrentPage--;
+                RefrenceManager.Data.MenuNights[CurrentPage].SetActive(true);
+                if (RefrenceManager.Data.CustomNightSelect.activeSelf) { RefrenceManager.Data.MenuScrollRight.SetActive(false); RefrenceManager.Data.MenuScrollLeft.SetActive(true); } else { RefrenceManager.Data.MenuScrollRight.SetActive(true); RefrenceManager.Data.MenuScrollLeft.SetActive(true); }
+                if (RefrenceManager.Data.NightOneSelect.activeSelf) { RefrenceManager.Data.MenuScrollRight.SetActive(true); RefrenceManager.Data.MenuScrollLeft.SetActive(false); } else { RefrenceManager.Data.MenuScrollRight.SetActive(true); RefrenceManager.Data.MenuScrollLeft.SetActive(true); }
+            }
+            else 
+            { 
+                CurrentPage++; RefrenceManager.Data.MenuNights[CurrentPage].SetActive(true);
+                if (RefrenceManager.Data.NightOneSelect.activeSelf) { RefrenceManager.Data.MenuScrollRight.SetActive(true); RefrenceManager.Data.MenuScrollLeft.SetActive(false); } else { RefrenceManager.Data.MenuScrollRight.SetActive(true); RefrenceManager.Data.MenuScrollLeft.SetActive(true); }
+                if (RefrenceManager.Data.CustomNightSelect.activeSelf) { RefrenceManager.Data.MenuScrollRight.SetActive(false); RefrenceManager.Data.MenuScrollLeft.SetActive(true); } else { RefrenceManager.Data.MenuScrollRight.SetActive(true); RefrenceManager.Data.MenuScrollLeft.SetActive(true); }
+            }
+        }
+
         [ModdedGamemodeJoin]
         void OnJoin(string gamemode) 
         { 
@@ -217,7 +248,6 @@ namespace FiveNightsAtGorillas
             StopGame();
             RefrenceManager.Data.Menu.SetActive(false);
             RefrenceManager.Data.FNAGMAP.SetActive(false);
-            GameObject.Find("Selects").SetActive(false);
         }
 
         public void StopGame()
@@ -237,22 +267,69 @@ namespace FiveNightsAtGorillas
             #region ResetDoors
             DoorManager.Data.ResetDoors();
             #endregion
-            #region ResetMenu
-            RefrenceManager.Data.MenuWarning.SetActive(false);
-            RefrenceManager.Data.MenuIgnoreButton.SetActive(false);
-            RefrenceManager.Data.MenuSelects.SetActive(true);
-            RefrenceManager.Data.MenuScrollLeft.SetActive(false);
-            RefrenceManager.Data.MenuScrollRight.SetActive(true);
-            RefrenceManager.Data.NightOneSelect.SetActive(true);
-            RefrenceManager.Data.NightTwoSelect.SetActive(false);
-            RefrenceManager.Data.NightThreeSelect.SetActive(false);
-            RefrenceManager.Data.NightFourSelect.SetActive(false);
-            RefrenceManager.Data.NightFiveSelect.SetActive(false);
-            RefrenceManager.Data.NightSixSelect.SetActive(false);
-            RefrenceManager.Data.CustomNightSelect.SetActive(false);
-            RefrenceManager.Data.MenuRoundRunning.SetActive(false);
-            #endregion
             CameraManager.Data.RefreshCamera();
+        }
+
+        public void StartGame(int Night, string GD, string MD, string BD, string DD)
+        {
+            #region StartGame
+            if (Night == 1)
+            {
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 0;
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 2;
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 2;
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 0;
+            }
+            if (Night == 2)
+            {
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 0;
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 2;
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 3;
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 1;
+            }
+            if (Night == 3)
+            {
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 1;
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 5;
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 4;
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 2;
+            }
+            if (Night == 4)
+            {
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 2;
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 7;
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 3;
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 6;
+            }
+            if (Night == 5)
+            {
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 5;
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 7;
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 6;
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 6;
+            }
+            if (Night == 6)
+            {
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 8;
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 12;
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 10;
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 16;
+            }
+            if (Night == 7)
+            {
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = int.Parse(GD);
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = int.Parse(MD);
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = int.Parse(BD);
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = int.Parse(DD);
+            }
+            TimePowerManager.Data.StartEverything();
+            RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().StartAI();
+            RefrenceManager.Data.mingusParent.GetComponent<AIManager>().StartAI();
+            RefrenceManager.Data.bobParent.GetComponent<AIManager>().StartAI();
+            RefrenceManager.Data.dingusParent.GetComponent<AIManager>().StartAI();
+            if (FNAG.Data.TestMode != true) { FNAG.Data.SkyColorGameBlack(); }
+            FNAG.Data.TeleportPlayerToGame();
+            #endregion
         }
 
         public void TeleportPlayerBack()
@@ -351,7 +428,8 @@ namespace FiveNightsAtGorillas
 
         IEnumerator JumpscareDelay()
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(1.5f);
+            RefrenceManager.Data.FNAGMAP.SetActive(false);
             TeleportPlayerBack();
             TimePowerManager.Data.StopEverything();
             SkyColorWhite();

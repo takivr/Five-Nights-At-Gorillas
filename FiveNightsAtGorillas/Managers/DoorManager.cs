@@ -162,65 +162,6 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
             CanUseLeftLight = true;
         }
 
-        /*public void UseOnlineDoor(bool isRight)
-        {
-            if (isRight)
-            {
-                if (RightDoorOpen)
-                {
-                    object[] value = new object[] { PhotonData.Close, 0.772f };
-                    RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                    PhotonNetwork.RaiseEvent(PhotonData.RightDoor, value, options, SendOptions.SendReliable);
-                    return;
-                }
-                else
-                {
-                    object[] value = new object[] { PhotonData.Open, 2.272f };
-                    RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                    PhotonNetwork.RaiseEvent(PhotonData.RightDoor, value, options, SendOptions.SendReliable);
-                    return;
-                }
-            }
-            else
-            {
-                if (LeftDoorOpen)
-                {
-                    object[] value = new object[] { PhotonData.Close, 0.75f };
-                    RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                    PhotonNetwork.RaiseEvent(PhotonData.LeftDoor, value, options, SendOptions.SendReliable);
-                    return;
-                }
-                else
-                {
-                    object[] value = new object[] { PhotonData.Open, 2.35f };
-                    RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-                    PhotonNetwork.RaiseEvent(PhotonData.LeftDoor, value, options, SendOptions.SendReliable);
-                    return;
-                }
-            }
-        }*/
-
-        /*public void OnEvent(EventData photonEvent)
-        {
-            if (FNAG.Data.InCustomRoom && photonEvent != null)
-            {
-                object[] receivedData = (object[])photonEvent.CustomData;
-                byte Action = (byte)receivedData[0];
-                byte y = (byte)receivedData[1];
-                switch (photonEvent.Code)
-                {
-                    case PhotonData.RightDoor:
-                        if (Action == PhotonData.Close) { CloseOpenDoor(true, true, y); }
-                        else if (Action == PhotonData.Open) { CloseOpenDoor(true, true, y); }
-                        break;
-                    case PhotonData.LeftDoor:
-                        if (Action == PhotonData.Close) { CloseOpenDoor(false, true, y); }
-                        else if (Action == PhotonData.Open) { CloseOpenDoor(false, true, y); }
-                        break;
-                }
-            }
-        }*/
-
         public void CloseOpenDoor(bool isRight, bool isClose, float yLevel)
         {
             if (isRight)
