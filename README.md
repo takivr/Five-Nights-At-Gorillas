@@ -7,13 +7,12 @@ A gorilla tag mod that recreates the whole five nights at Freddy's game in goril
 
 To use the mod, you need [Utilla](https://github.com/legoandmars/Utilla), once you load the mod successfully, go to the custom game mode called "FNAG" and once you join, look at the back of stump and you will see the menu.
 
-## WARNING! The light and cameras are NOT synced because it's meant to be a thing you can quickly use with no cooldown. Only doors and enemy pos are synced and the doors have a cooldown of 5 seconds per use
-
+## PLEASE NOTE THIS MOD WAS MEANT TO SYNC BUT WE RAN INTO TO MANY ISSUES AND WILL RELEASE A MULTIPLAYER UPDATE LATER IN THE FUTURE!
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## POWER:
-Because only the doors are synced, that means that only the doors will drain power. But don't think you can keep the lights on forever! if you use the lights too much, your light perms will be removed! and you will have to wait 40 seconds before being able to use it again.
+Don't think you can keep the lights on forever! if you use the lights too much, your light perms will be removed! and you will have to wait 40 seconds before being able to use it again.
 > One thing to note is that when the power goes out, the face does not appear because IMO, it looks very weird and stupid
 
 
