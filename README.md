@@ -3,6 +3,8 @@
 
 ![Downloads](https://img.shields.io/github/downloads/MrBanana01/Five-Nights-At-Gorillas/total.svg)
 
+> ^ This will show the downloads for the lastest release, not how many downloads were from this entire repo.
+
 A gorilla tag mod that recreates the whole five nights at Freddy's game in gorilla tag via a custom GameMode, All credit to the original five nights at Freddy's goes to "Scott Cawthon" or "Scottgames"
 
 To use the mod, you need [Utilla](https://github.com/legoandmars/Utilla), once you load the mod successfully, go to the custom game mode called "FNAG" and once you join, look at the back of stump and you will see the menu.
