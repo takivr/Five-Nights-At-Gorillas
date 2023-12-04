@@ -152,7 +152,6 @@ C:\Users\logan\OneDrive\Desktop\Mod Projects\FiveNightsAtGorillas\FiveNightsAtGo
 C:\Users\logan\OneDrive\Desktop\Mod Projects\FiveNightsAtGorillas\FiveNightsAtGorillasUpdater\bin\Debug\netstandard2.1\PlayFab.dll
 C:\Users\logan\OneDrive\Desktop\Mod Projects\FiveNightsAtGorillas\FiveNightsAtGorillasUpdater\bin\Debug\netstandard2.1\System.EnterpriseServices.dll
 C:\Users\logan\OneDrive\Desktop\Mod Projects\FiveNightsAtGorillas\FiveNightsAtGorillasUpdater\bin\Debug\netstandard2.1\System.ServiceModel.Internals.dll
-C:\Users\logan\OneDrive\Desktop\Mod Projects\FiveNightsAtGorillas\FiveNightsAtGorillasUpdater\bin\Debug\netstandard2.1\TMPLoader.dll
 C:\Users\logan\OneDrive\Desktop\Mod Projects\FiveNightsAtGorillas\FiveNightsAtGorillasUpdater\bin\Debug\netstandard2.1\Unity.Animation.Rigging.dll
 C:\Users\logan\OneDrive\Desktop\Mod Projects\FiveNightsAtGorillas\FiveNightsAtGorillasUpdater\bin\Debug\netstandard2.1\Unity.Burst.dll
 C:\Users\logan\OneDrive\Desktop\Mod Projects\FiveNightsAtGorillas\FiveNightsAtGorillasUpdater\bin\Debug\netstandard2.1\Unity.Burst.Unsafe.dll

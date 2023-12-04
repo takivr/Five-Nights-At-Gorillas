@@ -30,7 +30,7 @@ namespace FiveNightsAtGorillas
     [BepInPlugin(FNAGInfo.GUID, FNAGInfo.Name, FNAGInfo.Version)]
     public class FNAG : BaseUnityPlugin
     {
-        public int Version { get; private set; } = 101;
+        public int Version { get; private set; } = 100;
 
         public static FNAG Data;
         public bool RoundCurrentlyRunning;
