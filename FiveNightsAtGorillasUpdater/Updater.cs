@@ -33,7 +33,7 @@ namespace FNAGUpdater
 
         void OnEnable()
         {
-           FNAGHarmonyPatches.ApplyHarmonyPatches();
+            FNAGHarmonyPatches.ApplyHarmonyPatches();
         }
 
         void OnDisable()
@@ -120,6 +120,7 @@ namespace FNAGUpdater
             www.Dispose();
         }
 
+
         public IEnumerator GetNewVersion()
         {
             Debug.Log("Start of GetNewVersion");
@@ -134,46 +135,45 @@ namespace FNAGUpdater
                 }
                 else
                 {
-                    Debug.Log("Starting FNAG update");
-                    if (Directory.Exists("C:\\Program Files (x86)\\Steam\\steamapps\\common\\Gorilla Tag\\BepInEx\\plugins"))
+                    try
                     {
-                        Debug.Log("Putting new version in steam folder");
-                        string savePath = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Gorilla Tag\\BepInEx\\plugins\\FiveNightsAtGorillas.zip";
+                        string savePath = Path.Combine(BepInEx.Paths.PluginPath, "FiveNightsAtGorillas.zip");
                         File.WriteAllBytes(savePath, www.downloadHandler.data);
-                        Process proc = null;
 
-                        string batDir = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Gorilla Tag\\BepInEx\\plugins\\FiveNightsAtGorillasUpdater";
+                        string batDir = Path.Combine(BepInEx.Paths.PluginPath, "FiveNightsAtGorillasUpdater"); Process proc = new Process();
+
+                        proc.StartInfo.WorkingDirectory = batDir;
                         proc = new Process();
                         proc.StartInfo.WorkingDirectory = batDir;
-                        proc.StartInfo.FileName = "FNAGUpdate-STEAM.bat";
+                        proc.StartInfo.FileName = FileName();
                         proc.StartInfo.CreateNoWindow = true;
                         proc.Start();
                         proc.WaitForExit();
                     }
-                    if (Directory.Exists("C:\\Program Files\\Oculus\\Software\\Software\\another-axiom-gorilla-tag\\BepInEx\\plugins"))
+                    catch (Exception ex)
                     {
-                        Debug.Log("Putting new version in oculus PC folder");
-                        string savePath = "C:\\Program Files\\Oculus\\Software\\Software\\another-axiom-gorilla-tag\\BepInEx\\plugins\\FiveNightsAtGorillas.zip";
-                        File.WriteAllBytes(savePath, www.downloadHandler.data);
-                        Process proc = null;
-
-                        string batDir = "C:\\Program Files\\Oculus\\Software\\Software\\another-axiom-gorilla-tag\\BepInEx\\plugins\\FiveNightsAtGorillasUpdater";
-                        proc = new Process();
-                        proc.StartInfo.WorkingDirectory = batDir;
-                        proc.StartInfo.FileName = "FNAGUpdate-OCULUS.bat";
-                        proc.StartInfo.CreateNoWindow = true;
-                        proc.Start();
-                        proc.WaitForExit();
-                    }
-                    else
-                    {
-                        Debug.Log("Could not find game folder to update");
+                        Debug.Log("Error Applying Update with error: " + ex.Message);
                         Notif.SetActive(true);
                         UpdateButton.SetActive(false);
                         TitleText.text = "ERROR!";
-                        Message.text = "Could not find the game folder to put the new FNAG version in, please dowload the new FNAG update manually";
+                        Message.text = "Could not auto update to new FNAG version in, please dowload or extract the new FNAG update manually";
                     }
                 }
+            }
+        }
+        string FileName()
+        {
+            if (BepInEx.Paths.PluginPath.ToString().ToLower().Contains("another-axiom-gorilla-tag"))
+            {
+                return "FNAGUpdate-OCULUS.bat";
+            }
+            if (BepInEx.Paths.PluginPath.ToString().ToLower().Contains("common"))
+            {
+                return "FNAGUpdate-STEAM.bat";
+            }
+            else
+            {
+                return "";
             }
         }
     }
