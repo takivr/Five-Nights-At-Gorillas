@@ -15,7 +15,7 @@ namespace FiveNightsAtGorillas.Other.NightStart
         {
             if (other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider")
             {
-                if(other.name == "LeftHandTriggerCollider")
+                if (other.name == "LeftHandTriggerCollider")
                 {
                     GorillaTagger.Instance.StartVibration(true, GorillaTagger.Instance.tapHapticStrength / 2, GorillaTagger.Instance.tapHapticDuration);
                 }
@@ -24,12 +24,12 @@ namespace FiveNightsAtGorillas.Other.NightStart
                     GorillaTagger.Instance.StartVibration(false, GorillaTagger.Instance.tapHapticStrength / 2, GorillaTagger.Instance.tapHapticDuration);
                 }
 
-                if(RefrenceManager.Data.GD.text == "1" && RefrenceManager.Data.BD.text == "9" && RefrenceManager.Data.DD.text == "8" && RefrenceManager.Data.MD.text == "7")
+                if (RefrenceManager.Data.GD.text == "1" && RefrenceManager.Data.BD.text == "9" && RefrenceManager.Data.DD.text == "8" && RefrenceManager.Data.MD.text == "7")
                 {
                     FNAG.Data.Jumpscare();
                     return;
                 }
-                if (!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom.PlayerCount <= 1)
+                else
                 {
                     FNAG.Data.StartGame(Night, RefrenceManager.Data.GD.text.ToString(), RefrenceManager.Data.MD.text.ToString(), RefrenceManager.Data.BD.text.ToString(), RefrenceManager.Data.DD.text.ToString());
                 }

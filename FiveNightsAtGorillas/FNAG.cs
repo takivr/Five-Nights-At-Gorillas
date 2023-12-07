@@ -44,7 +44,7 @@ namespace FiveNightsAtGorillas
         public bool LocalPlayingRound;
         public bool InCustomRoom { get; private set; }
         public int CurrentPage { get; private set; } = 0;
-        public bool TestMode { get; private set; } = false;
+        public bool TestMode { get; private set; } = true;
         public bool HasUpdater;
         public bool GameRunning { get; private set; }
 
@@ -140,7 +140,6 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.ChainLoader.AddComponent<CameraManager>();
             RefrenceManager.Data.ChainLoader.AddComponent<TimePowerManager>();
             RefrenceManager.Data.ChainLoader.AddComponent<SandboxValues>();
-            RefrenceManager.Data.ChainLoader.AddComponent<Teleport>();
             RefrenceManager.Data.gorillaParent.AddComponent<AIManager>().AIName = "gorilla";
             RefrenceManager.Data.mingusParent.AddComponent<AIManager>().AIName = "mingus";
             RefrenceManager.Data.bobParent.AddComponent<AIManager>().AIName = "bob";
@@ -308,6 +307,7 @@ namespace FiveNightsAtGorillas
         public void StartGame(int Night, string GD, string MD, string BD, string DD)
         {
             #region StartGame
+            Vector3 Back = new Vector3(-103.5589f, 24.4809f, -66.4852f); Teleport.TeleportPlayer(Back, 90, true);
             if (Night == 1)
             {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 0;
@@ -315,42 +315,42 @@ namespace FiveNightsAtGorillas
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 2;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 0;
             }
-            if (Night == 2)
+            else if (Night == 2)
             {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 0;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 2;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 3;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 1;
             }
-            if (Night == 3)
+            else if (Night == 3)
             {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 1;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 5;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 4;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 2;
             }
-            if (Night == 4)
+            else if (Night == 4)
             {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 2;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 7;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 3;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 6;
             }
-            if (Night == 5)
+            else if (Night == 5)
             {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 5;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 7;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 6;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 6;
             }
-            if (Night == 6)
+            else if (Night == 6)
             {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 8;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 12;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 10;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 16;
             }
-            if (Night == 7)
+            else if (Night == 7)
             {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = int.Parse(GD);
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = int.Parse(MD);
@@ -362,15 +362,13 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.mingusParent.GetComponent<AIManager>().StartAI();
             RefrenceManager.Data.bobParent.GetComponent<AIManager>().StartAI();
             RefrenceManager.Data.dingusParent.GetComponent<AIManager>().StartAI();
-            if(!SandboxValues.Data.BrightOffice) { SkyColorGameBlack(); }
-            if (SandboxValues.Data.PitchBlack) { SkyColorFullBlack(); }
-            TeleportPlayerToGame();
             GameRunning = true;
             StartCoroutine(SpookyFootsteps());
+            if (!SandboxValues.Data.BrightOffice) { SkyColorGameBlack(); }
+            if (SandboxValues.Data.PitchBlack) { SkyColorFullBlack(); }
             if (SandboxValues.Data.NoCamera) { RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam11Nothing; }
             #endregion
         }
-
 
         IEnumerator SpookyFootsteps()
         {
@@ -389,17 +387,12 @@ namespace FiveNightsAtGorillas
 
         public void TeleportPlayerBack()
         { 
-            Vector3 Back = new Vector3(-66.3163f, 12.9148f, -82.4704f); Vector3 Rot = new Vector3(0, 90, 0); StartCoroutine(Teleport.Data.TeleportPlayer(Back, Rot, true));
-        }
-
-        public void TeleportPlayerToGame()
-        { 
-            Vector3 Back = new Vector3(-103.6259f, 24.8166f, -66.3371f); Vector3 Rot = new Vector3(0, 90, 0); StartCoroutine(Teleport.Data.TeleportPlayer(Back, Rot, true));
+            Vector3 Back = new Vector3(-66.3163f, 12.9148f, -82.4704f); Vector3 Rot = new Vector3(0, 90, 0); Teleport.TeleportPlayer(Back, 90, true);
         }
 
         public void TeleportPlayerToBox()
         {
-            Vector3 Rot = new Vector3(0, 90, 0); StartCoroutine(Teleport.Data.TeleportPlayer(RefrenceManager.Data.BlackBoxTeleport.transform.position, Rot, true));
+            Teleport.TeleportPlayer(RefrenceManager.Data.BlackBoxTeleport.transform.position, 90, true);
         }
 
         public void Jumpscare()
