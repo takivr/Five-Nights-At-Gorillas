@@ -71,6 +71,8 @@ namespace FNAGUpdater
             UpdateButton.SetActive(false);
 
             Notif.SetActive(false);
+
+            FNAG.Data.HasUpdater = true;
         }
 
         AssetBundle LoadAssetBundle(string path)

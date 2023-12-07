@@ -27,7 +27,7 @@ namespace FiveNightsAtGorillas.Other.CustomNightAdd
             {
                 if (IsGorilla)
                 {
-                    if(RefrenceManager.Data.GD.text != "20") 
+                    if(RefrenceManager.Data.GD.text != "25") 
                     {
                         int value = int.Parse(RefrenceManager.Data.GD.text);
                         value++;
@@ -36,7 +36,7 @@ namespace FiveNightsAtGorillas.Other.CustomNightAdd
                 }
                 else if(IsMingus)
                 {
-                    if (RefrenceManager.Data.MD.text != "20")
+                    if (RefrenceManager.Data.MD.text != "25")
                     {
                         int value = int.Parse(RefrenceManager.Data.MD.text);
                         value++;
@@ -45,7 +45,7 @@ namespace FiveNightsAtGorillas.Other.CustomNightAdd
                 }
                 else if(IsBob)
                 {
-                    if (RefrenceManager.Data.BD.text != "20")
+                    if (RefrenceManager.Data.BD.text != "25")
                     {
                         int value = int.Parse(RefrenceManager.Data.BD.text);
                         value++;
@@ -54,7 +54,7 @@ namespace FiveNightsAtGorillas.Other.CustomNightAdd
                 }
                 else if (IsDingus)
                 {
-                    if (RefrenceManager.Data.DD.text != "20")
+                    if (RefrenceManager.Data.DD.text != "25")
                     {
                         int value = int.Parse(RefrenceManager.Data.DD.text);
                         value++;

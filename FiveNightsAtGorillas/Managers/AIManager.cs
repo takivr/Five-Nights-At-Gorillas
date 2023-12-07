@@ -1,30 +1,21 @@
-﻿using ExitGames.Client.Photon;
-using FiveNightsAtGorillas.Managers.NetworkedData;
-using FiveNightsAtGorillas.Managers.Refrences;
+﻿using FiveNightsAtGorillas.Managers.Refrences;
 using Photon.Pun;
 using UnityEngine;
 using System.Collections;
 using Random = UnityEngine.Random;
 using FiveNightsAtGorillas.Managers.DoorAndLight;
-using Photon.Realtime;
-using FiveNightsAtGorillas.Other.PlayerDetecter;
 using FiveNightsAtGorillas.Managers.Cameras;
-using GorillaNetworking;
+using FiveNightsAtGorillas.Managers.Sandbox;
 
 namespace FiveNightsAtGorillas.Managers.AI
 {
-    public class AIManager : MonoBehaviourPun//, IOnEventCallback
+    public class AIManager : MonoBehaviourPun
     {
         public string CamPos { get; set; }
         public string AIName { get; set; }
         public bool AllowedToRun { get; private set; }
         public int Difficulty { get; set; }
         public bool AllowedToMove { get; private set; } = false;
-
-        void Awake()
-        {
-            PhotonNetwork.AddCallbackTarget(this);
-        }
 
         public void StopAI() { AllowedToRun = false; AllowedToMove = false; if (AIName != "dingus") { CamPos = "Cam11"; } else { CamPos = "Stage1"; } }
         public void StartAI()
@@ -38,7 +29,7 @@ namespace FiveNightsAtGorillas.Managers.AI
             int baseTime = 52 - Difficulty * 2;
 
             AllowedToMove = false;
-            yield return new WaitForSeconds(baseTime > 6 ? baseTime : 6);
+            yield return new WaitForSeconds(baseTime > 2 ? baseTime : 2);
             AllowedToMove = true;
 
             if (AllowedToRun) { RestartAI(); }
@@ -74,13 +65,13 @@ namespace FiveNightsAtGorillas.Managers.AI
 
         void RestartAI()
         {
-            CameraManager.Data.RefreshCamera();
             if (AllowedToRun && AllowedToMove)
             {
                 if (AIName == "gorilla" && Difficulty != 0 && AllowedToRun && AllowedToMove) { GorillaLocalDelay(); }
                 if (AIName == "mingus" && Difficulty != 0 && AllowedToRun && AllowedToMove) { MingusLocalDelay(); }
                 if (AIName == "bob" && Difficulty != 0 && AllowedToRun && AllowedToMove) { BobLocalDelay(); }
                 if (AIName == "dingus" && Difficulty != 0 && AllowedToRun && AllowedToMove) { DingusLocalDelay(); }
+                CameraManager.Data.RefreshCamera();
             }
         }
 
@@ -94,24 +85,31 @@ namespace FiveNightsAtGorillas.Managers.AI
                         FNAG.Data.Jumpscare();
                     else
                         MoveGorilla("Cam10");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
                     break;
                 case "Cam4":
                     if (Random.Range(1, 3) == 1)
                         MoveGorilla("Cam3");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam3"); }
                     else
                         MoveGorilla("Cam10");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
                     break;
                 case "Cam10":
                     if (Random.Range(1, 3) == 1)
                         MoveGorilla("Cam5");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam5"); }
                     else
                         MoveGorilla("Cam4");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam4"); }
                     break;
                 case "Cam5":
                     MoveGorilla("Cam10");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
                     break;
                 case "Cam11":
                     MoveGorilla("Cam10");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
                     break;
                 default:
                     break;
@@ -127,27 +125,35 @@ namespace FiveNightsAtGorillas.Managers.AI
                         FNAG.Data.Jumpscare();
                     else
                         MoveMingus("Cam10");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
                     break;
                 case "Cam10":
                     if (Random.Range(1, 3) == 1)
                         MoveMingus("Cam9");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam9"); }
                     else
                         MoveMingus("Cam1");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam1"); }
                     break;
                 case "Cam1":
                     if (Random.Range(1, 3) == 1)
                         MoveMingus("Cam7");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam7"); }
                     else
                         MoveMingus("Cam2");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam2"); }
                     break;
                 case "Cam7":
                     MoveMingus("Cam1");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam1"); }
                     break;
                 case "Cam9":
                     MoveMingus("Cam10");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
                     break;
                 case "Cam11":
                     MoveMingus("Cam10");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
                     break;
                 default:
                     break;
@@ -163,24 +169,31 @@ namespace FiveNightsAtGorillas.Managers.AI
                         FNAG.Data.Jumpscare();
                     else
                         MoveBob("Cam10");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
                     break;
                 case "Cam4":
                     MoveBob("Cam3");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam3"); }
                     break;
                 case "Cam10":
                     if (Random.Range(1, 3) == 1)
                         MoveBob("Cam6");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam6"); }
                     else
                         MoveBob("Cam4");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam4"); }
                     break;
                 case "Cam6":
                     if (Random.Range(1, 3) == 1)
                         MoveBob("Cam10");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
                     else
                         MoveBob("Cam4");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam4"); }
                     break;
                 case "Cam11":
                     MoveBob("Cam10");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
                     break;
                 default:
                     break;
@@ -195,58 +208,32 @@ namespace FiveNightsAtGorillas.Managers.AI
                 case "Stage6":
                     FNAG.Data.DingusRun();
                     MoveDingus("Stage1");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam8"); }
                     break;
                 case "Stage5":
                     MoveDingus("Stage6");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam8"); }
                     break;
                 case "Stage4":
                     MoveDingus("Stage5");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam8"); }
                     break;
                 case "Stage3":
                     MoveDingus("Stage4");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam8"); }
                     break;
                 case "Stage2":
                     MoveDingus("Stage3");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam8"); }
                     break;
                 case "Stage1":
                     MoveDingus("Stage2");
+                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam8"); }
                     break;
                 default:
                     break;
             }
         }
-
-
-        /*void GorillaOnlineDelay()
-        {
-            int randomvalue = Random.Range(1, 3);
-            object[] value = new object[] { randomvalue };
-            RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-            PhotonNetwork.RaiseEvent(PhotonData.Gorilla, value, options, SendOptions.SendReliable);
-        }
-
-        void MingusOnlineDelay()
-        {
-            int randomvalue = Random.Range(1, 3);
-            object[] value = new object[] { randomvalue };
-            RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-            PhotonNetwork.RaiseEvent(PhotonData.Mingus, value, options, SendOptions.SendReliable);
-        }
-
-        void BobOnlineDelay()
-        {
-            int randomvalue = Random.Range(1, 3);
-            object[] value = new object[] { randomvalue };
-            RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-            PhotonNetwork.RaiseEvent(PhotonData.Bob, value, options, SendOptions.SendReliable);
-        }
-
-        void DingusOnlineDelay()
-        {
-            object[] value = new object[] { "NN" };
-            RaiseEventOptions options = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-            PhotonNetwork.RaiseEvent(PhotonData.Dingus, value, options, SendOptions.SendReliable);
-        }*/
         #endregion
 
         public void ResetDingus()
@@ -256,7 +243,26 @@ namespace FiveNightsAtGorillas.Managers.AI
             RefrenceManager.Data.dingus[0].SetActive(true);
         }
 
-        object MoveGorilla(string NewCamPos)
+        void thing()
+        {
+            if (SandboxValues.Data.AutoCloseDoor)
+            {
+                AIManager[] AI = Resources.FindObjectsOfTypeAll<AIManager>();
+                foreach (AIManager ai1 in AI)
+                {
+                    if (ai1.CamPos != "Cam3" && !DoorManager.Data.RightDoorOpen)
+                    {
+                        DoorManager.Data.UseLocalDoor(true);
+                    }
+                    if(ai1.CamPos != "Cam2" && !DoorManager.Data.LeftDoorOpen)
+                    {
+                        DoorManager.Data.UseLocalDoor(false);
+                    }
+                }
+            }
+        }
+
+        void MoveGorilla(string NewCamPos)
         {
             if (AllowedToRun)
             {
@@ -290,15 +296,20 @@ namespace FiveNightsAtGorillas.Managers.AI
                             else if (NewCamPos == "Cam5") { RefrenceManager.Data.gorilla[2].SetActive(true); }
                             else if (NewCamPos == "Cam4") { RefrenceManager.Data.gorilla[3].SetActive(true); }
                             else if (NewCamPos == "Cam3") { RefrenceManager.Data.gorilla[4].SetActive(true); }
+
+                            if (SandboxValues.Data.AutoCloseDoor && CamPos == "Cam3")
+                            {
+                                if (DoorManager.Data.RightDoorOpen) { DoorManager.Data.UseLocalDoor(true); }
+                            }
+                            thing();
                         }
                     }
                 }
                 StartCoroutine(AllowedToMoveDelay());
             }
-            return this;
         }
 
-        object MoveMingus(string NewCamPos)
+        void MoveMingus(string NewCamPos)
         {
             if (AllowedToRun)
             {
@@ -333,15 +344,29 @@ namespace FiveNightsAtGorillas.Managers.AI
                             else if (NewCamPos == "Cam7") { RefrenceManager.Data.mingus[3].SetActive(true); }
                             else if (NewCamPos == "Cam1") { RefrenceManager.Data.mingus[4].SetActive(true); }
                             else if (NewCamPos == "Cam2") { RefrenceManager.Data.mingus[5].SetActive(true); }
+
+                            if(CamPos == "Cam2")
+                            {
+                                int random = Random.Range(1, 5);
+                                if(random == 3)
+                                {
+                                    RefrenceManager.Data.AnimatronicFootStepRight.Play();
+                                }
+                            }
+
+                            if (SandboxValues.Data.AutoCloseDoor && CamPos == "Cam2")
+                            {
+                                if (DoorManager.Data.LeftDoorOpen) { DoorManager.Data.UseLocalDoor(false); }
+                            }
+                            thing();
                         }
                     }
                 }
                 StartCoroutine(AllowedToMoveDelay());
             }
-            return this;
         }
 
-        object MoveBob(string NewCamPos)
+        void MoveBob(string NewCamPos)
         {
             if (AllowedToRun)
             {
@@ -375,15 +400,29 @@ namespace FiveNightsAtGorillas.Managers.AI
                             else if (NewCamPos == "Cam6") { RefrenceManager.Data.bob[2].SetActive(true); }
                             else if (NewCamPos == "Cam4") { RefrenceManager.Data.bob[3].SetActive(true); }
                             else if (NewCamPos == "Cam3") { RefrenceManager.Data.bob[4].SetActive(true); }
+
+                            if (CamPos == "Cam3")
+                            {
+                                int random = Random.Range(1, 5);
+                                if (random == 3)
+                                {
+                                    RefrenceManager.Data.AnimatronicFootStepLeft.Play();
+                                }
+                            }
+
+                            if (SandboxValues.Data.AutoCloseDoor && CamPos == "Cam3")
+                            {
+                                if (DoorManager.Data.RightDoorOpen) { DoorManager.Data.UseLocalDoor(true); }
+                            }
+                            thing();
                         }
                     }
                 }
                 StartCoroutine(AllowedToMoveDelay());
             }
-            return this;
         }
 
-        object MoveDingus(string NewCamPos)
+        void MoveDingus(string NewCamPos)
         {
             if (AllowedToRun)
             {
@@ -410,7 +449,6 @@ namespace FiveNightsAtGorillas.Managers.AI
                 }
                 StartCoroutine(AllowedToMoveDelay());
             }
-            return this;
         }
     }
 }

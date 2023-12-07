@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.UI;
+using GorillaLocomotion;
 
 namespace FiveNightsAtGorillas.Managers.Refrences
 {
@@ -9,6 +11,8 @@ namespace FiveNightsAtGorillas.Managers.Refrences
         bool AlreadySetRefrences;
 
         public static RefrenceManager Data;
+
+        public LayerMask DefaultMask { get; private set; }
 
         public GameObject ChainLoader { get; private set; }
         public GameObject FNAGMAP { get; set; }
@@ -113,6 +117,8 @@ namespace FiveNightsAtGorillas.Managers.Refrences
         public GameObject Jumpscare { get; private set; }
         public Animator JumpscareAnimation { get; private set; }
         public GameObject SixAM { get; private set; }
+        public GameObject StaticScreen { get; private set; }
+        public GameObject BlackBoxTeleport { get; private set; }
 
         public AudioSource DingusRunning { get; private set; }
         public AudioSource JumpscareSound { get; private set; }
@@ -121,6 +127,9 @@ namespace FiveNightsAtGorillas.Managers.Refrences
         public AudioSource CameraButtonPressSound { get; private set; }
         public AudioSource DingusScrapingSound { get; private set; }
         public AudioSource GorillaBoopSound { get; private set; }
+        public AudioSource AnimatronicFootStepLeft { get; private set; }
+        public AudioSource AnimatronicFootStepRight { get; private set; }
+        public AudioSource AnimatronicAtDoor { get; private set; }
         public GameObject gorillaBoopTrigger { get; private set; }
 
         public GameObject MenuIgnoreButton { get; private set; }
@@ -142,10 +151,44 @@ namespace FiveNightsAtGorillas.Managers.Refrences
         public GameObject MenuCNSubBob { get; private set; }
         public GameObject MenuCNSubMingus { get; private set; }
 
+        public OVRScreenFade CameraFade { get; private set; }
+
         public TextMeshPro GD { get; private set; }
         public TextMeshPro BD { get; private set; }
         public TextMeshPro DD { get; private set; }
         public TextMeshPro MD { get; private set; }
+
+        public TextMeshPro RecentNews { get; private set; }
+        public TextMeshPro Version { get; private set; }
+        public TextMeshPro HasUpdater { get; private set; }
+        public TextMeshPro TestMode { get; private set; }
+
+        public GameObject SwitchPageRight { get; private set; }
+        public GameObject SwitchPageLeft { get; private set; }
+
+        public GameObject BrightOffice { get; private set; }
+        public GameObject InfinitePower { get; private set; }
+        public GameObject AutoCloseDoor { get; private set; }
+        public GameObject AutoSwitchCamera { get; private set; }
+        public GameObject ShorterNight { get; private set; }
+        public GameObject SlowPower { get; private set; }
+        public GameObject FastPower { get; private set; }
+        public GameObject NoCamera { get; private set; }
+        public GameObject PitchBlack { get; private set; }
+        public GameObject NoLights { get; private set; }
+        public GameObject LimitedPower { get; private set; }
+
+        public TextMeshPro BrightOfficeOn { get; private set; }
+        public TextMeshPro InfinitePowerOn { get; private set; }
+        public TextMeshPro AutoCloseDoorOn { get; private set; }
+        public TextMeshPro AutoSwitchCameraOn { get; private set; }
+        public TextMeshPro ShorterNightOn { get; private set; }
+        public TextMeshPro SlowPowerOn { get; private set; }
+        public TextMeshPro FastPowerOn { get; private set; }
+        public TextMeshPro NoCameraOn { get; private set; }
+        public TextMeshPro PitchBlackOn { get; private set; }
+        public TextMeshPro NoLightsOn { get; private set; }
+        public TextMeshPro LimitedPowerOn { get; private set; }
 
         void Awake() { Data = this; MenuStartButton = new List<GameObject>(); MenuNights = new List<GameObject>(); gorilla = new List<GameObject>(); bob = new List<GameObject>(); mingus = new List<GameObject>(); dingus = new List<GameObject>(); CameraButtons = new List<GameObject>(); }
         public void SetRefrences()
@@ -211,7 +254,7 @@ namespace FiveNightsAtGorillas.Managers.Refrences
             bob.Add(GameObject.Find("bob(CAM3)"));
             Jumpscare = GameObject.Find("gorillaJS-PARENT");
             JumpscareAnimation = GameObject.Find($"{Jumpscares.name}/gorillaJS-PARENT/gorillaJS").GetComponent<Animator>();
-            SixAM = GameObject.Find($"{Jumpscares.name}/6AM");
+            SixAM = GameObject.Find($"{FNAGMAP.name}/BlackBox/6 AM video");
                 DingusRunning = GameObject.Find("Dingus Running").GetComponent<AudioSource>();
                 JumpscareSound = GameObject.Find("Jumpscare").GetComponent<AudioSource>();
                 SixAMSound = GameObject.Find($"{FNAGMAP.name}/Audio/6AM").GetComponent<AudioSource>();
@@ -313,6 +356,43 @@ namespace FiveNightsAtGorillas.Managers.Refrences
                 MenuNights.Add(NightFiveSelect);
                 MenuNights.Add(NightSixSelect);
                 MenuNights.Add(CustomNightSelect);
+
+                Version = GameObject.Find("CURRENT MOD VERSION").GetComponent<TextMeshPro>();
+                HasUpdater = GameObject.Find("HAS UPDATER").GetComponent<TextMeshPro>();
+                TestMode = GameObject.Find("IS TEST MODE").GetComponent<TextMeshPro>();
+                RecentNews = GameObject.Find("RECENT NEWS").GetComponent<TextMeshPro>();
+                SwitchPageRight = GameObject.Find("SwitchPageRight");
+                SwitchPageLeft = GameObject.Find("SwitchPageLeft");
+
+                BrightOffice = GameObject.Find("BrightOffice");
+                InfinitePower = GameObject.Find("Power Forever");
+                AutoCloseDoor = GameObject.Find("Auto Close Door");
+                AutoSwitchCamera = GameObject.Find("Auto Switch Camera");
+                ShorterNight = GameObject.Find("Shorter Night");
+                SlowPower = GameObject.Find("Slow Power");
+                FastPower = GameObject.Find("Fast Power");
+                NoCamera = GameObject.Find("No Camera");
+                PitchBlack = GameObject.Find("Pitch Black");
+                NoLights = GameObject.Find("No Lights");
+                LimitedPower = GameObject.Find("Limited Power");
+
+                BrightOfficeOn = GameObject.Find("Bright Office ON".ToUpper()).GetComponent<TextMeshPro>();
+                InfinitePowerOn = GameObject.Find("Power Forever ON".ToUpper()).GetComponent<TextMeshPro>();
+                AutoCloseDoorOn = GameObject.Find("Auto Close Door ON".ToUpper()).GetComponent<TextMeshPro>();
+                AutoSwitchCameraOn = GameObject.Find("Auto Switch Camera ON".ToUpper()).GetComponent<TextMeshPro>();
+                ShorterNightOn = GameObject.Find("Shorter Night ON".ToUpper()).GetComponent<TextMeshPro>();
+                SlowPowerOn = GameObject.Find("Slow Power ON".ToUpper()).GetComponent<TextMeshPro>();
+                FastPowerOn = GameObject.Find("Fast Power ON".ToUpper()).GetComponent<TextMeshPro>();
+                NoCameraOn = GameObject.Find("No Camera ON".ToUpper()).GetComponent<TextMeshPro>();
+                PitchBlackOn = GameObject.Find("Pitch Black ON".ToUpper()).GetComponent<TextMeshPro>();
+                NoLightsOn = GameObject.Find("No Lights ON".ToUpper()).GetComponent<TextMeshPro>();
+                LimitedPowerOn = GameObject.Find("Limited Power ON".ToUpper()).GetComponent<TextMeshPro>();
+                StaticScreen = GameObject.Find($"{Jumpscares.name}/STATIC/Backround");
+                BlackBoxTeleport = GameObject.Find("BlackBoxTeleportLocation");
+                AnimatronicAtDoor = GameObject.Find("Animatronic At door").GetComponent<AudioSource>();
+                AnimatronicFootStepLeft = GameObject.Find("FootstepsLEFT").GetComponent<AudioSource>();
+                AnimatronicFootStepRight = GameObject.Find("FootstepsRIGHT").GetComponent<AudioSource>();
+                DefaultMask = 134218241;
 
                 AlreadySetRefrences = true;
             }

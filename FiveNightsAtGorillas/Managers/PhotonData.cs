@@ -2,14 +2,11 @@
 using FiveNightsAtGorillas.Managers.AI;
 using FiveNightsAtGorillas.Managers.Refrences;
 using FiveNightsAtGorillas.Managers.TimePower;
-using GorillaNetworking;
-using Photon.Pun;
-using Photon.Realtime;
 using UnityEngine;
 
 namespace FiveNightsAtGorillas.Managers.NetworkedData
 {
-    public class PhotonData : MonoBehaviour//, IOnEventCallback
+    public class PhotonData : MonoBehaviour
     {
         public const byte RightDoor = 90;
         public const byte LeftDoor = 91;

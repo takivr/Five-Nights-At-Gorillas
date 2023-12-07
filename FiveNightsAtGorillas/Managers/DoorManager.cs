@@ -2,27 +2,28 @@
 using System.Collections;
 using Photon.Pun;
 using FiveNightsAtGorillas.Managers.Refrences;
-using Photon.Realtime;
-using ExitGames.Client.Photon;
-using FiveNightsAtGorillas.Managers.NetworkedData;
 using FiveNightsAtGorillas.Managers.TimePower;
-using GorillaNetworking;
+using FiveNightsAtGorillas.Managers.AI;
 
 namespace FiveNightsAtGorillas.Managers.DoorAndLight
 {
-    public class DoorManager : MonoBehaviour//, IOnEventCallback
+    public class DoorManager : MonoBehaviour
     {
         public static DoorManager Data;
-        public int ButtonTimerDelay { get; private set; } = 5;
-        public float LightTimerDelay { get; private set; } = 0.5f;
+        public float ButtonTimerDelay { get; private set; } = 0.8f;
+        public float LightTimerDelay { get; private set; } = 0.8f;
         public bool CanUseLeftButton { get; private set; } = true;
         public bool CanUseRightButton { get; private set; } = true;
+        public bool RightJammed { get; private set; } = false;
+        public bool LeftJammed { get; private set; } = false;
         public bool RightDoorOpen { get; private set; } = true;
         public bool LeftDoorOpen { get; private set; } = true;
         public bool RightLightOn { get; private set; }
         public bool LeftLightOn { get; private set; }
         public bool CanUseLeftLight { get; private set; } = true;
         public bool CanUseRightLight { get; private set; } = true;
+        public bool PlayedRightAnimatronicAtDoor { get; private set; } = false;
+        public bool PlayedLeftAnimatronicAtDoor { get; private set; } = false;
 
         void Awake() { Data = this; PhotonNetwork.AddCallbackTarget(this); }
 
@@ -34,6 +35,8 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
 
         public void ResetDoors()
         {
+            RightJammed = false;
+            LeftJammed = false;
             CanUseLeftButton = true;
             CanUseRightButton = true;
             CanUseLeftLight = true;
@@ -108,6 +111,10 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     RefrenceManager.Data.RightLightSound.Play();
                     RightLightOn = true;
                     StartCoroutine(LightUsedDelay());
+                    if (!PlayedRightAnimatronicAtDoor)
+                    {
+                        if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam3") { RefrenceManager.Data.AnimatronicAtDoor.Play(); StartCoroutine(AnimatronicAtDoorSoundDelay(true)); }
+                    }
                     return;
                 }
             }
@@ -127,6 +134,10 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     RefrenceManager.Data.LeftLightSound.Play();
                     LeftLightOn = true;
                     StartCoroutine(LightUsedDelay());
+                    if (!PlayedLeftAnimatronicAtDoor)
+                    {
+                        if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam3") { RefrenceManager.Data.AnimatronicAtDoor.Play(); StartCoroutine(AnimatronicAtDoorSoundDelay(false)); }
+                    }
                     return;
                 }
             }
@@ -152,6 +163,22 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                 CanUseLeftLight = false;
                 RefrenceManager.Data.LeftDoorFailSound.Play();
                 StartCoroutine(LightDelay());
+            }
+        }
+
+        IEnumerator AnimatronicAtDoorSoundDelay(bool right)
+        {
+            if (right)
+            {
+                PlayedRightAnimatronicAtDoor = true;
+                yield return new WaitForSeconds(15);
+                PlayedRightAnimatronicAtDoor = false;
+            }
+            else
+            {
+                PlayedLeftAnimatronicAtDoor = true;
+                yield return new WaitForSeconds(15);
+                PlayedLeftAnimatronicAtDoor = false;
             }
         }
 
@@ -181,6 +208,14 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     float z = RefrenceManager.Data.RightDoorObject.transform.localPosition.z;
                     RefrenceManager.Data.RightDoorObject.transform.localPosition = new Vector3(x, yLevel, z);
                     PlayDoorSound(true);
+                    AIManager[] AI = Resources.FindObjectsOfTypeAll<AIManager>();
+                    foreach(AIManager ai in AI)
+                    {
+                        if(ai.CamPos == "Cam3")
+                        {
+                            RightJammed = true;
+                        }
+                    }
                 }
             }
             else
@@ -200,6 +235,14 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     float z = RefrenceManager.Data.LeftDoorObject.transform.localPosition.z;
                     RefrenceManager.Data.LeftDoorObject.transform.localPosition = new Vector3(x, yLevel, z);
                     PlayDoorSound(false);
+                    AIManager[] AI = Resources.FindObjectsOfTypeAll<AIManager>();
+                    foreach (AIManager ai in AI)
+                    {
+                        if (ai.CamPos == "Cam3")
+                        {
+                            LeftJammed = true;
+                        }
+                    }
                 }
             }
             TimePowerManager.Data.RefreshDrainTime();

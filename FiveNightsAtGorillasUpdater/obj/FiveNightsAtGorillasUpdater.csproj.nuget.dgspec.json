@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Code\\Five-Nights-At-Gorillas\\FiveNightsAtGorillasUpdater\\FiveNightsAtGorillasUpdater.csproj": {}
+    "C:\\Users\\logan\\OneDrive\\Desktop\\Mod Projects\\FiveNightsAtGorillas\\FiveNightsAtGorillasUpdater\\FiveNightsAtGorillasUpdater.csproj": {}
   },
   "projects": {
-    "C:\\Code\\Five-Nights-At-Gorillas\\FiveNightsAtGorillasUpdater\\FiveNightsAtGorillasUpdater.csproj": {
+    "C:\\Users\\logan\\OneDrive\\Desktop\\Mod Projects\\FiveNightsAtGorillas\\FiveNightsAtGorillasUpdater\\FiveNightsAtGorillasUpdater.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Code\\Five-Nights-At-Gorillas\\FiveNightsAtGorillasUpdater\\FiveNightsAtGorillasUpdater.csproj",
+        "projectUniqueName": "C:\\Users\\logan\\OneDrive\\Desktop\\Mod Projects\\FiveNightsAtGorillas\\FiveNightsAtGorillasUpdater\\FiveNightsAtGorillasUpdater.csproj",
         "projectName": "FiveNightsAtGorillasUpdater",
-        "projectPath": "C:\\Code\\Five-Nights-At-Gorillas\\FiveNightsAtGorillasUpdater\\FiveNightsAtGorillasUpdater.csproj",
-        "packagesPath": "C:\\Users\\Graze\\.nuget\\packages\\",
-        "outputPath": "C:\\Code\\Five-Nights-At-Gorillas\\FiveNightsAtGorillasUpdater\\obj\\",
+        "projectPath": "C:\\Users\\logan\\OneDrive\\Desktop\\Mod Projects\\FiveNightsAtGorillas\\FiveNightsAtGorillasUpdater\\FiveNightsAtGorillasUpdater.csproj",
+        "packagesPath": "C:\\Users\\logan\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\logan\\OneDrive\\Desktop\\Mod Projects\\FiveNightsAtGorillas\\FiveNightsAtGorillasUpdater\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\Graze\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\logan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,6 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

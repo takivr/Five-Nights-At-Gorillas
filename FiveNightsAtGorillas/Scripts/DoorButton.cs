@@ -29,7 +29,7 @@ namespace FiveNightsAtGorillas.Other.Door
             {
                 if (isLeft)
                 {
-                        if (DoorManager.Data.CanUseLeftButton)
+                        if (DoorManager.Data.CanUseLeftButton || !DoorManager.Data.LeftJammed)
                         {
                             DoorManager.Data.UseLocalDoor(false);
                         }
@@ -40,7 +40,7 @@ namespace FiveNightsAtGorillas.Other.Door
                 }
                 else
                 {
-                        if (DoorManager.Data.CanUseRightButton)
+                        if (DoorManager.Data.CanUseRightButton || !DoorManager.Data.RightJammed)
                         {
                             DoorManager.Data.UseLocalDoor(true);
                         }

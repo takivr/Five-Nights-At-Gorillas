@@ -2,6 +2,7 @@
 using System.Collections;
 using FiveNightsAtGorillas.Managers.DoorAndLight;
 using FiveNightsAtGorillas.Managers.Refrences;
+using FiveNightsAtGorillas.Managers.Sandbox;
 
 namespace FiveNightsAtGorillas.Managers.TimePower
 {
@@ -13,6 +14,7 @@ namespace FiveNightsAtGorillas.Managers.TimePower
         public string CurrentTime { get; private set; } = "12AM";
         public bool AllowedToRunTime { get; private set; } = false;
         public bool AllowedToRunPower { get; private set; } = false;
+        public int TimerDelay = 120;
 
         void Awake() { Data = this; }
         
@@ -37,6 +39,10 @@ namespace FiveNightsAtGorillas.Managers.TimePower
 
         public void StartEverything()
         {
+            if (SandboxValues.Data.ShorterNight) { TimerDelay = 70; } else { TimerDelay = 120; }
+            if (SandboxValues.Data.SlowPower) { CurrentPowerDrainTime = 20; } else { CurrentPowerDrainTime = 10; }
+            if (SandboxValues.Data.FastPower) { CurrentPowerDrainTime = 7; } else { CurrentPowerDrainTime = 10; }
+            if (SandboxValues.Data.LimitedPower) { CurrentPower = 70; } else { CurrentPower = 100; }
             AllowedToRunTime = true;
             AllowedToRunPower = true;
             CurrentTime = "12AM";
@@ -50,22 +56,22 @@ namespace FiveNightsAtGorillas.Managers.TimePower
         {
             if(DoorManager.Data.RightDoorOpen && !DoorManager.Data.LeftDoorOpen)
             {
-                CurrentPowerDrainTime = 6;
+                if (SandboxValues.Data.SlowPower) { CurrentPowerDrainTime = 16; } else if (SandboxValues.Data.FastPower) { CurrentPowerDrainTime = 3; } else { CurrentPowerDrainTime = 6; }
                 return;
             }
             else if(!DoorManager.Data.RightDoorOpen && DoorManager.Data.LeftDoorOpen)
             {
-                CurrentPowerDrainTime = 6;
+                if (SandboxValues.Data.SlowPower) { CurrentPowerDrainTime = 16; } else if (SandboxValues.Data.FastPower) { CurrentPowerDrainTime = 3; } else { CurrentPowerDrainTime = 6; }
                 return;
             }
             else if(DoorManager.Data.RightDoorOpen && DoorManager.Data.LeftDoorOpen)
             {
-                CurrentPowerDrainTime = 10;
+                if (SandboxValues.Data.SlowPower) { CurrentPowerDrainTime = 20; } else if (SandboxValues.Data.FastPower) { CurrentPowerDrainTime = 7; } else { CurrentPowerDrainTime = 10; }
                 return;
             }
             else if(!DoorManager.Data.RightDoorOpen && !DoorManager.Data.LeftDoorOpen)
             {
-                CurrentPowerDrainTime = 3;
+                if (SandboxValues.Data.SlowPower) { CurrentPowerDrainTime = 8; } else if (SandboxValues.Data.FastPower) { CurrentPowerDrainTime = (int)0.5; } else { CurrentPowerDrainTime = 3; }
             }
         }
 
@@ -78,7 +84,7 @@ namespace FiveNightsAtGorillas.Managers.TimePower
         IEnumerator PowerDelay()
         {
             yield return new WaitForSeconds(CurrentPowerDrainTime);
-            if (AllowedToRunPower)
+            if (AllowedToRunPower && !SandboxValues.Data.InfinitePower)
             {
                 CurrentPower--;
                 if(CurrentPower < 0)
@@ -92,7 +98,7 @@ namespace FiveNightsAtGorillas.Managers.TimePower
 
         IEnumerator TimeDelay()
         {
-            yield return new WaitForSeconds(90);
+            yield return new WaitForSeconds(TimerDelay);
             if (AllowedToRunTime)
             {
                 if (CurrentTime == "12AM") { CurrentTime = "1AM"; }

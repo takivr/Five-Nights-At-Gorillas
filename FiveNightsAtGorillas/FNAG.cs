@@ -6,7 +6,6 @@ using System.Reflection;
 using UnityEngine;
 using Utilla;
 using System.Collections;
-using FiveNightsAtGorillas.Managers.Teleport;
 using FiveNightsAtGorillas.Other.Door;
 using FiveNightsAtGorillas.Managers.AI;
 using FiveNightsAtGorillas.Managers.DoorAndLight;
@@ -22,6 +21,14 @@ using FiveNightsAtGorillas.Other.Scroll;
 using FiveNightsAtGorillas.Other.CustomNightAdd;
 using FiveNightsAtGorillas.Other.CustomNightSub;
 using FiveNightsAtGorillas.Other.BOOP;
+using UnityEngine.Networking;
+using FiveNightsAtGorillas.Other.SwitchPage;
+using FiveNightsAtGorillas.Other.SandboxOption;
+using FiveNightsAtGorillas.Managers.Sandbox;
+using UnityEngine.Video;
+using FiveNightsAtGorillas.Managers.TeleportScript;
+using Random = UnityEngine.Random;
+using GorillaLocomotion;
 
 namespace FiveNightsAtGorillas
 {
@@ -30,7 +37,7 @@ namespace FiveNightsAtGorillas
     [BepInPlugin(FNAGInfo.GUID, FNAGInfo.Name, FNAGInfo.Version)]
     public class FNAG : BaseUnityPlugin
     {
-        public int Version { get; private set; } = 100;
+        public int Version { get; private set; } = 102;
 
         public static FNAG Data;
         public bool RoundCurrentlyRunning;
@@ -38,21 +45,20 @@ namespace FiveNightsAtGorillas
         public bool InCustomRoom { get; private set; }
         public int CurrentPage { get; private set; } = 0;
         public bool TestMode { get; private set; } = false;
+        public bool HasUpdater;
+        public bool GameRunning { get; private set; }
 
         void Start() { Events.GameInitialized += OnGameInitialized; Data = this; }
 
         void OnEnable() { HarmonyPatches.ApplyHarmonyPatches(); }
-        void OnDisable() { this.enabled = true; HarmonyPatches.RemoveHarmonyPatches(); } //Sorry! I can't take the time to figure out how I'm going to disable this properly
-        void MakeFog() { RenderSettings.fog = true; RenderSettings.fogStartDistance = 7; RenderSettings.fogColor = Color.black; }
-        void MakePoweroutFog() { RenderSettings.fog = true; RenderSettings.fogStartDistance = 0.3f; RenderSettings.fogColor = Color.black; }
-        void RemoveFog() { RenderSettings.fog = false; }
-        public void SkyColorFullBlack() { RenderSettings.ambientSkyColor = Color.black; MakeFog(); }
-        public void SkyColorGameBlack() { RenderSettings.ambientSkyColor = RefrenceManager.Data.GameSkyColor.color; MakeFog(); }
-        public void SkyColorWhite() { RenderSettings.ambientSkyColor = Color.white; RemoveFog(); }
+        void OnDisable() { Data.enabled = true; HarmonyPatches.RemoveHarmonyPatches(); } //Sorry! I can't take the time to figure out how I'm going to disable this properly
+        public void SkyColorFullBlack() { RenderSettings.ambientSkyColor = Color.black; }
+        public void SkyColorGameBlack() { RenderSettings.ambientSkyColor = RefrenceManager.Data.GameSkyColor.color; }
+        public void SkyColorWhite() { RenderSettings.ambientSkyColor = Color.white; }
 
         void OnGameInitialized(object sender, EventArgs e)
         {
-            GameObject[] allObjs = Resources.FindObjectsOfTypeAll<GameObject>();
+            /*GameObject[] allObjs = Resources.FindObjectsOfTypeAll<GameObject>();
             foreach (GameObject obj in allObjs)
             {
                 if(obj.name == "head_end")
@@ -61,7 +67,7 @@ namespace FiveNightsAtGorillas
                     obj.layer = 10;
                     obj.GetComponent<BoxCollider>().center = new Vector3(0, 0, 0);
                 }
-            }
+            }*/
 
             var bundle = LoadAssetBundle("FiveNightsAtGorillas.Assets.fnag");
             var map = bundle.LoadAsset<GameObject>("FNAG MAP");
@@ -80,6 +86,7 @@ namespace FiveNightsAtGorillas
             SetupComps();
             SetupEnemys();
             SetupMenu();
+            StartCoroutine(GetInfoStuff());
 
             if (TestMode)
             {
@@ -99,15 +106,15 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.mingus[0].SetActive(true);
             RefrenceManager.Data.dingus[0].SetActive(true);
             RefrenceManager.Data.bob[0].SetActive(true);
-            RefrenceManager.Data.SixAM.SetActive(false);
             RefrenceManager.Data.Jumpscare.SetActive(false);
+            RefrenceManager.Data.StaticScreen.transform.parent = GorillaTagger.Instance.mainCamera.transform;
+            RefrenceManager.Data.StaticScreen.transform.localPosition = new Vector3(0, 0, 0.6f);
+            RefrenceManager.Data.StaticScreen.SetActive(false);
             RefrenceManager.Data.FNAGMAP.transform.position = new Vector3(-102.0151f, 23.7944f, -65.1198f);
             RefrenceManager.Data.Jumpscares.transform.localRotation = Quaternion.Euler(0, 180, 0);
             RefrenceManager.Data.Jumpscare.transform.parent = GorillaTagger.Instance.mainCamera.transform;
-            RefrenceManager.Data.SixAM.transform.parent = GorillaTagger.Instance.mainCamera.transform;
             RefrenceManager.Data.Jumpscare.transform.localPosition = new Vector3(0, -0.4f, 0.8f);
-            RefrenceManager.Data.SixAM.transform.localPosition = new Vector3(0, 0, 0.1f);
-            RefrenceManager.Data.SixAM.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            RefrenceManager.Data.StaticScreen.transform.localScale = new Vector3(2, 1.3f, 0.3234f);
         }
         #endregion
         #region SetupHitsounds
@@ -119,7 +126,6 @@ namespace FiveNightsAtGorillas
             GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/TheRest/Deco/Monitors").AddComponent<GorillaSurfaceOverride>().overrideIndex = 146;
             RefrenceManager.Data.CameraScreen.AddComponent<GorillaSurfaceOverride>().overrideIndex = 29;
             RefrenceManager.Data.CameraScreen.AddComponent<BoxCollider>();
-            GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/Office/Desk/Collider").AddComponent<GorillaSurfaceOverride>().overrideIndex = 146;
         }
         #endregion
         #region SetupComps
@@ -133,6 +139,8 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.ChainLoader.AddComponent<DoorManager>();
             RefrenceManager.Data.ChainLoader.AddComponent<CameraManager>();
             RefrenceManager.Data.ChainLoader.AddComponent<TimePowerManager>();
+            RefrenceManager.Data.ChainLoader.AddComponent<SandboxValues>();
+            RefrenceManager.Data.ChainLoader.AddComponent<Teleport>();
             RefrenceManager.Data.gorillaParent.AddComponent<AIManager>().AIName = "gorilla";
             RefrenceManager.Data.mingusParent.AddComponent<AIManager>().AIName = "mingus";
             RefrenceManager.Data.bobParent.AddComponent<AIManager>().AIName = "bob";
@@ -176,6 +184,21 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.MenuCNSubMingus.AddComponent<CNSub>().IsMingus = true;
             RefrenceManager.Data.MenuCNSubBob.AddComponent<CNSub>().IsBob = true;
             RefrenceManager.Data.MenuCNSubDingus.AddComponent<CNSub>().IsDingus = true;
+
+            RefrenceManager.Data.SwitchPageRight.AddComponent<SwitchPage>().isSub = false;
+            RefrenceManager.Data.SwitchPageLeft.AddComponent<SwitchPage>().isSub = true;
+
+            RefrenceManager.Data.BrightOffice.AddComponent<SandboxOption>().IsBrightOffice = true;
+            RefrenceManager.Data.AutoCloseDoor.AddComponent<SandboxOption>().IsAutoCloseDoor = true;
+            RefrenceManager.Data.AutoSwitchCamera.AddComponent<SandboxOption>().IsAutoSwitchCamera = true;
+            RefrenceManager.Data.ShorterNight.AddComponent<SandboxOption>().IsShorterNight = true;
+            RefrenceManager.Data.SlowPower.AddComponent<SandboxOption>().IsSlowPower = true;
+            RefrenceManager.Data.FastPower.AddComponent<SandboxOption>().IsFastPower = true;
+            RefrenceManager.Data.NoCamera.AddComponent<SandboxOption>().IsNoCamera = true;
+            RefrenceManager.Data.PitchBlack.AddComponent<SandboxOption>().IsPitchBlack = true;
+            RefrenceManager.Data.NoLights.AddComponent<SandboxOption>().IsNoLights = true;
+            RefrenceManager.Data.LimitedPower.AddComponent<SandboxOption>().IsLimitedPower = true;
+            RefrenceManager.Data.InfinitePower.AddComponent<SandboxOption>().IsInfinitePower = true;
         }
         #endregion
         #region MenuSetup
@@ -233,6 +256,17 @@ namespace FiveNightsAtGorillas
             }
         }
 
+        IEnumerator GetInfoStuff()
+        {
+            yield return new WaitForSeconds(10);
+            RefrenceManager.Data.Version.text = Version.ToString();
+            RefrenceManager.Data.HasUpdater.text = HasUpdater.ToString();
+            RefrenceManager.Data.TestMode.text = TestMode.ToString();
+            UnityWebRequest www = UnityWebRequest.Get("https://raw.githubusercontent.com/MrBanana01/Five-Nights-At-Gorillas/master/News");
+            yield return www.SendWebRequest();
+            RefrenceManager.Data.RecentNews.text = www.downloadHandler.text;
+        }
+
         [ModdedGamemodeJoin]
         void OnJoin(string gamemode) 
         { 
@@ -268,6 +302,7 @@ namespace FiveNightsAtGorillas
             DoorManager.Data.ResetDoors();
             #endregion
             CameraManager.Data.RefreshCamera();
+            GameRunning = false;
         }
 
         public void StartGame(int Night, string GD, string MD, string BD, string DD)
@@ -327,19 +362,44 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.mingusParent.GetComponent<AIManager>().StartAI();
             RefrenceManager.Data.bobParent.GetComponent<AIManager>().StartAI();
             RefrenceManager.Data.dingusParent.GetComponent<AIManager>().StartAI();
-            if (FNAG.Data.TestMode != true) { FNAG.Data.SkyColorGameBlack(); }
-            FNAG.Data.TeleportPlayerToGame();
+            if(!SandboxValues.Data.BrightOffice) { SkyColorGameBlack(); }
+            if (SandboxValues.Data.PitchBlack) { SkyColorFullBlack(); }
+            TeleportPlayerToGame();
+            GameRunning = true;
+            StartCoroutine(SpookyFootsteps());
+            if (SandboxValues.Data.NoCamera) { RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam11Nothing; }
             #endregion
+        }
+
+
+        IEnumerator SpookyFootsteps()
+        {
+            if (GameRunning)
+            {
+                yield return new WaitForSeconds(90);
+                int random = Random.Range(1, 10);
+                if (random == 6)
+                {
+                    RefrenceManager.Data.AnimatronicFootStepLeft.Play();
+                }
+                else if (random == 7) { RefrenceManager.Data.AnimatronicFootStepRight.Play(); }
+                StartCoroutine(SpookyFootsteps());
+            }
         }
 
         public void TeleportPlayerBack()
         { 
-            Vector3 Back = new Vector3(-66.3163f, 12.9148f, -82.4704f); Teleport.TeleportPlayer(Back, 90f, true);
+            Vector3 Back = new Vector3(-66.3163f, 12.9148f, -82.4704f); Vector3 Rot = new Vector3(0, 90, 0); StartCoroutine(Teleport.Data.TeleportPlayer(Back, Rot, true));
         }
 
         public void TeleportPlayerToGame()
         { 
-            Vector3 Back = new Vector3(-103.6259f, 24.8166f, -66.3371f); Teleport.TeleportPlayer(Back, 90f, true);
+            Vector3 Back = new Vector3(-103.6259f, 24.8166f, -66.3371f); Vector3 Rot = new Vector3(0, 90, 0); StartCoroutine(Teleport.Data.TeleportPlayer(Back, Rot, true));
+        }
+
+        public void TeleportPlayerToBox()
+        {
+            Vector3 Rot = new Vector3(0, 90, 0); StartCoroutine(Teleport.Data.TeleportPlayer(RefrenceManager.Data.BlackBoxTeleport.transform.position, Rot, true));
         }
 
         public void Jumpscare()
@@ -380,14 +440,16 @@ namespace FiveNightsAtGorillas
         public void SixAM()
         {
             StopGame();
-            RefrenceManager.Data.SixAM.SetActive(true);
             RefrenceManager.Data.SixAMSound.Play();
             RefrenceManager.Data.Poweroutage.Stop();
+            TeleportPlayerToBox();
+            RefrenceManager.Data.SixAM.GetComponent<VideoPlayer>().Play();
             StartCoroutine(SixAMDelay());
         }
 
         public void DingusRun()
         {
+            if (SandboxValues.Data.AutoCloseDoor) { if (DoorManager.Data.LeftDoorOpen) { DoorManager.Data.UseLocalDoor(false); } }
             RefrenceManager.Data.DingusRunning.Play();
             foreach (GameObject D in RefrenceManager.Data.dingus)
             {
@@ -398,11 +460,10 @@ namespace FiveNightsAtGorillas
 
         IEnumerator SixAMDelay()
         {
+            TimePowerManager.Data.StopEverything();
             yield return new WaitForSeconds(10);
-            RefrenceManager.Data.SixAM.SetActive(false);
             TeleportPlayerBack();
             SkyColorWhite();
-            TimePowerManager.Data.StopEverything();
         }
 
         IEnumerator PoweroutageDelay()
@@ -429,7 +490,13 @@ namespace FiveNightsAtGorillas
         IEnumerator JumpscareDelay()
         {
             yield return new WaitForSeconds(1.5f);
-            RefrenceManager.Data.FNAGMAP.SetActive(false);
+            TeleportPlayerToBox();
+            RefrenceManager.Data.Jumpscare.SetActive(false);
+            RefrenceManager.Data.JumpscareSound.Stop();
+            RefrenceManager.Data.StaticScreen.SetActive(true);
+            RefrenceManager.Data.StaticScreen.GetComponent<VideoPlayer>().Play();
+            yield return new WaitForSeconds(7);
+            RefrenceManager.Data.StaticScreen.SetActive(false);
             TeleportPlayerBack();
             TimePowerManager.Data.StopEverything();
             SkyColorWhite();
