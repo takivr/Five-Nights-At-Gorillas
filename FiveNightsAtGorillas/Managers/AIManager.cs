@@ -78,161 +78,40 @@ namespace FiveNightsAtGorillas.Managers.AI
         #region EnemyMove
         void GorillaLocalDelay()
         {
-            switch (CamPos)
-            {
-                case "Cam3":
-                    if (DoorManager.Data.RightDoorOpen)
-                        FNAG.Data.Jumpscare();
-                    else
-                        MoveGorilla("Cam10");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
-                    break;
-                case "Cam4":
-                    if (Random.Range(1, 3) == 1)
-                        MoveGorilla("Cam3");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam3"); }
-                    else
-                        MoveGorilla("Cam10");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
-                    break;
-                case "Cam10":
-                    if (Random.Range(1, 3) == 1)
-                        MoveGorilla("Cam5");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam5"); }
-                    else
-                        MoveGorilla("Cam4");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam4"); }
-                    break;
-                case "Cam5":
-                    MoveGorilla("Cam10");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
-                    break;
-                case "Cam11":
-                    MoveGorilla("Cam10");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
-                    break;
-                default:
-                    break;
-            }
+            if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveGorilla("Cam10"); } return; }
+            else if (CamPos == "Cam4") { int random = Random.Range(1, 3); if (random == 1) { MoveGorilla("Cam3"); } else { MoveGorilla("Cam10"); } return; }
+            else if (CamPos == "Cam10") { int random = Random.Range(1, 3); if (random == 1) { MoveGorilla("Cam5"); } else { MoveGorilla("Cam4"); } return; }
+            else if (CamPos == "Cam5") { MoveGorilla("Cam10"); return; }
+            else if (CamPos == "Cam11") { MoveGorilla("Cam10"); return; }
         }
 
         void MingusLocalDelay()
         {
-            switch (CamPos)
-            {
-                case "Cam2":
-                    if (DoorManager.Data.LeftDoorOpen)
-                        FNAG.Data.Jumpscare();
-                    else
-                        MoveMingus("Cam10");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
-                    break;
-                case "Cam10":
-                    if (Random.Range(1, 3) == 1)
-                        MoveMingus("Cam9");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam9"); }
-                    else
-                        MoveMingus("Cam1");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam1"); }
-                    break;
-                case "Cam1":
-                    if (Random.Range(1, 3) == 1)
-                        MoveMingus("Cam7");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam7"); }
-                    else
-                        MoveMingus("Cam2");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam2"); }
-                    break;
-                case "Cam7":
-                    MoveMingus("Cam1");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam1"); }
-                    break;
-                case "Cam9":
-                    MoveMingus("Cam10");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
-                    break;
-                case "Cam11":
-                    MoveMingus("Cam10");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
-                    break;
-                default:
-                    break;
-            }
+            if (CamPos == "Cam2") { if (DoorManager.Data.LeftDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveMingus("Cam10"); } return; }
+            else if (CamPos == "Cam10") { int random = Random.Range(1, 3); if (random == 1) { MoveMingus("Cam9"); } else { MoveMingus("Cam1"); } return; }
+            else if (CamPos == "Cam1") { int random = Random.Range(1, 3); if (random == 1) { MoveMingus("Cam7"); } else { MoveMingus("Cam2"); } return; }
+            else if (CamPos == "Cam7") { MoveMingus("Cam1"); return; }
+            else if (CamPos == "Cam9") { MoveMingus("Cam10"); return; }
+            else if (CamPos == "Cam11") { MoveMingus("Cam10"); return; }
         }
 
         void BobLocalDelay()
         {
-            switch (CamPos)
-            {
-                case "Cam3":
-                    if (DoorManager.Data.RightDoorOpen)
-                        FNAG.Data.Jumpscare();
-                    else
-                        MoveBob("Cam10");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
-                    break;
-                case "Cam4":
-                    MoveBob("Cam3");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam3"); }
-                    break;
-                case "Cam10":
-                    if (Random.Range(1, 3) == 1)
-                        MoveBob("Cam6");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam6"); }
-                    else
-                        MoveBob("Cam4");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam4"); }
-                    break;
-                case "Cam6":
-                    if (Random.Range(1, 3) == 1)
-                        MoveBob("Cam10");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
-                    else
-                        MoveBob("Cam4");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam4"); }
-                    break;
-                case "Cam11":
-                    MoveBob("Cam10");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam10"); }
-                    break;
-                default:
-                    break;
-            }
+            if (CamPos == "Cam3") { if (DoorManager.Data.RightDoorOpen) { FNAG.Data.Jumpscare(); } else { MoveBob("Cam10"); } return; }
+            else if (CamPos == "Cam4") { MoveBob("Cam3"); return; }
+            else if (CamPos == "Cam10") { int random = Random.Range(1, 3); if (random == 1) { MoveBob("Cam6"); } else { MoveBob("Cam4"); } return; }
+            else if (CamPos == "Cam6") { int random = Random.Range(1, 3); if (random == 1) { MoveBob("Cam10"); } else { MoveBob("Cam4"); } return; }
+            else if (CamPos == "Cam11") { MoveBob("Cam10"); return; }
         }
-
 
         void DingusLocalDelay()
         {
-            switch (CamPos)
-            {
-                case "Stage6":
-                    FNAG.Data.DingusRun();
-                    MoveDingus("Stage1");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam8"); }
-                    break;
-                case "Stage5":
-                    MoveDingus("Stage6");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam8"); }
-                    break;
-                case "Stage4":
-                    MoveDingus("Stage5");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam8"); }
-                    break;
-                case "Stage3":
-                    MoveDingus("Stage4");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam8"); }
-                    break;
-                case "Stage2":
-                    MoveDingus("Stage3");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam8"); }
-                    break;
-                case "Stage1":
-                    MoveDingus("Stage2");
-                    if (SandboxValues.Data.AutoSwitchCamera) { CameraManager.Data.ChangeCamera("Cam8"); }
-                    break;
-                default:
-                    break;
-            }
+            if (CamPos == "Stage6") { FNAG.Data.DingusRun(); MoveDingus("Stage1"); return; }
+            else if (CamPos == "Stage5") { MoveDingus("Stage6"); return; }
+            else if (CamPos == "Stage4") { MoveDingus("Stage5"); return; }
+            else if (CamPos == "Stage3") { MoveDingus("Stage4"); return; }
+            else if (CamPos == "Stage2") { MoveDingus("Stage3"); return; }
+            else if (CamPos == "Stage1") { MoveDingus("Stage2"); return; }
         }
         #endregion
 
@@ -241,25 +120,6 @@ namespace FiveNightsAtGorillas.Managers.AI
             CamPos = "Stage1";
             foreach (GameObject D in RefrenceManager.Data.dingus) { D.SetActive(false); }
             RefrenceManager.Data.dingus[0].SetActive(true);
-        }
-
-        void thing()
-        {
-            if (SandboxValues.Data.AutoCloseDoor)
-            {
-                AIManager[] AI = Resources.FindObjectsOfTypeAll<AIManager>();
-                foreach (AIManager ai1 in AI)
-                {
-                    if (ai1.CamPos != "Cam3" && !DoorManager.Data.RightDoorOpen)
-                    {
-                        DoorManager.Data.UseLocalDoor(true);
-                    }
-                    if(ai1.CamPos != "Cam2" && !DoorManager.Data.LeftDoorOpen)
-                    {
-                        DoorManager.Data.UseLocalDoor(false);
-                    }
-                }
-            }
         }
 
         void MoveGorilla(string NewCamPos)
@@ -301,12 +161,11 @@ namespace FiveNightsAtGorillas.Managers.AI
                             {
                                 if (DoorManager.Data.RightDoorOpen) { DoorManager.Data.UseLocalDoor(true); }
                             }
-                            thing();
                         }
                     }
                 }
-                StartCoroutine(AllowedToMoveDelay());
             }
+            StartCoroutine(AllowedToMoveDelay());
         }
 
         void MoveMingus(string NewCamPos)
@@ -358,12 +217,11 @@ namespace FiveNightsAtGorillas.Managers.AI
                             {
                                 if (DoorManager.Data.LeftDoorOpen) { DoorManager.Data.UseLocalDoor(false); }
                             }
-                            thing();
                         }
                     }
                 }
-                StartCoroutine(AllowedToMoveDelay());
             }
+            StartCoroutine(AllowedToMoveDelay());
         }
 
         void MoveBob(string NewCamPos)
@@ -414,12 +272,11 @@ namespace FiveNightsAtGorillas.Managers.AI
                             {
                                 if (DoorManager.Data.RightDoorOpen) { DoorManager.Data.UseLocalDoor(true); }
                             }
-                            thing();
                         }
                     }
                 }
-                StartCoroutine(AllowedToMoveDelay());
             }
+            StartCoroutine(AllowedToMoveDelay());
         }
 
         void MoveDingus(string NewCamPos)
@@ -447,8 +304,8 @@ namespace FiveNightsAtGorillas.Managers.AI
                         }
                     }
                 }
-                StartCoroutine(AllowedToMoveDelay());
             }
+            StartCoroutine(AllowedToMoveDelay());
         }
     }
 }

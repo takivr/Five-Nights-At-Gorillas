@@ -27,7 +27,7 @@ namespace FiveNightsAtGorillas.Managers.TimePower
             RefreshText();
         }
 
-        public void DingusThing() { CurrentPower -= 10; RefreshText(); }
+        public void DingusThing() { if (!SandboxValues.Data.InfinitePower) { CurrentPower -= 10; RefreshText(); } }
 
         public void StopOnlyPower()
         {

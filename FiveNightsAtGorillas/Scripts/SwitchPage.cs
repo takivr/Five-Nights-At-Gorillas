@@ -24,7 +24,7 @@ namespace FiveNightsAtGorillas.Other.SwitchPage
 
                 if (isSub)
                 {
-                    if(RefrenceManager.Data.RecentNews.pageToDisplay != 0)
+                    if(RefrenceManager.Data.RecentNews.pageToDisplay != 1)
                     {
                         RefrenceManager.Data.RecentNews.pageToDisplay--;
                     }
