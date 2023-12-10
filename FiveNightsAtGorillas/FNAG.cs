@@ -36,7 +36,7 @@ namespace FiveNightsAtGorillas
     [BepInPlugin(FNAGInfo.GUID, FNAGInfo.Name, FNAGInfo.Version)]
     public class FNAG : BaseUnityPlugin
     {
-        public int Version { get; private set; } = 104;
+        public int Version { get; private set; } = 105;
 
         public static FNAG Data;
         public bool RoundCurrentlyRunning;
@@ -57,17 +57,6 @@ namespace FiveNightsAtGorillas
 
         void OnGameInitialized(object sender, EventArgs e)
         {
-            /*GameObject[] allObjs = Resources.FindObjectsOfTypeAll<GameObject>();
-            foreach (GameObject obj in allObjs)
-            {
-                if(obj.name == "head_end")
-                {
-                    obj.AddComponent<BoxCollider>().isTrigger = true;
-                    obj.layer = 10;
-                    obj.GetComponent<BoxCollider>().center = new Vector3(0, 0, 0);
-                }
-            }*/
-
             var bundle = LoadAssetBundle("FiveNightsAtGorillas.Assets.fnag");
             var map = bundle.LoadAsset<GameObject>("FNAG MAP");
             var jumpscare = bundle.LoadAsset<GameObject>("Jumpscares");
@@ -386,7 +375,7 @@ namespace FiveNightsAtGorillas
 
         public void TeleportPlayerBack()
         { 
-            Vector3 Back = new Vector3(-66.3163f, 12.9148f, -82.4704f); Vector3 Rot = new Vector3(0, 90, 0); Teleport.TeleportPlayer(Back, 90, true);
+            Vector3 Back = new Vector3(-66.3163f, 12.9148f, -82.4704f); Teleport.TeleportPlayer(Back, 90, true);
         }
 
         public void TeleportPlayerToBox()

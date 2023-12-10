@@ -14,7 +14,7 @@ namespace FiveNightsAtGorillas.Managers.TimePower
         public string CurrentTime { get; private set; } = "12AM";
         public bool AllowedToRunTime { get; private set; } = false;
         public bool AllowedToRunPower { get; private set; } = false;
-        public int TimerDelay = 120;
+        public int TimerDelay = 100;
 
         void Awake() { Data = this; }
         
@@ -39,7 +39,7 @@ namespace FiveNightsAtGorillas.Managers.TimePower
 
         public void StartEverything()
         {
-            if (SandboxValues.Data.ShorterNight) { TimerDelay = 70; } else { TimerDelay = 120; }
+            if (SandboxValues.Data.ShorterNight) { TimerDelay = 70; } else { TimerDelay = 100; }
             if (SandboxValues.Data.SlowPower) { CurrentPowerDrainTime = 20; } else { CurrentPowerDrainTime = 10; }
             if (SandboxValues.Data.FastPower) { CurrentPowerDrainTime = 7; } else { CurrentPowerDrainTime = 10; }
             if (SandboxValues.Data.LimitedPower) { CurrentPower = 70; } else { CurrentPower = 100; }
