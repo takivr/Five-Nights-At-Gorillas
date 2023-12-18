@@ -1,7 +1,6 @@
-﻿using FiveNightsAtGorillas.Managers.Refrences;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace FiveNightsAtGorillas.Other.PlayerDetecter
+namespace FiveNightsAtGorillas.Other
 {
     public class PlayersInRound : MonoBehaviour
     {

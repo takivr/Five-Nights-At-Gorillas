@@ -3,10 +3,12 @@ using HarmonyLib;
 using System.Reflection;
 using UnityEngine;
 using System;
-using FiveNightsAtGorillas.Managers.Refrences;
 
-namespace FiveNightsAtGorillas.Managers.TeleportScript
+namespace FiveNightsAtGorillas.Managers
 {
+
+    //THIS CLASS IS NOT MADE BY ME
+
     [HarmonyPatch(typeof(Player))]
     [HarmonyPatch("LateUpdate", MethodType.Normal)]
     internal class Teleport

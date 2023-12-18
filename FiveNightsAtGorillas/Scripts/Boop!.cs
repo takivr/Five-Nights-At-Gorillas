@@ -1,7 +1,7 @@
-﻿using FiveNightsAtGorillas.Managers.Refrences;
-using UnityEngine;
+﻿using UnityEngine;
+using FiveNightsAtGorillas.Managers;
 
-namespace FiveNightsAtGorillas.Other.BOOP
+namespace FiveNightsAtGorillas.Other
 {
     public class Boop_ : MonoBehaviour
     {

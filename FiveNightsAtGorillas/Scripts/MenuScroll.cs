@@ -1,7 +1,6 @@
-﻿using FiveNightsAtGorillas.Managers.Refrences;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace FiveNightsAtGorillas.Other.Scroll
+namespace FiveNightsAtGorillas.Other
 {
     public class MenuScroll : MonoBehaviour
     {

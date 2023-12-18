@@ -1,7 +1,7 @@
-﻿using FiveNightsAtGorillas.Managers.Refrences;
+﻿using FiveNightsAtGorillas.Managers;
 using UnityEngine;
 
-namespace FiveNightsAtGorillas.Other.SwitchPage
+namespace FiveNightsAtGorillas.Other
 {
     public class SwitchPage : MonoBehaviour
     {

@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
-using UnityEngine.UI;
-using GorillaLocomotion;
 
-namespace FiveNightsAtGorillas.Managers.Refrences
+namespace FiveNightsAtGorillas.Managers
 {
     public class RefrenceManager : MonoBehaviour
     {

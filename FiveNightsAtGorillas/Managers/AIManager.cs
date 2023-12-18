@@ -1,13 +1,9 @@
-﻿using FiveNightsAtGorillas.Managers.Refrences;
-using Photon.Pun;
+﻿using Photon.Pun;
 using UnityEngine;
 using System.Collections;
 using Random = UnityEngine.Random;
-using FiveNightsAtGorillas.Managers.DoorAndLight;
-using FiveNightsAtGorillas.Managers.Cameras;
-using FiveNightsAtGorillas.Managers.Sandbox;
 
-namespace FiveNightsAtGorillas.Managers.AI
+namespace FiveNightsAtGorillas.Managers
 {
     public class AIManager : MonoBehaviourPun
     {

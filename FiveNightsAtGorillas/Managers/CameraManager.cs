@@ -1,9 +1,6 @@
-﻿using FiveNightsAtGorillas.Managers.AI;
-using FiveNightsAtGorillas.Managers.Refrences;
-using FiveNightsAtGorillas.Managers.Sandbox;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace FiveNightsAtGorillas.Managers.Cameras
+namespace FiveNightsAtGorillas.Managers
 {
     public class CameraManager : MonoBehaviour
     {

@@ -1,9 +1,7 @@
-﻿using FiveNightsAtGorillas.Managers.DoorAndLight;
-using FiveNightsAtGorillas.Managers.Refrences;
-using FiveNightsAtGorillas.Other.PlayerDetecter;
+﻿using FiveNightsAtGorillas.Managers;
 using UnityEngine;
 
-namespace FiveNightsAtGorillas.Other.Door
+namespace FiveNightsAtGorillas.Other
 {
     public class DoorButton : MonoBehaviour
     {

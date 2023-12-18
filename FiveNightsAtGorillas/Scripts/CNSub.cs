@@ -1,7 +1,7 @@
-﻿using FiveNightsAtGorillas.Managers.Refrences;
+﻿using FiveNightsAtGorillas.Managers;
 using UnityEngine;
 
-namespace FiveNightsAtGorillas.Other.CustomNightSub
+namespace FiveNightsAtGorillas.Other
 {
     public class CNSub : MonoBehaviour
     {

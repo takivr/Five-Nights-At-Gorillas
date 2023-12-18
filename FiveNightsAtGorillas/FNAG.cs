@@ -1,32 +1,14 @@
 ﻿using BepInEx;
-using FiveNightsAtGorillas.Managers.Refrences;
+using FiveNightsAtGorillas.Managers;
+using FiveNightsAtGorillas.Other;
 using System;
 using System.IO;
 using System.Reflection;
 using UnityEngine;
 using Utilla;
 using System.Collections;
-using FiveNightsAtGorillas.Other.Door;
-using FiveNightsAtGorillas.Managers.AI;
-using FiveNightsAtGorillas.Managers.DoorAndLight;
-using FiveNightsAtGorillas.Managers.NetworkedData;
-using FiveNightsAtGorillas.Other.Light;
-using FiveNightsAtGorillas.Other.Camera;
-using FiveNightsAtGorillas.Managers.Cameras;
-using FiveNightsAtGorillas.Managers.TimePower;
-using FiveNightsAtGorillas.Other.PlayerDetecter;
-using FiveNightsAtGorillas.Other.Ignore;
-using FiveNightsAtGorillas.Other.NightStart;
-using FiveNightsAtGorillas.Other.Scroll;
-using FiveNightsAtGorillas.Other.CustomNightAdd;
-using FiveNightsAtGorillas.Other.CustomNightSub;
-using FiveNightsAtGorillas.Other.BOOP;
 using UnityEngine.Networking;
-using FiveNightsAtGorillas.Other.SwitchPage;
-using FiveNightsAtGorillas.Other.SandboxOption;
-using FiveNightsAtGorillas.Managers.Sandbox;
 using UnityEngine.Video;
-using FiveNightsAtGorillas.Managers.TeleportScript;
 using Random = UnityEngine.Random;
 
 namespace FiveNightsAtGorillas

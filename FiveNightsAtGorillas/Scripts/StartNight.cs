@@ -1,9 +1,8 @@
-﻿using FiveNightsAtGorillas.Managers.NetworkedData;
-using FiveNightsAtGorillas.Managers.Refrences;
+﻿using FiveNightsAtGorillas.Managers;
 using Photon.Pun;
 using UnityEngine;
 
-namespace FiveNightsAtGorillas.Other.NightStart
+namespace FiveNightsAtGorillas.Other
 {
     public class StartNight : MonoBehaviour
     {

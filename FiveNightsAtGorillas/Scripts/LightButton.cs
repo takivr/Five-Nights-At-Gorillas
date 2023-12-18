@@ -1,8 +1,7 @@
-﻿using FiveNightsAtGorillas.Managers.DoorAndLight;
-using FiveNightsAtGorillas.Managers.Refrences;
+﻿using FiveNightsAtGorillas.Managers;
 using UnityEngine;
 
-namespace FiveNightsAtGorillas.Other.Light
+namespace FiveNightsAtGorillas.Other
 {
     public class LightButton : MonoBehaviour
     {

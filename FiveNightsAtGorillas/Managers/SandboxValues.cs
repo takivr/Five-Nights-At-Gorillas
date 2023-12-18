@@ -1,7 +1,6 @@
-﻿using FiveNightsAtGorillas.Managers.Refrences;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace FiveNightsAtGorillas.Managers.Sandbox
+namespace FiveNightsAtGorillas.Managers
 {
     public class SandboxValues : MonoBehaviour
     {

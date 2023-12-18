@@ -1,10 +1,6 @@
-﻿using ExitGames.Client.Photon;
-using FiveNightsAtGorillas.Managers.AI;
-using FiveNightsAtGorillas.Managers.Refrences;
-using FiveNightsAtGorillas.Managers.TimePower;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace FiveNightsAtGorillas.Managers.NetworkedData
+namespace FiveNightsAtGorillas.Managers
 {
     public class PhotonData : MonoBehaviour
     {

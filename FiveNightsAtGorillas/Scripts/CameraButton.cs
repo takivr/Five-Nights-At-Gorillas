@@ -1,7 +1,7 @@
-﻿using FiveNightsAtGorillas.Managers.Cameras;
-using UnityEngine;
+﻿using UnityEngine;
+using FiveNightsAtGorillas.Managers;
 
-namespace FiveNightsAtGorillas.Other.Camera
+namespace FiveNightsAtGorillas.Other
 {
     public class CameraButton : MonoBehaviour
     {

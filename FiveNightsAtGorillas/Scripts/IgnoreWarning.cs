@@ -1,8 +1,7 @@
-﻿using FiveNightsAtGorillas.Managers.Refrences;
-using System;
+﻿using FiveNightsAtGorillas.Managers;
 using UnityEngine;
 
-namespace FiveNightsAtGorillas.Other.Ignore
+namespace FiveNightsAtGorillas.Other
 {
     public class IgnoreWarning : MonoBehaviour
     {

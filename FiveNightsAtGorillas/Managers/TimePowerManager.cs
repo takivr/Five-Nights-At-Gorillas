@@ -1,10 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
-using FiveNightsAtGorillas.Managers.DoorAndLight;
-using FiveNightsAtGorillas.Managers.Refrences;
-using FiveNightsAtGorillas.Managers.Sandbox;
 
-namespace FiveNightsAtGorillas.Managers.TimePower
+namespace FiveNightsAtGorillas.Managers
 {
     public class TimePowerManager : MonoBehaviour
     {

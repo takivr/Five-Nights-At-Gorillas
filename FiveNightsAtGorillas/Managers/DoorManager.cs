@@ -1,11 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Photon.Pun;
-using FiveNightsAtGorillas.Managers.Refrences;
-using FiveNightsAtGorillas.Managers.TimePower;
-using FiveNightsAtGorillas.Managers.AI;
 
-namespace FiveNightsAtGorillas.Managers.DoorAndLight
+namespace FiveNightsAtGorillas.Managers
 {
     public class DoorManager : MonoBehaviour
     {
@@ -113,7 +110,7 @@ namespace FiveNightsAtGorillas.Managers.DoorAndLight
                     StartCoroutine(LightUsedDelay());
                     if (!PlayedRightAnimatronicAtDoor)
                     {
-                        if (RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos == "Cam3") { RefrenceManager.Data.AnimatronicAtDoor.Play(); StartCoroutine(AnimatronicAtDoorSoundDelay(true)); }
+                        if (RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos == "Cam2") { RefrenceManager.Data.AnimatronicAtDoor.Play(); StartCoroutine(AnimatronicAtDoorSoundDelay(true)); }
                     }
                     return;
                 }
