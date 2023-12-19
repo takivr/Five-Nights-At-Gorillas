@@ -70,10 +70,12 @@ namespace FiveNightsAtGorillas.Managers
             {
                 if (RightDoorOpen)
                 {
+                    RefrenceManager.Data.RightDoor.GetComponent<Renderer>().material.color = Color.green;
                     CloseOpenDoor(true, true, 0.772f);
                 }
                 else
                 {
+                    RefrenceManager.Data.RightDoor.GetComponent<Renderer>().material.color = Color.red;
                     CloseOpenDoor(true, false, 2.272f);
                 }
             }
@@ -81,10 +83,12 @@ namespace FiveNightsAtGorillas.Managers
             {
                 if (LeftDoorOpen)
                 {
+                    RefrenceManager.Data.LeftDoor.GetComponent<Renderer>().material.color = Color.green;
                     CloseOpenDoor(false, true, 0.75f);
                 }
                 else
                 {
+                    RefrenceManager.Data.LeftDoor.GetComponent<Renderer>().material.color = Color.red;
                     CloseOpenDoor(false, false, 2.35f);
                 }
             }

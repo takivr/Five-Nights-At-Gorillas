@@ -16,6 +16,7 @@ namespace FiveNightsAtGorillas.Managers
         public GameObject FNAGMAP { get; set; }
         public GameObject Jumpscares { get; set; }
         public GameObject Menu { get; set; }
+        public GameObject Darkness { get; set; }
 
         public Material GameSkyColor { get; private set; }
         public Material RedRefrence { get; private set; }

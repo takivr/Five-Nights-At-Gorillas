@@ -18,7 +18,7 @@ namespace FiveNightsAtGorillas
     [BepInPlugin(FNAGInfo.GUID, FNAGInfo.Name, FNAGInfo.Version)]
     public class FNAG : BaseUnityPlugin
     {
-        public int Version { get; private set; } = 105;
+        public int Version { get; private set; } = 106;
 
         public static FNAG Data;
         public bool RoundCurrentlyRunning;
@@ -37,18 +37,19 @@ namespace FiveNightsAtGorillas
         public void SkyColorGameBlack() { RenderSettings.ambientSkyColor = RefrenceManager.Data.GameSkyColor.color; }
         public void SkyColorWhite() { RenderSettings.ambientSkyColor = Color.white; }
 
-        void OnGameInitialized(object sender, EventArgs e)
-        {
+        void OnGameInitialized(object sender, EventArgs e) {
             var bundle = LoadAssetBundle("FiveNightsAtGorillas.Assets.fnag");
             var map = bundle.LoadAsset<GameObject>("FNAG MAP");
             var jumpscare = bundle.LoadAsset<GameObject>("Jumpscares");
             var menu = bundle.LoadAsset<GameObject>("Menu");
+            var dark = bundle.LoadAsset<GameObject>("Darkness");
 
             GameObject.Find("BepInEx_Manager").AddComponent<RefrenceManager>();
 
             RefrenceManager.Data.Menu = Instantiate(menu);
             RefrenceManager.Data.FNAGMAP = Instantiate(map);
             RefrenceManager.Data.Jumpscares = Instantiate(jumpscare);
+            RefrenceManager.Data.Darkness = Instantiate(dark);
 
             RefrenceManager.Data.SetRefrences();
 
@@ -58,8 +59,7 @@ namespace FiveNightsAtGorillas
             SetupMenu();
             StartCoroutine(GetInfoStuff());
 
-            if (TestMode)
-            {
+            if (TestMode) {
                 RefrenceManager.Data.Menu.SetActive(true);
                 RefrenceManager.Data.FNAGMAP.SetActive(true);
             }
@@ -85,6 +85,10 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.Jumpscare.transform.parent = GorillaTagger.Instance.mainCamera.transform;
             RefrenceManager.Data.Jumpscare.transform.localPosition = new Vector3(0, -0.4f, 0.8f);
             RefrenceManager.Data.StaticScreen.transform.localScale = new Vector3(2, 1.3f, 0.3234f);
+            RefrenceManager.Data.Darkness.transform.parent = GorillaTagger.Instance.mainCamera.transform;
+            RefrenceManager.Data.Darkness.transform.localPosition = new Vector3(0, -0.2f, -0.1f);
+            RefrenceManager.Data.Darkness.transform.localScale = new Vector3(1.3f, 1.3f, 1.3f);
+            RefrenceManager.Data.Darkness.SetActive(false);
         }
         #endregion
         #region SetupHitsounds
@@ -272,11 +276,14 @@ namespace FiveNightsAtGorillas
             #endregion
             CameraManager.Data.RefreshCamera();
             GameRunning = false;
+            RefrenceManager.Data.Darkness.SetActive(false);
+            StopCoroutine(PoweroutageDelay());
         }
 
         public void StartGame(int Night, string GD, string MD, string BD, string DD)
         {
             #region StartGame
+            StartCoroutine(MapUnloadDelay());
             Vector3 Back = new Vector3(-103.5589f, 24.4809f, -66.4852f); Teleport.TeleportPlayer(Back, 90, true);
             if (Night == 1)
             {
@@ -335,7 +342,7 @@ namespace FiveNightsAtGorillas
             GameRunning = true;
             StartCoroutine(SpookyFootsteps());
             if (!SandboxValues.Data.BrightOffice) { SkyColorGameBlack(); }
-            if (SandboxValues.Data.PitchBlack) { SkyColorFullBlack(); }
+            if (SandboxValues.Data.PitchBlack) { SkyColorFullBlack(); RefrenceManager.Data.Darkness.SetActive(true); }
             if (SandboxValues.Data.NoCamera) { RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam11Nothing; }
             #endregion
         }
@@ -356,57 +363,59 @@ namespace FiveNightsAtGorillas
         }
 
         public void TeleportPlayerBack()
-        { 
+        {
+            StartCoroutine(MapUnloadDelay());
             Vector3 Back = new Vector3(-66.3163f, 12.9148f, -82.4704f); Teleport.TeleportPlayer(Back, 90, true);
         }
 
         public void TeleportPlayerToBox()
         {
+            StartCoroutine(MapUnloadDelay());
             Teleport.TeleportPlayer(RefrenceManager.Data.BlackBoxTeleport.transform.position, 90, true);
         }
 
         public void Jumpscare()
         {
-            RefrenceManager.Data.Jumpscare.SetActive(true);
-            RefrenceManager.Data.JumpscareAnimation.Play("Jumpscare");
-            RefrenceManager.Data.JumpscareSound.Play();
-            StartCoroutine(JumpscareDelay());
-            StopGame();
+            if (GameRunning) {
+                RefrenceManager.Data.Jumpscare.SetActive(true);
+                RefrenceManager.Data.JumpscareAnimation.Play("Jumpscare");
+                RefrenceManager.Data.JumpscareSound.Play();
+                StartCoroutine(JumpscareDelay());
+                StopGame();
+            }
         }
 
         public void Poweroutage()
         {
-            if (!DoorManager.Data.RightDoorOpen)
-            {
-                DoorManager.Data.UseLocalDoor(true);
+            if (GameRunning) {
+                if (!DoorManager.Data.RightDoorOpen)
+                {
+                    DoorManager.Data.UseLocalDoor(true);
+                }
+                if (!DoorManager.Data.LeftDoorOpen)
+                {
+                    DoorManager.Data.UseLocalDoor(false);
+                }
+                if (DoorManager.Data.LeftLightOn)
+                {
+                    DoorManager.Data.UseLight(false);
+                }
+                if (DoorManager.Data.RightLightOn)
+                {
+                    DoorManager.Data.UseLight(true);
+                }
+                DoorManager.Data.PowerOutage();
+                RefrenceManager.Data.Poweroutage.Play();
+                TimePowerManager.Data.StopOnlyPower();
+                SkyColorFullBlack();
+                StartCoroutine(PoweroutageDelay());
             }
-            if (!DoorManager.Data.LeftDoorOpen)
-            {
-                DoorManager.Data.UseLocalDoor(false);
-            }
-            if (DoorManager.Data.LeftLightOn)
-            {
-                DoorManager.Data.UseLight(false);
-            }
-            if (DoorManager.Data.RightLightOn)
-            {
-                DoorManager.Data.UseLight(true);
-            }
-            StopGame();
-            DoorManager.Data.PowerOutage();
-            RefrenceManager.Data.Poweroutage.Play();
-            TimePowerManager.Data.StopOnlyPower();
-            SkyColorFullBlack();
-            StartCoroutine(PoweroutageDelay());
         }
 
         public void SixAM()
         {
-            StopGame();
-            RefrenceManager.Data.SixAMSound.Play();
-            RefrenceManager.Data.Poweroutage.Stop();
+            SkyColorWhite();
             TeleportPlayerToBox();
-            RefrenceManager.Data.SixAM.GetComponent<VideoPlayer>().Play();
             StartCoroutine(SixAMDelay());
         }
 
@@ -423,10 +432,14 @@ namespace FiveNightsAtGorillas
 
         IEnumerator SixAMDelay()
         {
+            yield return new WaitForSeconds(0.2f);
+            RefrenceManager.Data.SixAMSound.Play();
+            RefrenceManager.Data.SixAM.GetComponent<VideoPlayer>().Play();
+            RefrenceManager.Data.Poweroutage.Stop();
             TimePowerManager.Data.StopEverything();
             yield return new WaitForSeconds(10);
+            StopGame();
             TeleportPlayerBack();
-            SkyColorWhite();
         }
 
         IEnumerator PoweroutageDelay()
@@ -450,10 +463,17 @@ namespace FiveNightsAtGorillas
             }
         }
 
+        IEnumerator MapUnloadDelay() {
+            RefrenceManager.Data.FNAGMAP.SetActive(false);
+            yield return new WaitForSeconds(0.1f);
+            RefrenceManager.Data.FNAGMAP.SetActive(true);
+        }
+
         IEnumerator JumpscareDelay()
         {
             yield return new WaitForSeconds(1.5f);
             TeleportPlayerToBox();
+            SkyColorWhite();
             RefrenceManager.Data.Jumpscare.SetActive(false);
             RefrenceManager.Data.JumpscareSound.Stop();
             RefrenceManager.Data.StaticScreen.SetActive(true);
@@ -462,11 +482,9 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.StaticScreen.SetActive(false);
             TeleportPlayerBack();
             TimePowerManager.Data.StopEverything();
-            SkyColorWhite();
             RefrenceManager.Data.Jumpscare.SetActive(false);
             RefrenceManager.Data.JumpscareAnimation.StopPlayback();
             RefrenceManager.Data.JumpscareSound.Stop();
-            SkyColorWhite();
         }
     }
 }
