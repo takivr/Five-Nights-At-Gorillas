@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using ExitGames.Client.Photon;
+using Photon.Pun;
+using Photon.Realtime;
 
 namespace FiveNightsAtGorillas.Managers
 {
@@ -15,8 +18,7 @@ namespace FiveNightsAtGorillas.Managers
 
         void Awake() { Data = this; }
         
-        public void StopEverything()
-        {
+        public void StopEverything() {
             AllowedToRunTime = false;
             AllowedToRunPower = false;
             CurrentTime = "12AM";
@@ -24,18 +26,16 @@ namespace FiveNightsAtGorillas.Managers
             RefreshText();
         }
 
-        public void DingusThing() { if (!SandboxValues.Data.InfinitePower) { CurrentPower -= 10; RefreshText(); } }
+        public void DingusThing() { if (!SandboxValues.Data.InfinitePower) { CurrentPower -= 3; RefreshText(); } }
 
-        public void StopOnlyPower()
-        {
+        public void StopOnlyPower() {
             AllowedToRunPower = false;
             AllowedToRunTime = true;
             CurrentPower = 0;
             RefreshText();
         }
 
-        public void StartEverything()
-        {
+        public void StartEverything() {
             if (SandboxValues.Data.ShorterNight) { TimerDelay = 70; } else { TimerDelay = 100; }
             if (SandboxValues.Data.SlowPower) { CurrentPowerDrainTime = 20; } else { CurrentPowerDrainTime = 10; }
             if (SandboxValues.Data.FastPower) { CurrentPowerDrainTime = 7; } else { CurrentPowerDrainTime = 10; }
@@ -49,64 +49,85 @@ namespace FiveNightsAtGorillas.Managers
             StartCoroutine(TimeDelay());
         }
 
-        public void RefreshDrainTime()
-        {
-            if(DoorManager.Data.RightDoorOpen && !DoorManager.Data.LeftDoorOpen)
-            {
+        public void RefreshDrainTime() {
+            if(DoorManager.Data.RightDoorOpen && !DoorManager.Data.LeftDoorOpen) {
                 if (SandboxValues.Data.SlowPower) { CurrentPowerDrainTime = 16; } else if (SandboxValues.Data.FastPower) { CurrentPowerDrainTime = 3; } else { CurrentPowerDrainTime = 6; }
                 return;
             }
-            else if(!DoorManager.Data.RightDoorOpen && DoorManager.Data.LeftDoorOpen)
-            {
+            else if(!DoorManager.Data.RightDoorOpen && DoorManager.Data.LeftDoorOpen) {
                 if (SandboxValues.Data.SlowPower) { CurrentPowerDrainTime = 16; } else if (SandboxValues.Data.FastPower) { CurrentPowerDrainTime = 3; } else { CurrentPowerDrainTime = 6; }
                 return;
             }
-            else if(DoorManager.Data.RightDoorOpen && DoorManager.Data.LeftDoorOpen)
-            {
+            else if(DoorManager.Data.RightDoorOpen && DoorManager.Data.LeftDoorOpen) {
                 if (SandboxValues.Data.SlowPower) { CurrentPowerDrainTime = 20; } else if (SandboxValues.Data.FastPower) { CurrentPowerDrainTime = 7; } else { CurrentPowerDrainTime = 10; }
                 return;
             }
-            else if(!DoorManager.Data.RightDoorOpen && !DoorManager.Data.LeftDoorOpen)
-            {
+            else if(!DoorManager.Data.RightDoorOpen && !DoorManager.Data.LeftDoorOpen) {
                 if (SandboxValues.Data.SlowPower) { CurrentPowerDrainTime = 8; } else if (SandboxValues.Data.FastPower) { CurrentPowerDrainTime = (int)0.5; } else { CurrentPowerDrainTime = 3; }
             }
         }
 
-        void RefreshText()
-        {
+        public void RefreshText() {
             RefrenceManager.Data.CurrentPower.text = CurrentPower.ToString();
             RefrenceManager.Data.CurrentTime.text = CurrentTime;
         }
 
-        IEnumerator PowerDelay()
-        {
+        IEnumerator PowerDelay() {
             yield return new WaitForSeconds(CurrentPowerDrainTime);
-            if (AllowedToRunPower && !SandboxValues.Data.InfinitePower)
-            {
+            if (AllowedToRunPower && !SandboxValues.Data.InfinitePower) {
                 CurrentPower--;
-                if(CurrentPower < 0)
-                {
+                if (CurrentPower < 0)
                     FNAG.Data.Poweroutage();
-                }
                 StartCoroutine(PowerDelay());
                 RefreshText();
             }
         }
 
-        IEnumerator TimeDelay()
-        {
+        IEnumerator TimeDelay() {
             yield return new WaitForSeconds(TimerDelay);
-            if (AllowedToRunTime)
-            {
-                if (CurrentTime == "12AM") { CurrentTime = "1AM"; }
-                else if (CurrentTime == "1AM") { CurrentTime = "2AM"; }
-                else if (CurrentTime == "2AM") { CurrentTime = "3AM"; }
-                else if (CurrentTime == "3AM") { CurrentTime = "4AM"; }
-                else if (CurrentTime == "4AM") { CurrentTime = "5AM"; }
-                else if (CurrentTime == "5AM") { CurrentTime = "6AM"; FNAG.Data.SixAM(); }
-                StartCoroutine(TimeDelay());
-                RefreshText();
+            if (AllowedToRunTime) {
+                if(FNAG.Data.AmountOfPlayersPlaying > 1) {
+                    if (PhotonNetwork.LocalPlayer.IsMasterClient) {
+                        if (CurrentTime == "12AM") { PhotonData.Data.TimeUpdateMethod(1); yield return "12AM"; }
+                        else if (CurrentTime == "1AM") { PhotonData.Data.TimeUpdateMethod(2); yield return "1AM"; }
+                        else if (CurrentTime == "2AM") { PhotonData.Data.TimeUpdateMethod(3); yield return "2AM"; }
+                        else if (CurrentTime == "3AM") { PhotonData.Data.TimeUpdateMethod(4); yield return "3AM"; }
+                        else if (CurrentTime == "4AM") { PhotonData.Data.TimeUpdateMethod(5); yield return "4AM"; }
+                        else if (CurrentTime == "5AM") {
+                            PhotonData.Data.TimeUpdateMethod(6);
+                            yield return "5AM";
+                        }
+                    }
+                }
+                else {
+                    if (CurrentTime == "12AM") { CurrentTime = "1AM"; yield return "12AM"; }
+                    else if (CurrentTime == "1AM") { CurrentTime = "2AM"; yield return "1AM"; }
+                    else if (CurrentTime == "2AM") { CurrentTime = "3AM"; yield return "2AM"; }
+                    else if (CurrentTime == "3AM") { CurrentTime = "4AM"; yield return "3AM"; }
+                    else if (CurrentTime == "4AM") { CurrentTime = "5AM"; yield return "4AM"; }
+                    else if (CurrentTime == "5AM") {
+                        CurrentTime = "6AM";
+                        FNAG.Data.SixAM();
+                        yield return "5AM";
+                    }
+
+                    StartCoroutine(TimeDelay());
+                    RefreshText();
+                }
             }
+        }
+
+        public void UpdateTime(byte time) {
+            if (time == 12) { CurrentTime = "12AM";  return; }
+            else if (time == 1) { CurrentTime = "1AM";  return; }
+            else if (time == 2) { CurrentTime = "2AM";  return; }
+            else if (time == 3) { CurrentTime = "3AM";  return; }
+            else if (time == 4) { CurrentTime = "4AM"; return; }
+            else if (time == 5) { CurrentTime = "5AM"; return; }
+            else if (time == 6) { CurrentTime = "6AM"; FNAG.Data.SixAM(); return; }
+
+            StartCoroutine(TimeDelay());
+            RefreshText();
         }
     }
 }

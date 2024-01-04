@@ -10,24 +10,26 @@ using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine.Video;
 using Random = UnityEngine.Random;
+using System.Collections.Generic;
+using Photon.Pun;
+using ExitGames.Client.Photon;
+using Photon.Realtime;
 
-namespace FiveNightsAtGorillas
-{
+namespace FiveNightsAtGorillas {
     [ModdedGamemode("fnag", "FNAG", Utilla.Models.BaseGamemode.Casual)]
     [BepInDependency("org.legoandmars.gorillatag.utilla")]
     [BepInPlugin(FNAGInfo.GUID, FNAGInfo.Name, FNAGInfo.Version)]
-    public class FNAG : BaseUnityPlugin
-    {
-        public int Version { get; private set; } = 106;
-
+    public class FNAG : BaseUnityPlugin {
         public static FNAG Data;
         public bool RoundCurrentlyRunning;
         public bool LocalPlayingRound;
         public bool InCustomRoom { get; private set; }
-        public int CurrentPage { get; private set; } = 1;
+        public int CurrentPage { get; set; } = 1;
         public bool TestMode { get; private set; } = false;
-        public bool HasUpdater;
         public bool GameRunning { get; private set; }
+        public int AmountOfPlayersPlaying { get; set; }
+        public List<GameObject> triggeredObjects { get; set; }
+        public bool beingJumpscared { get; set; }
 
         void Start() { Events.GameInitialized += OnGameInitialized; Data = this; }
 
@@ -38,6 +40,8 @@ namespace FiveNightsAtGorillas
         public void SkyColorWhite() { RenderSettings.ambientSkyColor = Color.white; }
 
         void OnGameInitialized(object sender, EventArgs e) {
+            triggeredObjects = new List<GameObject>();
+
             var bundle = LoadAssetBundle("FiveNightsAtGorillas.Assets.fnag");
             var map = bundle.LoadAsset<GameObject>("FNAG MAP");
             var jumpscare = bundle.LoadAsset<GameObject>("Jumpscares");
@@ -53,6 +57,15 @@ namespace FiveNightsAtGorillas
 
             RefrenceManager.Data.SetRefrences();
 
+            GameObject[] allobjs = Resources.FindObjectsOfTypeAll<GameObject>();
+            foreach (GameObject objs in allobjs) {
+                if (objs.name == "head_end") {
+                    objs.layer = 10;
+                    objs.AddComponent<SphereCollider>().isTrigger = true;
+                    objs.AddComponent<HeadColliderDisableEvent>();
+                }
+            }
+
             SetupHitSounds();
             SetupComps();
             SetupEnemys();
@@ -65,9 +78,19 @@ namespace FiveNightsAtGorillas
             }
         }
 
+        public bool IsLocalRigInGame() {
+            foreach(GameObject objs in triggeredObjects) {
+                if (GetNthParent(objs, 5).gameObject.name == "Local Gorilla Player")
+                    return true;
+                else 
+                    return false;
+            }
+
+            return false;
+        }
+
         #region EnemySetup
-        void SetupEnemys()
-        {
+        void SetupEnemys() {
             foreach (GameObject obj in RefrenceManager.Data.gorilla) { obj.SetActive(false); }
             foreach(GameObject obj in RefrenceManager.Data.mingus) { obj.SetActive(false); }
             foreach(GameObject obj in RefrenceManager.Data.dingus) { obj.SetActive(false); }
@@ -96,10 +119,21 @@ namespace FiveNightsAtGorillas
         {
             GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/Office/Floor/Floor").AddComponent<GorillaSurfaceOverride>().overrideIndex = 0;
             GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/Office/Walls/Office Walls").AddComponent<GorillaSurfaceOverride>().overrideIndex = 0;
-            GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/Office/Chair/Cylinder (1)").AddComponent<GorillaSurfaceOverride>().overrideIndex = 3;
+            GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/Office/Chair").AddComponent<GorillaSurfaceOverride>().overrideIndex = 3;
             GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/TheRest/Deco/Monitors").AddComponent<GorillaSurfaceOverride>().overrideIndex = 146;
+            GameObject p = GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/Office/Desk/Parts");
+            foreach (Transform child in p.transform) {
+                child.gameObject.AddComponent<GorillaSurfaceOverride>().overrideIndex = 146;
+            }
+            GameObject p1 = GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/TheRest/Deco/Monitors");
+            foreach (Transform child in p1.transform) {
+                child.gameObject.AddComponent<GorillaSurfaceOverride>().overrideIndex = 146;
+            }
             RefrenceManager.Data.CameraScreen.AddComponent<GorillaSurfaceOverride>().overrideIndex = 29;
             RefrenceManager.Data.CameraScreen.AddComponent<BoxCollider>();
+            GameObject.Find($"{RefrenceManager.Data.FNAGMAP.name}/Vent").AddComponent<GorillaSurfaceOverride>().overrideIndex = 18;
+            GameObject.Find("RightDoor").AddComponent<GorillaSurfaceOverride>().overrideIndex = 18;
+            GameObject.Find("LeftDoor").AddComponent<GorillaSurfaceOverride>().overrideIndex = 18;
         }
         #endregion
         #region SetupComps
@@ -114,6 +148,7 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.ChainLoader.AddComponent<CameraManager>();
             RefrenceManager.Data.ChainLoader.AddComponent<TimePowerManager>();
             RefrenceManager.Data.ChainLoader.AddComponent<SandboxValues>();
+            RefrenceManager.Data.ChainLoader.AddComponent<JoinedRoomChecker>();
             RefrenceManager.Data.gorillaParent.AddComponent<AIManager>().AIName = "gorilla";
             RefrenceManager.Data.mingusParent.AddComponent<AIManager>().AIName = "mingus";
             RefrenceManager.Data.bobParent.AddComponent<AIManager>().AIName = "bob";
@@ -122,8 +157,10 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.mingusParent.GetComponent<AIManager>().CamPos = "Cam11";
             RefrenceManager.Data.bobParent.GetComponent<AIManager>().CamPos = "Cam11";
             RefrenceManager.Data.dingusParent.GetComponent<AIManager>().CamPos = "Stage1";
-            RefrenceManager.Data.NearGameTrigger.AddComponent<PlayersInRound>();
             RefrenceManager.Data.gorillaBoopTrigger.AddComponent<Boop_>();
+            RefrenceManager.Data.NearGameTrigger.AddComponent<MPDetectTrigger>();
+            RefrenceManager.Data.NearGameTrigger.transform.parent = null;
+            RefrenceManager.Data.NearGameTrigger.transform.position = new Vector3(-104.0056f, 23.8f, -65.6826f);
 
             RefrenceManager.Data.Cam1.AddComponent<CameraButton>().CameraButtonTrigger = "Cam1";
             RefrenceManager.Data.Cam2.AddComponent<CameraButton>().CameraButtonTrigger = "Cam2";
@@ -189,51 +226,68 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.CustomNightSelect.SetActive(false);
 
             RefrenceManager.Data.MenuScrollLeft.SetActive(false);
-            RefrenceManager.Data.MenuScrollRight.SetActive(true);
-            RefrenceManager.Data.MenuWarning.SetActive(false);
-            RefrenceManager.Data.MenuSelects.SetActive(true);
+            RefrenceManager.Data.MenuScrollRight.SetActive(false);
+            RefrenceManager.Data.MenuWarning.SetActive(true);
+            RefrenceManager.Data.MenuIgnoreButton.SetActive(true);
+            RefrenceManager.Data.MenuSelects.SetActive(false);
             RefrenceManager.Data.MenuRoundRunning.SetActive(false);
 
             RefrenceManager.Data.Menu.SetActive(false);
             RefrenceManager.Data.FNAGMAP.SetActive(false);
+
+            RefrenceManager.Data.NearGameTrigger.layer = 18;
         }
         #endregion
 
-        AssetBundle LoadAssetBundle(string path)
-        {
+        AssetBundle LoadAssetBundle(string path) {
             Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path);
             AssetBundle bundle = AssetBundle.LoadFromStream(stream);
             stream.Close();
             return bundle;
         }
 
-        public void ChangeCurrentPage(bool isSub)
-        {
-            foreach (GameObject obj in RefrenceManager.Data.MenuNights)
-            {
+        public void Refresh() {
+            if (AmountOfPlayersPlaying > 0) {
+                RefrenceManager.Data.MenuRoundRunning.SetActive(true);
+                RefrenceManager.Data.MenuWarning.SetActive(false);
+                RefrenceManager.Data.MenuIgnoreButton.SetActive(false);
+                RefrenceManager.Data.MenuSelects.SetActive(false);
+                RefrenceManager.Data.MenuScrollLeft.SetActive(false);
+                RefrenceManager.Data.MenuScrollRight.SetActive(false);
+                CurrentPage = 1;
+            }
+            else if (AmountOfPlayersPlaying == 0) {
+                RefrenceManager.Data.MenuRoundRunning.SetActive(false);
+                RefrenceManager.Data.MenuWarning.SetActive(true);
+                RefrenceManager.Data.MenuIgnoreButton.SetActive(true);
+                RefrenceManager.Data.MenuSelects.SetActive(false);
+                RefrenceManager.Data.MenuScrollLeft.SetActive(false);
+                RefrenceManager.Data.MenuScrollRight.SetActive(false);
+            }
+        }
+
+        public void ChangeCurrentPage(bool isSub) {
+            foreach (GameObject obj in RefrenceManager.Data.MenuNights) {
                 obj.SetActive(false);
             }
 
-            if (isSub)
-            {
+            if (isSub) {
                 CurrentPage--;
                 RefrenceManager.Data.MenuNights[CurrentPage].SetActive(true);
                 if (RefrenceManager.Data.CustomNightSelect.activeSelf) { RefrenceManager.Data.MenuScrollRight.SetActive(false); RefrenceManager.Data.MenuScrollLeft.SetActive(true); } else { RefrenceManager.Data.MenuScrollRight.SetActive(true); RefrenceManager.Data.MenuScrollLeft.SetActive(true); }
                 if (RefrenceManager.Data.NightOneSelect.activeSelf) { RefrenceManager.Data.MenuScrollRight.SetActive(true); RefrenceManager.Data.MenuScrollLeft.SetActive(false); } else { RefrenceManager.Data.MenuScrollRight.SetActive(true); RefrenceManager.Data.MenuScrollLeft.SetActive(true); }
             }
-            else 
-            { 
+            else {
                 CurrentPage++; RefrenceManager.Data.MenuNights[CurrentPage].SetActive(true);
                 if (RefrenceManager.Data.NightOneSelect.activeSelf) { RefrenceManager.Data.MenuScrollRight.SetActive(true); RefrenceManager.Data.MenuScrollLeft.SetActive(false); } else { RefrenceManager.Data.MenuScrollRight.SetActive(true); RefrenceManager.Data.MenuScrollLeft.SetActive(true); }
                 if (RefrenceManager.Data.CustomNightSelect.activeSelf) { RefrenceManager.Data.MenuScrollRight.SetActive(false); RefrenceManager.Data.MenuScrollLeft.SetActive(true); } else { RefrenceManager.Data.MenuScrollRight.SetActive(true); RefrenceManager.Data.MenuScrollLeft.SetActive(true); }
             }
         }
 
-        IEnumerator GetInfoStuff()
-        {
+        IEnumerator GetInfoStuff() {
             yield return new WaitForSeconds(10);
-            RefrenceManager.Data.Version.text = Version.ToString();
-            RefrenceManager.Data.HasUpdater.text = HasUpdater.ToString();
+            RefrenceManager.Data.Version.text = FNAGInfo.Version;
+            RefrenceManager.Data.HasUpdater.text = "NOT SUPPORTED ANYMORE";
             RefrenceManager.Data.TestMode.text = TestMode.ToString();
             UnityWebRequest www = UnityWebRequest.Get("https://raw.githubusercontent.com/MrBanana01/Five-Nights-At-Gorillas/master/News");
             yield return www.SendWebRequest();
@@ -241,24 +295,21 @@ namespace FiveNightsAtGorillas
         }
 
         [ModdedGamemodeJoin]
-        void OnJoin(string gamemode) 
-        { 
-            InCustomRoom = true; 
+        void OnJoin(string gamemode)  { 
+            InCustomRoom = true;
             RefrenceManager.Data.Menu.SetActive(true);
             RefrenceManager.Data.FNAGMAP.SetActive(true);
         }
 
         [ModdedGamemodeLeave]
-        void OnLeave(string gamemode) 
-        {
+        void OnLeave(string gamemode)  {
             InCustomRoom = false;
             StopGame();
             RefrenceManager.Data.Menu.SetActive(false);
             RefrenceManager.Data.FNAGMAP.SetActive(false);
         }
 
-        public void StopGame()
-        {
+        public void StopGame() {
             #region ResetAI
             foreach (GameObject ai in RefrenceManager.Data.gorilla) { ai.gameObject.SetActive(false); }
             foreach (GameObject ai in RefrenceManager.Data.mingus) { ai.gameObject.SetActive(false); }
@@ -278,161 +329,151 @@ namespace FiveNightsAtGorillas
             GameRunning = false;
             RefrenceManager.Data.Darkness.SetActive(false);
             StopCoroutine(PoweroutageDelay());
+            AmountOfPlayersPlaying = 0;
+            CurrentPage = 1;
+            Refresh();
         }
 
-        public void StartGame(int Night, string GD, string MD, string BD, string DD)
-        {
+        public Transform GetNthParent(GameObject obj, int n) {
+            Transform parent = obj.transform;
+            for (int i = 0; i < n - 1; i++) {
+                if (parent.parent != null) {
+                    parent = parent.parent;
+                }
+                else {
+                    return null;
+                }
+            }
+            return parent;
+        }
+
+        public void StartGame(byte Night, byte GD, byte MD, byte BD, byte DD) {
             #region StartGame
-            StartCoroutine(MapUnloadDelay());
-            Vector3 Back = new Vector3(-103.5589f, 24.4809f, -66.4852f); Teleport.TeleportPlayer(Back, 90, true);
-            if (Night == 1)
-            {
+            GameRunning = true;
+            TimePowerManager.Data.StartEverything();
+            if (!SandboxValues.Data.BrightOffice) { SkyColorGameBlack(); }
+            if (SandboxValues.Data.PitchBlack) { SkyColorFullBlack(); RefrenceManager.Data.Darkness.SetActive(true); }
+            if (SandboxValues.Data.NoCamera) { RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam11Nothing; }
+            if (Night == 1) {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 0;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 2;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 2;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 0;
             }
-            else if (Night == 2)
-            {
+            else if (Night == 2) {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 0;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 2;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 3;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 1;
             }
-            else if (Night == 3)
-            {
+            else if (Night == 3) {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 1;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 5;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 4;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 2;
             }
-            else if (Night == 4)
-            {
+            else if (Night == 4) {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 2;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 7;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 3;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 6;
             }
-            else if (Night == 5)
-            {
+            else if (Night == 5) {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 5;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 7;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 6;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 6;
             }
-            else if (Night == 6)
-            {
+            else if (Night == 6) {
                 RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = 8;
                 RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = 12;
                 RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = 10;
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = 16;
             }
-            else if (Night == 7)
-            {
-                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = int.Parse(GD);
-                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = int.Parse(MD);
-                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = int.Parse(BD);
-                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = int.Parse(DD);
+            else if (Night == 7) {
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().Difficulty = GD;
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().Difficulty = MD;
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().Difficulty = BD;
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().Difficulty = DD;
             }
-            TimePowerManager.Data.StartEverything();
-            RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().StartAI();
-            RefrenceManager.Data.mingusParent.GetComponent<AIManager>().StartAI();
-            RefrenceManager.Data.bobParent.GetComponent<AIManager>().StartAI();
-            RefrenceManager.Data.dingusParent.GetComponent<AIManager>().StartAI();
-            GameRunning = true;
-            StartCoroutine(SpookyFootsteps());
-            if (!SandboxValues.Data.BrightOffice) { SkyColorGameBlack(); }
-            if (SandboxValues.Data.PitchBlack) { SkyColorFullBlack(); RefrenceManager.Data.Darkness.SetActive(true); }
-            if (SandboxValues.Data.NoCamera) { RefrenceManager.Data.CameraScreen.GetComponent<Renderer>().material = RefrenceManager.Data.Cam11Nothing; }
+            StartCoroutine(MapUnloadDelay(true));
+            Vector3 Back = new Vector3(-103.5589f, 24.4809f, -66.4852f); Teleport.TeleportPlayer(Back, 90, true);
             #endregion
         }
 
-        IEnumerator SpookyFootsteps()
-        {
-            if (GameRunning)
-            {
-                yield return new WaitForSeconds(90);
-                int random = Random.Range(1, 10);
-                if (random == 6)
-                {
-                    RefrenceManager.Data.AnimatronicFootStepLeft.Play();
-                }
-                else if (random == 7) { RefrenceManager.Data.AnimatronicFootStepRight.Play(); }
-                StartCoroutine(SpookyFootsteps());
-            }
-        }
-
-        public void TeleportPlayerBack()
-        {
-            StartCoroutine(MapUnloadDelay());
+        public void TeleportPlayerBack() {
+            StartCoroutine(MapUnloadDelay(false));
             Vector3 Back = new Vector3(-66.3163f, 12.9148f, -82.4704f); Teleport.TeleportPlayer(Back, 90, true);
         }
 
-        public void TeleportPlayerToBox()
-        {
-            StartCoroutine(MapUnloadDelay());
+        public void TeleportPlayerToBox() {
+            StartCoroutine(MapUnloadDelay(false));
             Teleport.TeleportPlayer(RefrenceManager.Data.BlackBoxTeleport.transform.position, 90, true);
         }
 
-        public void Jumpscare()
-        {
-            if (GameRunning) {
+        public void Jumpscare() {
+            if (!beingJumpscared) {
+                beingJumpscared = true;
                 RefrenceManager.Data.Jumpscare.SetActive(true);
                 RefrenceManager.Data.JumpscareAnimation.Play("Jumpscare");
                 RefrenceManager.Data.JumpscareSound.Play();
+                TimePowerManager.Data.StopEverything();
                 StartCoroutine(JumpscareDelay());
                 StopGame();
             }
         }
 
-        public void Poweroutage()
-        {
+        public void Poweroutage() {
             if (GameRunning) {
-                if (!DoorManager.Data.RightDoorOpen)
-                {
+                if (!DoorManager.Data.RightDoorOpen) {
                     DoorManager.Data.UseLocalDoor(true);
                 }
-                if (!DoorManager.Data.LeftDoorOpen)
-                {
+                if (!DoorManager.Data.LeftDoorOpen) {
                     DoorManager.Data.UseLocalDoor(false);
                 }
-                if (DoorManager.Data.LeftLightOn)
-                {
+                if (DoorManager.Data.LeftLightOn) {
                     DoorManager.Data.UseLight(false);
                 }
-                if (DoorManager.Data.RightLightOn)
-                {
+                if (DoorManager.Data.RightLightOn) {
                     DoorManager.Data.UseLight(true);
                 }
                 DoorManager.Data.PowerOutage();
                 RefrenceManager.Data.Poweroutage.Play();
                 TimePowerManager.Data.StopOnlyPower();
                 SkyColorFullBlack();
+                foreach (GameObject ai in RefrenceManager.Data.gorilla) { ai.gameObject.SetActive(false); }
+                foreach (GameObject ai in RefrenceManager.Data.mingus) { ai.gameObject.SetActive(false); }
+                foreach (GameObject ai in RefrenceManager.Data.bob) { ai.gameObject.SetActive(false); }
+                foreach (GameObject ai in RefrenceManager.Data.dingus) { ai.gameObject.SetActive(false); }
+                RefrenceManager.Data.gorilla[0].SetActive(true);
+                RefrenceManager.Data.mingus[0].SetActive(true);
+                RefrenceManager.Data.bob[0].SetActive(true);
+                RefrenceManager.Data.dingus[0].SetActive(true);
+                AIManager[] AI = Resources.FindObjectsOfTypeAll<AIManager>();
+                foreach (AIManager ai in AI) { ai.Difficulty = 0; ai.StopAI(); }
                 StartCoroutine(PoweroutageDelay());
+                RefrenceManager.Data.Darkness.SetActive(true);
             }
         }
 
-        public void SixAM()
-        {
+        public void SixAM() {
+            RefrenceManager.Data.Darkness.SetActive(false);
             SkyColorWhite();
             TeleportPlayerToBox();
             StartCoroutine(SixAMDelay());
         }
 
-        public void DingusRun()
-        {
+        public void DingusRun() {
             if (SandboxValues.Data.AutoCloseDoor) { if (DoorManager.Data.LeftDoorOpen) { DoorManager.Data.UseLocalDoor(false); } }
             RefrenceManager.Data.DingusRunning.Play();
-            foreach (GameObject D in RefrenceManager.Data.dingus)
-            {
+            foreach (GameObject D in RefrenceManager.Data.dingus) {
                 D.SetActive(false);
             }
             StartCoroutine(DingusRunDelay());
         }
 
-        IEnumerator SixAMDelay()
-        {
-            yield return new WaitForSeconds(0.2f);
+        IEnumerator SixAMDelay() {
+            yield return new WaitForSeconds(0.3f);
             RefrenceManager.Data.SixAMSound.Play();
             RefrenceManager.Data.SixAM.GetComponent<VideoPlayer>().Play();
             RefrenceManager.Data.Poweroutage.Stop();
@@ -440,42 +481,45 @@ namespace FiveNightsAtGorillas
             yield return new WaitForSeconds(10);
             StopGame();
             TeleportPlayerBack();
+            Refresh();
         }
 
-        IEnumerator PoweroutageDelay()
-        {
-            yield return new WaitForSeconds(67.8f);
+        IEnumerator PoweroutageDelay() {
+            yield return new WaitForSeconds(68);
             Jumpscare();
         }
 
-        IEnumerator DingusRunDelay()
-        {
+        IEnumerator DingusRunDelay() {
             yield return new WaitForSeconds(2);
-            if (DoorManager.Data.LeftDoorOpen)
-            {
+            if (DoorManager.Data.LeftDoorOpen) {
                 Jumpscare();
             }
-            else
-            {
+            else {
                 RefrenceManager.Data.dingusParent.GetComponent<AIManager>().ResetDingus();
                 RefrenceManager.Data.DingusScrapingSound.Play();
                 TimePowerManager.Data.DingusThing();
             }
         }
 
-        IEnumerator MapUnloadDelay() {
+        IEnumerator MapUnloadDelay(bool StartAI) {
             RefrenceManager.Data.FNAGMAP.SetActive(false);
             yield return new WaitForSeconds(0.1f);
             RefrenceManager.Data.FNAGMAP.SetActive(true);
+            if (StartAI) {
+                RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().StartAI();
+                RefrenceManager.Data.mingusParent.GetComponent<AIManager>().StartAI();
+                RefrenceManager.Data.bobParent.GetComponent<AIManager>().StartAI();
+                RefrenceManager.Data.dingusParent.GetComponent<AIManager>().StartAI();
+            }
         }
 
-        IEnumerator JumpscareDelay()
-        {
+        IEnumerator JumpscareDelay() {
             yield return new WaitForSeconds(1.5f);
             TeleportPlayerToBox();
             SkyColorWhite();
             RefrenceManager.Data.Jumpscare.SetActive(false);
             RefrenceManager.Data.JumpscareSound.Stop();
+            RefrenceManager.Data.Darkness.SetActive(false);
             RefrenceManager.Data.StaticScreen.SetActive(true);
             RefrenceManager.Data.StaticScreen.GetComponent<VideoPlayer>().Play();
             yield return new WaitForSeconds(7);
@@ -485,6 +529,9 @@ namespace FiveNightsAtGorillas
             RefrenceManager.Data.Jumpscare.SetActive(false);
             RefrenceManager.Data.JumpscareAnimation.StopPlayback();
             RefrenceManager.Data.JumpscareSound.Stop();
+            beingJumpscared = false;
+            Refresh();
+            StopGame();
         }
     }
 }

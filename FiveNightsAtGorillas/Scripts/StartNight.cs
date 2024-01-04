@@ -6,31 +6,30 @@ namespace FiveNightsAtGorillas.Other
 {
     public class StartNight : MonoBehaviour
     {
-        public int Night;
+        public byte Night;
 
-        void Awake() { PhotonNetwork.AddCallbackTarget(this); gameObject.layer = 18; }
+        void Awake() { gameObject.layer = 18; }
 
-        void OnTriggerEnter(Collider other)
-        {
-            if (other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider")
-            {
-                if (other.name == "LeftHandTriggerCollider")
-                {
+        void OnTriggerEnter(Collider other) {
+            if (other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider") {
+                if (other.name == "LeftHandTriggerCollider") {
                     GorillaTagger.Instance.StartVibration(true, GorillaTagger.Instance.tapHapticStrength / 2, GorillaTagger.Instance.tapHapticDuration);
                 }
-                else if (other.name == "RightHandTriggerCollider")
-                {
+                else if (other.name == "RightHandTriggerCollider") {
                     GorillaTagger.Instance.StartVibration(false, GorillaTagger.Instance.tapHapticStrength / 2, GorillaTagger.Instance.tapHapticDuration);
                 }
 
-                if (Night == 7 && RefrenceManager.Data.GD.text == "1" && RefrenceManager.Data.BD.text == "9" && RefrenceManager.Data.DD.text == "8" && RefrenceManager.Data.MD.text == "7")
-                {
+                if (Night == 7 && RefrenceManager.Data.GD.text == "1" && RefrenceManager.Data.BD.text == "9" && RefrenceManager.Data.DD.text == "8" && RefrenceManager.Data.MD.text == "7") {
                     FNAG.Data.Jumpscare();
                     return;
                 }
-                else
-                {
-                    FNAG.Data.StartGame(Night, RefrenceManager.Data.GD.text.ToString(), RefrenceManager.Data.MD.text.ToString(), RefrenceManager.Data.BD.text.ToString(), RefrenceManager.Data.DD.text.ToString());
+                else {
+                    if(!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom.PlayerCount <= 1) {
+                        FNAG.Data.StartGame(Night, (byte)int.Parse(RefrenceManager.Data.GD.text), (byte)int.Parse(RefrenceManager.Data.MD.text.ToString()), (byte)int.Parse(RefrenceManager.Data.BD.text.ToString()), (byte)int.Parse(RefrenceManager.Data.DD.text.ToString()));
+                    }
+                    else if(PhotonNetwork.CurrentRoom.PlayerCount > 1) {
+                        PhotonData.Data.MultiplayerStartNight(Night, (byte)int.Parse(RefrenceManager.Data.GD.text), (byte)int.Parse(RefrenceManager.Data.MD.text.ToString()), (byte)int.Parse(RefrenceManager.Data.BD.text.ToString()), (byte)int.Parse(RefrenceManager.Data.DD.text.ToString()));
+                    }
                 }
             }
         }
