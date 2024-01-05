@@ -9,8 +9,6 @@ A gorilla tag mod that recreates the whole five nights at Freddy's game in goril
 
 To use the mod, you need [Utilla](https://github.com/legoandmars/Utilla), once you load the mod successfully, go to the custom game mode called "FNAG" and once you join, look at the back of stump and you will see the menu.
 
-## PLEASE NOTE THIS MOD WAS MEANT TO SYNC BUT WE RAN INTO TO MANY ISSUES AND WILL RELEASE A MULTIPLAYER UPDATE LATER IN THE FUTURE!
-
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## POWER:
