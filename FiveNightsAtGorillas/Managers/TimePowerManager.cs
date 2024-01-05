@@ -86,20 +86,6 @@ namespace FiveNightsAtGorillas.Managers
         IEnumerator TimeDelay() {
             yield return new WaitForSeconds(TimerDelay);
             if (AllowedToRunTime) {
-                if(FNAG.Data.AmountOfPlayersPlaying > 1) {
-                    if (PhotonNetwork.LocalPlayer.IsMasterClient) {
-                        if (CurrentTime == "12AM") { PhotonData.Data.TimeUpdateMethod(1); yield return "12AM"; }
-                        else if (CurrentTime == "1AM") { PhotonData.Data.TimeUpdateMethod(2); yield return "1AM"; }
-                        else if (CurrentTime == "2AM") { PhotonData.Data.TimeUpdateMethod(3); yield return "2AM"; }
-                        else if (CurrentTime == "3AM") { PhotonData.Data.TimeUpdateMethod(4); yield return "3AM"; }
-                        else if (CurrentTime == "4AM") { PhotonData.Data.TimeUpdateMethod(5); yield return "4AM"; }
-                        else if (CurrentTime == "5AM") {
-                            PhotonData.Data.TimeUpdateMethod(6);
-                            yield return "5AM";
-                        }
-                    }
-                }
-                else {
                     if (CurrentTime == "12AM") { CurrentTime = "1AM"; yield return "12AM"; }
                     else if (CurrentTime == "1AM") { CurrentTime = "2AM"; yield return "1AM"; }
                     else if (CurrentTime == "2AM") { CurrentTime = "3AM"; yield return "2AM"; }
@@ -115,19 +101,6 @@ namespace FiveNightsAtGorillas.Managers
                     RefreshText();
                 }
             }
-        }
-
-        public void UpdateTime(byte time) {
-            if (time == 12) { CurrentTime = "12AM";  return; }
-            else if (time == 1) { CurrentTime = "1AM";  return; }
-            else if (time == 2) { CurrentTime = "2AM";  return; }
-            else if (time == 3) { CurrentTime = "3AM";  return; }
-            else if (time == 4) { CurrentTime = "4AM"; return; }
-            else if (time == 5) { CurrentTime = "5AM"; return; }
-            else if (time == 6) { CurrentTime = "6AM"; FNAG.Data.SixAM(); return; }
-
-            StartCoroutine(TimeDelay());
-            RefreshText();
         }
     }
 }
