@@ -27,12 +27,6 @@ namespace FiveNightsAtGorillas.Managers {
         PhotonNetwork.RaiseEvent(Code, content, raiseEventOptions, SendOptions.SendReliable);
         */
 
-        public void TimeUpdateMethod(byte newTime) {
-            object[] content = new object[] { newTime };
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            PhotonNetwork.RaiseEvent(TimeUpdate, content, raiseEventOptions, SendOptions.SendReliable);
-        }
-
         public void MultiplayerStartNight(byte night, byte GD, byte BD, byte MD, byte DD) {
             object[] content = new object[] { night, GD, BD, MD, DD };
             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
@@ -156,11 +150,6 @@ namespace FiveNightsAtGorillas.Managers {
                                         CameraManager.Data.RefreshCamera();
                                     }
                                 }
-                            }
-                            break;
-                        case TimeUpdate:
-                            if (FNAG.Data.IsLocalRigInGame()) {
-                                TimePowerManager.Data.UpdateTime((byte)data[0]);
                             }
                             break;
                     }
