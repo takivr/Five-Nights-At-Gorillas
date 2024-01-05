@@ -4,7 +4,7 @@ using UnityEngine;
 namespace FiveNightsAtGorillas.Other {
     public class HeadColliderDisableEvent : MonoBehaviour {
         public bool alreadyInTrigger;
-        bool IsFirst;
+        bool IsFirst = true;
 
         void OnDisable() {
             Collider This = gameObject.GetComponent<Collider>();

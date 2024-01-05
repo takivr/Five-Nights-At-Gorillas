@@ -325,6 +325,14 @@ namespace FiveNightsAtGorillas {
             #region ResetDoors
             DoorManager.Data.ResetDoors();
             #endregion
+            #region ResetMenu
+            RefrenceManager.Data.MenuRoundRunning.SetActive(false);
+            RefrenceManager.Data.MenuWarning.SetActive(true);
+            RefrenceManager.Data.MenuIgnoreButton.SetActive(true);
+            RefrenceManager.Data.MenuSelects.SetActive(false);
+            RefrenceManager.Data.MenuScrollLeft.SetActive(false);
+            RefrenceManager.Data.MenuScrollRight.SetActive(false);
+            #endregion
             CameraManager.Data.RefreshCamera();
             GameRunning = false;
             RefrenceManager.Data.Darkness.SetActive(false);

@@ -13,7 +13,6 @@ namespace FiveNightsAtGorillas.Managers {
         public enum AI { Gorilla = 94, Mingus = 95, Bob = 96, Dingus = 97 }
         public const byte StartNight = 98;
         public const byte AIMove = 99;
-        public const byte TimeUpdate = 100;
 
         public static PhotonData Data;
 
@@ -26,12 +25,6 @@ namespace FiveNightsAtGorillas.Managers {
         RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
         PhotonNetwork.RaiseEvent(Code, content, raiseEventOptions, SendOptions.SendReliable);
         */
-
-        public void TimeUpdateMethod(byte newTime) {
-            object[] content = new object[] { newTime };
-            RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            PhotonNetwork.RaiseEvent(TimeUpdate, content, raiseEventOptions, SendOptions.SendReliable);
-        }
 
         public void MultiplayerStartNight(byte night, byte GD, byte BD, byte MD, byte DD) {
             object[] content = new object[] { night, GD, BD, MD, DD };
@@ -77,7 +70,7 @@ namespace FiveNightsAtGorillas.Managers {
 
         public void OnEvent(EventData photonData) {
             if (FNAG.Data.InCustomRoom) {
-                if (photonData.Code == 90 || photonData.Code == 91 || photonData.Code == 92 || photonData.Code == 93 || photonData.Code == 94 || photonData.Code == 95 || photonData.Code == 96 || photonData.Code == 97 || photonData.Code == 98 || photonData.Code == 99 || photonData.Code == 100) {
+                if (photonData.Code == 90 || photonData.Code == 91 || photonData.Code == 92 || photonData.Code == 93 || photonData.Code == 94 || photonData.Code == 95 || photonData.Code == 96 || photonData.Code == 97 || photonData.Code == 98 || photonData.Code == 99) {
                     object[] data = (object[])photonData.CustomData;
 
                     switch (photonData.Code) {
@@ -156,11 +149,6 @@ namespace FiveNightsAtGorillas.Managers {
                                         CameraManager.Data.RefreshCamera();
                                     }
                                 }
-                            }
-                            break;
-                        case TimeUpdate:
-                            if (FNAG.Data.IsLocalRigInGame()) {
-                                TimePowerManager.Data.UpdateTime((byte)data[0]);
                             }
                             break;
                     }
