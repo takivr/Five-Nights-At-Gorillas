@@ -9,11 +9,7 @@ using Utilla;
 using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine.Video;
-using Random = UnityEngine.Random;
 using System.Collections.Generic;
-using Photon.Pun;
-using ExitGames.Client.Photon;
-using Photon.Realtime;
 
 namespace FiveNightsAtGorillas {
     [ModdedGamemode("fnag", "FNAG", Utilla.Models.BaseGamemode.Casual)]
