@@ -72,34 +72,43 @@ namespace FiveNightsAtGorillas.Managers
             RefrenceManager.Data.CurrentTime.text = CurrentTime;
         }
 
+        IEnumerator IPowerDelay() {
+            yield return new WaitForSeconds(1);
+            StartCoroutine(PowerDelay());
+        }
         IEnumerator PowerDelay() {
             yield return new WaitForSeconds(CurrentPowerDrainTime);
             if (AllowedToRunPower && !SandboxValues.Data.InfinitePower) {
                 CurrentPower--;
                 if (CurrentPower < 0)
                     FNAG.Data.Poweroutage();
-                StartCoroutine(PowerDelay());
+
                 RefreshText();
+                StartCoroutine(IPowerDelay());
             }
         }
 
+        IEnumerator ITimeDelay() {
+            yield return new WaitForSeconds(1);
+            StartCoroutine(TimeDelay());
+        }
         IEnumerator TimeDelay() {
             yield return new WaitForSeconds(TimerDelay);
 
             if (AllowedToRunTime) {
-                    if (CurrentTime == "12AM") { CurrentTime = "1AM"; yield return "12AM"; }
-                    else if (CurrentTime == "1AM") { CurrentTime = "2AM"; yield return "1AM"; }
-                    else if (CurrentTime == "2AM") { CurrentTime = "3AM"; yield return "2AM"; }
-                    else if (CurrentTime == "3AM") { CurrentTime = "4AM"; yield return "3AM"; }
-                    else if (CurrentTime == "4AM") { CurrentTime = "5AM"; yield return "4AM"; }
-                    else if (CurrentTime == "5AM") {
-                        CurrentTime = "6AM";
-                        FNAG.Data.SixAM();
-                        yield return "5AM";
-                    }
+                if (CurrentTime == "5AM") {
+                    CurrentTime = "6AM";
+                    FNAG.Data.SixAM();
+                    yield return "5AM";
+                }
+                else if (CurrentTime == "4AM") { CurrentTime = "5AM"; yield return "4AM"; }
+                else if (CurrentTime == "3AM") { CurrentTime = "4AM"; yield return "3AM"; }
+                else if (CurrentTime == "2AM") { CurrentTime = "3AM"; yield return "2AM"; }
+                else if (CurrentTime == "1AM") { CurrentTime = "2AM"; yield return "1AM"; }
+                else if (CurrentTime == "12AM") { CurrentTime = "1AM"; yield return "12AM"; }
 
-                    StartCoroutine(TimeDelay());
-                    RefreshText();
+                RefreshText();
+                StartCoroutine(ITimeDelay());
             }
         }
     }

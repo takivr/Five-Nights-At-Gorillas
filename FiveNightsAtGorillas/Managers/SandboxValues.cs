@@ -1,24 +1,22 @@
 ﻿using UnityEngine;
 
-namespace FiveNightsAtGorillas.Managers
-{
-    public class SandboxValues : MonoBehaviour
-    {
+namespace FiveNightsAtGorillas.Managers {
+    public class SandboxValues : MonoBehaviour {
         public static SandboxValues Data;
         void Awake() { Data = this; }
 
-        public bool BrightOffice { get; private set; }
-        public bool InfinitePower { get; private set; }
-        public bool AutoCloseDoor { get; private set; }
-        public bool AutoSwitchCamera { get; private set; }
-        public bool ShorterNight { get; private set; }
-        public bool SlowPower { get; private set; }
+        public bool BrightOffice; //0
+        public bool InfinitePower; //1
+        public bool AutoCloseDoor; //2
+        public bool AutoSwitchCamera; //3
+        public bool ShorterNight; //4
+        public bool SlowPower; //5
 
-        public bool FastPower { get; private set; }
-        public bool NoCamera { get; private set; }
-        public bool PitchBlack { get; private set; }
-        public bool NoLights { get; private set; }
-        public bool LimitedPower { get; private set; }
+        public bool FastPower; //6
+        public bool NoCamera; //7
+        public bool PitchBlack; //8
+        public bool NoLights; //9
+        public bool LimitedPower; //10
 
         public void SwitchValue(string value) {
             if(value == "BrightOffice") {

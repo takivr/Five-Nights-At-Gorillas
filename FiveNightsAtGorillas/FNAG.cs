@@ -335,11 +335,13 @@ namespace FiveNightsAtGorillas {
             #endregion
             CameraManager.Data.RefreshCamera();
             GameRunning = false;
+            beingJumpscared = false;
             RefrenceManager.Data.Darkness.SetActive(false);
             StopCoroutine(PoweroutageDelay());
             AmountOfPlayersPlaying = 0;
             CurrentPage = 1;
             Refresh();
+            SandboxValues.Data.ResetAllValues();
         }
 
         public Transform GetNthParent(GameObject obj, int n) {
@@ -357,6 +359,7 @@ namespace FiveNightsAtGorillas {
 
         public void StartGame(byte Night, byte GD, byte MD, byte BD, byte DD) {
             #region StartGame
+            beingJumpscared = false;
             GameRunning = true;
             TimePowerManager.Data.StartEverything();
             if (!SandboxValues.Data.BrightOffice) { SkyColorGameBlack(); }
@@ -420,7 +423,7 @@ namespace FiveNightsAtGorillas {
         }
 
         public void Jumpscare() {
-            if (!beingJumpscared) {
+            if (!beingJumpscared && GameRunning) {
                 beingJumpscared = true;
                 RefrenceManager.Data.Jumpscare.SetActive(true);
                 RefrenceManager.Data.JumpscareAnimation.Play("Jumpscare");

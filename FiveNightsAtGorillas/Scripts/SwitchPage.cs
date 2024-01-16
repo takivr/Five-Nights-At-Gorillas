@@ -1,36 +1,27 @@
 ﻿using FiveNightsAtGorillas.Managers;
 using UnityEngine;
 
-namespace FiveNightsAtGorillas.Other
-{
-    public class SwitchPage : MonoBehaviour
-    {
+namespace FiveNightsAtGorillas.Other {
+    public class SwitchPage : MonoBehaviour {
         public bool isSub;
 
         void Awake() { gameObject.layer = 18; }
 
-        void OnTriggerEnter(Collider other)
-        {
-            if (other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider")
-            {
-                if (other.name == "LeftHandTriggerCollider")
-                {
+        void OnTriggerEnter(Collider other) {
+            if (other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider") {
+                if (other.name == "LeftHandTriggerCollider") {
                     GorillaTagger.Instance.StartVibration(true, GorillaTagger.Instance.tapHapticStrength / 2, GorillaTagger.Instance.tapHapticDuration);
                 }
-                else if (other.name == "RightHandTriggerCollider")
-                {
+                else if (other.name == "RightHandTriggerCollider") {
                     GorillaTagger.Instance.StartVibration(false, GorillaTagger.Instance.tapHapticStrength / 2, GorillaTagger.Instance.tapHapticDuration);
                 }
 
-                if (isSub)
-                {
-                    if(RefrenceManager.Data.RecentNews.pageToDisplay != 1)
-                    {
+                if (isSub) {
+                    if(RefrenceManager.Data.RecentNews.pageToDisplay > 1) {
                         RefrenceManager.Data.RecentNews.pageToDisplay--;
                     }
                 }
-                else
-                {
+                else {
                     RefrenceManager.Data.RecentNews.pageToDisplay++;
                 }
             }

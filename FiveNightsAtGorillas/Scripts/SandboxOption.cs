@@ -27,7 +27,6 @@ namespace FiveNightsAtGorillas.Other {
             }
 
             if (other.name == "LeftHandTriggerCollider" || other.name == "RightHandTriggerCollider") {
-                if (!PhotonNetwork.InRoom || PhotonNetwork.CurrentRoom.PlayerCount <= 1) {
                     if (IsBrightOffice) { SandboxValues.Data.SwitchValue("BrightOffice"); }
                     else if (IsInfinitePower) { SandboxValues.Data.SwitchValue("InfinitePower"); }
                     else if (IsAutoCloseDoor) { SandboxValues.Data.SwitchValue("AutoCloseDoor"); }
@@ -39,7 +38,6 @@ namespace FiveNightsAtGorillas.Other {
                     else if (IsPitchBlack) { SandboxValues.Data.SwitchValue("PitchBlack"); }
                     else if (IsNoLights) { SandboxValues.Data.SwitchValue("NoLights"); }
                     else if (IsLimitedPower) { SandboxValues.Data.SwitchValue("LimitedPower"); }
-                }
             }
         }
     }

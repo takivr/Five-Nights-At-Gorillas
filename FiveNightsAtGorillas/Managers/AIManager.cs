@@ -4,7 +4,6 @@ using System.Collections;
 using Random = UnityEngine.Random;
 using ExitGames.Client.Photon;
 using Photon.Realtime;
-using System.Net;
 
 namespace FiveNightsAtGorillas.Managers {
     public class AIManager : MonoBehaviourPun {
@@ -24,6 +23,11 @@ namespace FiveNightsAtGorillas.Managers {
         }
 
         IEnumerator AllowedToMoveDelay() {
+            yield return new WaitForSeconds(1);
+            StartCoroutine(IAllowedToMoveDelay());
+        }
+
+        IEnumerator IAllowedToMoveDelay() {
             int baseTime = 52 - Difficulty * 2;
 
             AllowedToMove = false;
@@ -44,18 +48,18 @@ namespace FiveNightsAtGorillas.Managers {
                             if (DoorManager.Data.RightDoorOpen) {
                                 Jumpscare = 1;
 
-                                object[] content = new object[] { PhotonData.AI.Gorilla, CamToMove, Jumpscare };
+                                object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Gorilla, CamToMove, Jumpscare };
                                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                                PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                                PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                                 return;
                             }
                             else {
                                 CamToMove = 10;
                                 Jumpscare = 0;
 
-                                object[] content = new object[] { PhotonData.AI.Gorilla, CamToMove, Jumpscare };
+                                object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Gorilla, CamToMove, Jumpscare };
                                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                                PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                                PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                                 return;
                             }
                         }
@@ -63,9 +67,9 @@ namespace FiveNightsAtGorillas.Managers {
                             CamToMove = 3;
                             Jumpscare = 0;
 
-                            object[] content = new object[] { PhotonData.AI.Gorilla, CamToMove, Jumpscare };
+                            object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Gorilla, CamToMove, Jumpscare };
                             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                            PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                            PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                             return;
                         }
                         else if (CamPos == "Cam10") {
@@ -74,18 +78,18 @@ namespace FiveNightsAtGorillas.Managers {
                                 CamToMove = 5;
                                 Jumpscare = 0;
 
-                                object[] content = new object[] { PhotonData.AI.Gorilla, CamToMove, Jumpscare };
+                                object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Gorilla, CamToMove, Jumpscare };
                                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                                PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                                PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                                 return;
                             }
                             else {
                                 CamToMove = 4;
                                 Jumpscare = 0;
 
-                                object[] content = new object[] { PhotonData.AI.Gorilla, CamToMove, Jumpscare };
+                                object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Gorilla, CamToMove, Jumpscare };
                                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                                PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                                PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                                 return;
                             }
                         }
@@ -93,18 +97,18 @@ namespace FiveNightsAtGorillas.Managers {
                             CamToMove = 10;
                             Jumpscare = 0;
 
-                            object[] content = new object[] { PhotonData.AI.Gorilla, CamToMove, Jumpscare };
+                            object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Gorilla, CamToMove, Jumpscare };
                             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                            PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                            PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                             return;
                         }
                         else if (CamPos == "Cam11") {
                             CamToMove = 10;
                             Jumpscare = 0;
 
-                            object[] content = new object[] { PhotonData.AI.Gorilla, CamToMove, Jumpscare };
+                            object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Gorilla, CamToMove, Jumpscare };
                             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                            PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                            PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                             return;
                         }
                     }
@@ -117,18 +121,18 @@ namespace FiveNightsAtGorillas.Managers {
                             if (DoorManager.Data.LeftDoorOpen) {
                                 Jumpscare = 1;
 
-                                object[] content = new object[] { PhotonData.AI.Mingus, CamToMove, Jumpscare };
+                                object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Mingus, CamToMove, Jumpscare };
                                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                                PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                                PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                                 return;
                             }
                             else {
                                 CamToMove = 10;
                                 Jumpscare = 0;
 
-                                object[] content = new object[] { PhotonData.AI.Mingus, CamToMove, Jumpscare };
+                                object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Mingus, CamToMove, Jumpscare };
                                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                                PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                                PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                                 return;
                             }
                         }
@@ -138,18 +142,18 @@ namespace FiveNightsAtGorillas.Managers {
                                 CamToMove = 9;
                                 Jumpscare = 0;
 
-                                object[] content = new object[] { PhotonData.AI.Mingus, CamToMove, Jumpscare };
+                                object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Mingus, CamToMove, Jumpscare };
                                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                                PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                                PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                                 return;
                             }
                             else {
                                 CamToMove = 1;
                                 Jumpscare = 0;
 
-                                object[] content = new object[] { PhotonData.AI.Mingus, CamToMove, Jumpscare };
+                                object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Mingus, CamToMove, Jumpscare };
                                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                                PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                                PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                                 return;
                             }
                         }
@@ -159,18 +163,18 @@ namespace FiveNightsAtGorillas.Managers {
                                 CamToMove = 7;
                                 Jumpscare = 0;
 
-                                object[] content = new object[] { PhotonData.AI.Mingus, CamToMove, Jumpscare };
+                                object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Mingus, CamToMove, Jumpscare };
                                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                                PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                                PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                                 return;
                             }
                             else {
                                 CamToMove = 2;
                                 Jumpscare = 0;
 
-                                object[] content = new object[] { PhotonData.AI.Mingus, CamToMove, Jumpscare };
+                                object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Mingus, CamToMove, Jumpscare };
                                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                                PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                                PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                                 return;
                             }
                         }
@@ -178,27 +182,27 @@ namespace FiveNightsAtGorillas.Managers {
                             CamToMove = 1;
                             Jumpscare = 0;
 
-                            object[] content = new object[] { PhotonData.AI.Mingus, CamToMove, Jumpscare };
+                            object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Mingus, CamToMove, Jumpscare };
                             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                            PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                            PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                             return;
                         }
                         else if (CamPos == "Cam9") {
                             CamToMove = 10;
                             Jumpscare = 0;
 
-                            object[] content = new object[] { PhotonData.AI.Mingus, CamToMove, Jumpscare };
+                            object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Mingus, CamToMove, Jumpscare };
                             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                            PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                            PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                             return;
                         }
                         else if (CamPos == "Cam11") {
                             CamToMove = 10;
                             Jumpscare = 0;
 
-                            object[] content = new object[] { PhotonData.AI.Mingus, CamToMove, Jumpscare };
+                            object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Mingus, CamToMove, Jumpscare };
                             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                            PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                            PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                             return;
                         }
                     }
@@ -211,18 +215,18 @@ namespace FiveNightsAtGorillas.Managers {
                             if (DoorManager.Data.RightDoorOpen) {
                                 Jumpscare = 1;
 
-                                object[] content = new object[] { PhotonData.AI.Bob, CamToMove, Jumpscare };
+                                object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Bob, CamToMove, Jumpscare };
                                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                                PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                                PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                                 return;
                             }
                             else {
                                 CamToMove = 10;
                                 Jumpscare = 0;
 
-                                object[] content = new object[] { PhotonData.AI.Bob, CamToMove, Jumpscare };
+                                object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Bob, CamToMove, Jumpscare };
                                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                                PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                                PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                                 return;
                             }
                         }
@@ -230,9 +234,9 @@ namespace FiveNightsAtGorillas.Managers {
                             CamToMove = 3;
                             Jumpscare = 0;
 
-                            object[] content = new object[] { PhotonData.AI.Bob, CamToMove, Jumpscare };
+                            object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Bob, CamToMove, Jumpscare };
                             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                            PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                            PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                             return;
                         }
                         else if (CamPos == "Cam10") {
@@ -241,18 +245,18 @@ namespace FiveNightsAtGorillas.Managers {
                                 CamToMove = 6;
                                 Jumpscare = 0;
 
-                                object[] content = new object[] { PhotonData.AI.Bob, CamToMove, Jumpscare };
+                                object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Bob, CamToMove, Jumpscare };
                                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                                PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                                PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                                 return;
                             }
                             else {
                                 CamToMove = 4;
                                 Jumpscare = 0;
 
-                                object[] content = new object[] { PhotonData.AI.Bob, CamToMove, Jumpscare };
+                                object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Bob, CamToMove, Jumpscare };
                                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                                PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                                PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                                 return;
                             }
                         }
@@ -262,18 +266,18 @@ namespace FiveNightsAtGorillas.Managers {
                                 CamToMove = 10;
                                 Jumpscare = 0;
 
-                                object[] content = new object[] { PhotonData.AI.Bob, CamToMove, Jumpscare };
+                                object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Bob, CamToMove, Jumpscare };
                                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                                PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                                PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                                 return;
                             }
                             else {
                                 CamToMove = 4;
                                 Jumpscare = 0;
 
-                                object[] content = new object[] { PhotonData.AI.Bob, CamToMove, Jumpscare };
+                                object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Bob, CamToMove, Jumpscare };
                                 RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                                PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                                PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                                 return;
                             }
                         }
@@ -281,9 +285,9 @@ namespace FiveNightsAtGorillas.Managers {
                             CamToMove = 10;
                             Jumpscare = 0;
 
-                            object[] content = new object[] { PhotonData.AI.Bob, CamToMove, Jumpscare };
+                            object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Bob, CamToMove, Jumpscare };
                             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                            PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                            PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                             return;
                         }
                     }
@@ -295,54 +299,54 @@ namespace FiveNightsAtGorillas.Managers {
                             Run = 1;
                             StageToMove = 1;
 
-                            object[] content = new object[] { PhotonData.AI.Dingus, StageToMove, Run };
+                            object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Dingus, StageToMove, Run };
                             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                            PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                            PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                             return;
                         }
                         else if (CamPos == "Stage5") {
                             Run = 0;
                             StageToMove = 6;
 
-                            object[] content = new object[] { PhotonData.AI.Dingus, StageToMove, Run };
+                            object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Dingus, StageToMove, Run };
                             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                            PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                            PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                             return;
                         }
                         else if (CamPos == "Stage4") {
                             Run = 0;
                             StageToMove = 5;
 
-                            object[] content = new object[] { PhotonData.AI.Dingus, StageToMove, Run };
+                            object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Dingus, StageToMove, Run };
                             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                            PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                            PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                             return;
                         }
                         else if (CamPos == "Stage3") {
                             Run = 0;
                             StageToMove = 4;
 
-                            object[] content = new object[] { PhotonData.AI.Dingus, StageToMove, Run };
+                            object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Dingus, StageToMove, Run };
                             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                            PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                            PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                             return;
                         }
                         else if (CamPos == "Stage2") {
                             Run = 0;
                             StageToMove = 3;
 
-                            object[] content = new object[] { PhotonData.AI.Dingus, StageToMove, Run };
+                            object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Dingus, StageToMove, Run };
                             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                            PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                            PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                             return;
                         }
                         else if (CamPos == "Stage1") {
                             Run = 0;
                             StageToMove = 2;
 
-                            object[] content = new object[] { PhotonData.AI.Dingus, StageToMove, Run };
+                            object[] content = new object[] { PhotonData.AIMove, PhotonData.AI.Dingus, StageToMove, Run };
                             RaiseEventOptions raiseEventOptions = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-                            PhotonNetwork.RaiseEvent(PhotonData.AIMove, content, raiseEventOptions, SendOptions.SendReliable);
+                            PhotonNetwork.RaiseEvent(PhotonData.FNAGcode, content, raiseEventOptions, SendOptions.SendReliable);
                             return;
                         }
                     }
