@@ -139,7 +139,7 @@ namespace FiveNightsAtGorillas.Managers {
                         case AIMove:
                             if ((AI)data[1] == AI.Gorilla) {
                                 if ((byte)data[3] == 0) {
-                                    RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().MoveGorilla($"Cam{(byte)data[1]}");
+                                    RefrenceManager.Data.gorillaParent.GetComponent<AIManager>().MoveGorilla($"Cam{(byte)data[2]}");
                                     CameraManager.Data.RefreshCamera();
                                 }
                                 else if ((byte)data[3] == 1) {
@@ -152,7 +152,7 @@ namespace FiveNightsAtGorillas.Managers {
                             }
                             else if ((AI)data[1] == AI.Mingus) {
                                 if ((byte)data[3] == 0) {
-                                    RefrenceManager.Data.mingusParent.GetComponent<AIManager>().MoveMingus($"Cam{(byte)data[1]}");
+                                    RefrenceManager.Data.mingusParent.GetComponent<AIManager>().MoveMingus($"Cam{(byte)data[2]}");
                                     CameraManager.Data.RefreshCamera();
                                 }
                                 else if ((byte)data[3] == 1) {
@@ -165,7 +165,7 @@ namespace FiveNightsAtGorillas.Managers {
                             }
                             else if ((AI)data[1] == AI.Bob) {
                                 if ((byte)data[3] == 0) {
-                                    RefrenceManager.Data.bobParent.GetComponent<AIManager>().MoveBob($"Cam{(byte)data[1]}");
+                                    RefrenceManager.Data.bobParent.GetComponent<AIManager>().MoveBob($"Cam{(byte)data[2]}");
                                     CameraManager.Data.RefreshCamera();
                                 }
                                 else if ((byte)data[3] == 1) {
@@ -178,7 +178,7 @@ namespace FiveNightsAtGorillas.Managers {
                             }
                             else if ((AI)data[1] == AI.Dingus) {
                                 if ((byte)data[3] == 0) {
-                                    RefrenceManager.Data.dingusParent.GetComponent<AIManager>().MoveDingus($"Stage{(byte)data[1]}");
+                                    RefrenceManager.Data.dingusParent.GetComponent<AIManager>().MoveDingus($"Stage{(byte)data[2]}");
                                     CameraManager.Data.RefreshCamera();
                                 }
                                 else if ((byte)data[3] == 1) {
